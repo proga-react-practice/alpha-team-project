@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { TextField, Typography, FormControl, InputLabel, Select, MenuItem, Box, FormLabel } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material';
 import { FormContainer, CustomButton, LeftGreenBackground } from '../styled/styles'; 
+import { useNavigate } from 'react-router-dom';
 
 
 enum Genre {
@@ -24,7 +25,7 @@ interface MusicFormProps {
   onSubmit?: (formData: FormData) => void;
 }
 
-interface FormData {
+export interface FormData {
   name: string;
   genre: Genre | '';
   artist: string;
@@ -32,12 +33,14 @@ interface FormData {
 }
 
 const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<FormData>({
     name: '',
     genre: '',
     artist: '',
     releasedOn: '',
   });
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -72,6 +75,7 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
       onSubmit(formData);
     }
     clearForm();
+    navigate('/cards');
   };
 
   const clearForm = () => {

@@ -1,19 +1,24 @@
 // Layout.tsx
+import {  Box, Toolbar } from '@mui/material';
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import {  Outlet } from 'react-router-dom';
+import { StyledAppBar, StyledLink } from './components/styled/styles';
+
 
 const Layout: React.FC = () => {
   return (
-    <div>
-      <header>
-        <h1>Welcome to My Music App</h1>
-        <Link to="/user">Go to Music Form</Link>
-      </header>
+    <Box>
+      <StyledAppBar >
+      <Toolbar>
+        <StyledLink to="/home">Home</StyledLink>
+        <StyledLink to="/user"> User Form</StyledLink>
+        <StyledLink to="/music"> Music Form</StyledLink>
+        <StyledLink to="/cards">Cards</StyledLink> 
+        
+        </Toolbar>
+      </StyledAppBar>
       <main><Outlet /></main>
-      <footer>
-        <p>Footer content goes here</p>
-      </footer>
-    </div>
+    </Box>
   );
 };
 
