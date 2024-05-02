@@ -14,7 +14,7 @@ const Layout: React.FC = () => {
         <StyledLink to="/user"> User Form</StyledLink>
         <StyledLink to="/music"> Music Form</StyledLink>
         <StyledLink to="/cards">Cards</StyledLink> 
-        
+        <StyledLink to="/favorites">Favorites</StyledLink>
         </Toolbar>
       </StyledAppBar>
       <main><Outlet /></main>

@@ -123,3 +123,17 @@ export const StyledDivider = styled(Divider)(({ theme }) => ({
   textTransform: "uppercase",
   border: "3px solid #ccc",
 }));
+
+export const FavBox = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#646bf3" : "#6ee6ba",
+  color: theme.palette.mode === "dark" ? "#ffffff" : " #33334d",
+  width: 500,
+  minHeight: 70,
+  maxHeight: '80%',
+  margin: 'auto',
+  borderRadius: 7,
+  textTransform: "uppercase",
+  border: "3px solid #ccc",
+  justifyContent:'center',
+  alignItems: 'center'
+}));

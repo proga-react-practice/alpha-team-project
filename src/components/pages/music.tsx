@@ -90,9 +90,9 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
   return (
     <Box>
 <LeftGreenBackground>
-  <div style={{ width: '100%', textAlign: 'center' }}>
+  <div style={{ width: '80%', textAlign: 'center' }}>
     <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXkzY3VkOWZ6cHRza2MxdmZ3ZGVmN2g2cWQ2YnV3b29lcnJmaTB3YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/LwBTamVefKJxmYwDba/giphy.gif" alt="Guitar GIF" style={{ width: '62%', height: '36%', objectFit: 'cover' }} />
-    <Typography variant="h4">Share Your Musical Journey with Us</Typography>
+    <Typography variant="h4" sx={{textTransform:'uppercase'}}>Share Your Musical Journey with Us</Typography>
   </div>
 </LeftGreenBackground>
 

@@ -3,12 +3,15 @@ import { Typography, Box, useTheme } from "@mui/material";
 import { FormDataUser } from "./user";
 import { CardBox, StyledDivider } from "../styled/styles";
 import { waveform } from "ldrs";
+import { useState } from "react";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 waveform.register();
 
 export interface FavoriteCard {
   name: string;
   artist: string;
+  releasedOn: string;
 }
 
 export interface Props {
@@ -18,8 +21,29 @@ export interface Props {
 
 export default function Card({ data, dataUser }: Props) {
   const theme = useTheme();
+  const colorAnimation = theme.palette.mode === "dark" ? "#ffffff" : "#000000";
 
-  const color = theme.palette.mode === "dark" ? "#ffffff" : "#000000";
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const toggleFavorite = () => {
+    setIsFavorite(!isFavorite);
+    const favorites: FavoriteCard[] = JSON.parse(
+      localStorage.getItem("favorites") || "[]"
+    );
+    if (!isFavorite) {
+      const newFavorites = [...favorites, data];
+      localStorage.setItem("favorites", JSON.stringify(newFavorites));
+    } else {
+      const newFavorites = favorites.filter(
+        (item: FavoriteCard) => item.name !== data.name
+      );
+      localStorage.setItem("favorites", JSON.stringify(newFavorites));
+    }
+  };
+
+  const handleToggleFavorite = () => {
+    toggleFavorite();
+  };
 
   return (
     <Box
@@ -51,7 +75,7 @@ export default function Card({ data, dataUser }: Props) {
               size="35"
               stroke="3.5"
               speed="1"
-              color={color}
+              color={colorAnimation}
             ></l-waveform>
           </Box>
 
@@ -103,7 +127,7 @@ export default function Card({ data, dataUser }: Props) {
               size="35"
               stroke="3.5"
               speed="1"
-              color={color}
+              color={colorAnimation}
             ></l-waveform>
           </Box>
           <Typography variant="h4" gutterBottom>
@@ -134,6 +158,22 @@ export default function Card({ data, dataUser }: Props) {
             <Typography variant="h6">{data?.name}</Typography>
           </StyledDivider>
         </Box>
+        <FavoriteIcon
+          onClick={handleToggleFavorite}
+          sx={{
+            width: 70,
+            height: 70,
+            marginTop: -3,
+            cursor: "pointer",
+            marginLeft: 20,
+            borderRadius: 1,
+            color: isFavorite
+              ? colorAnimation === "#ffffff"
+                ? "#332E54"
+                : "#FF0000"
+              : "rgb(191, 81, 81)",
+          }}
+        />
       </CardBox>
     </Box>
   );

@@ -8,6 +8,7 @@ import CardsPage from "./components/pages/CardsPage";
 import { useState } from "react";
 import { FormData as MusicFormData } from "./components/pages/music";
 import { FormDataUser as UserFormData } from "./components/pages/user";
+import Favorites from "./components/pages/Favorites";
 
 function AppRouter() {
   const [songData, setMusicData] = useState<MusicFormData[]>([]);
@@ -46,6 +47,10 @@ function AppRouter() {
           <Route
             path="cards"
             element={<CardsPage musicData={songData} userData={userData} />}
+          />
+          <Route
+            path="favorites"
+            element={<Favorites favDataList={songData} />}
           />
         </Route>
       </Routes>
