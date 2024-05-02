@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import AppRouter from './AppRouter';
-import MaterialUISwitch from './components/styles/Switch'; 
+import MaterialUISwitch from './components/styled/Switch'; 
 import { ThemeProvider } from '@mui/material';
 import { createCustomTheme } from './theme/theme'; 
-import { GlobalStyle } from './components/styles/styles'; 
+import { GlobalStyle } from './components/styled/styles'; 
 import { Box } from '@mui/material'; 
 
 const App: React.FC = () => {
