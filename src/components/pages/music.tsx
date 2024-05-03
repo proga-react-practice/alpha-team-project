@@ -1,10 +1,22 @@
 // music.tsx
-import React, { useState } from 'react';
-import { TextField, Typography, FormControl, InputLabel, Select, MenuItem, Box, FormLabel } from '@mui/material';
-import { SelectChangeEvent } from '@mui/material';
-import { FormContainer, CustomButton, LeftGreenBackground } from '../styled/styles'; 
-import { useNavigate } from 'react-router-dom';
-
+import React, { useState } from "react";
+import {
+  TextField,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Box,
+  FormLabel,
+} from "@mui/material";
+import { SelectChangeEvent } from "@mui/material";
+import {
+  FormContainer,
+  CustomButton,
+  LeftGreenBackground,
+} from "../styled/styles";
+import { useNavigate } from "react-router-dom";
 
 enum Genre {
   Funk = "Funk",
@@ -27,7 +39,7 @@ interface MusicFormProps {
 
 export interface FormData {
   name: string;
-  genre: Genre | '';
+  genre: Genre | "";
   artist: string;
   releasedOn: string;
 }
@@ -35,17 +47,16 @@ export interface FormData {
 const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState<FormData>({
-    name: '',
-    genre: '',
-    artist: '',
-    releasedOn: '',
+    name: "",
+    genre: "",
+    artist: "",
+    releasedOn: "",
   });
-
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === "releasedOn") {
-      const today = new Date().toISOString().split('T')[0];
+      const today = new Date().toISOString().split("T")[0];
       if (value < "1980-01-01") {
         setFormData((prev) => ({ ...prev, [name]: "1980-01-01" }));
       } else if (value > today) {
@@ -66,8 +77,13 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.name || !formData.genre || !formData.artist || !formData.releasedOn) {
-      alert('Please fill in all fields.');
+    if (
+      !formData.name ||
+      !formData.genre ||
+      !formData.artist ||
+      !formData.releasedOn
+    ) {
+      alert("Please fill in all fields.");
       return;
     }
 
@@ -75,28 +91,34 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
       onSubmit(formData);
     }
     clearForm();
-    navigate('/cards');
+    navigate("/cards");
   };
 
   const clearForm = () => {
     setFormData({
-      name: '',
-      genre: '',
-      artist: '',
-      releasedOn: '',
+      name: "",
+      genre: "",
+      artist: "",
+      releasedOn: "",
     });
   };
 
   return (
     <Box>
-<LeftGreenBackground>
-  <div style={{ width: '80%', textAlign: 'center' }}>
-    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXkzY3VkOWZ6cHRza2MxdmZ3ZGVmN2g2cWQ2YnV3b29lcnJmaTB3YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/LwBTamVefKJxmYwDba/giphy.gif" alt="Guitar GIF" style={{ width: '62%', height: '36%', objectFit: 'cover' }} />
-    <Typography variant="h4" sx={{textTransform:'uppercase'}}>Share Your Musical Journey with Us</Typography>
-  </div>
-</LeftGreenBackground>
+      <LeftGreenBackground>
+        <div style={{ width: "80%", textAlign: "center" }}>
+          <img
+            src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXkzY3VkOWZ6cHRza2MxdmZ3ZGVmN2g2cWQ2YnV3b29lcnJmaTB3YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/LwBTamVefKJxmYwDba/giphy.gif"
+            alt="Guitar GIF"
+            style={{ width: "62%", height: "36%", objectFit: "cover" }}
+          />
+          <Typography variant="h4" sx={{ textTransform: "uppercase" }}>
+            Share Your Musical Journey with Us
+          </Typography>
+        </div>
+      </LeftGreenBackground>
 
-      <FormContainer> 
+      <FormContainer>
         <form onSubmit={handleSubmit}>
           <Typography variant="h4" gutterBottom>
             Tracks
@@ -110,9 +132,13 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
             margin="normal"
             required
             fullWidth
-            sx={{ marginBottom: '12px' }} // Add marginBottom style here
+            sx={{ marginBottom: "12px" }} // Add marginBottom style here
           />
-          <FormControl variant="outlined" fullWidth sx={{ marginBottom: '12px' }}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            sx={{ marginBottom: "12px" }}
+          >
             <InputLabel>Genre</InputLabel>
             <Select
               label="Genre"
@@ -121,13 +147,19 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
               onChange={handleGenreChange}
               required
             >
-              {Object.values(Genre).map(genre => (
-                <MenuItem key={genre} value={genre}>{genre}</MenuItem>
+              {Object.values(Genre).map((genre) => (
+                <MenuItem key={genre} value={genre}>
+                  {genre}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
-          <FormControl variant="outlined" fullWidth sx={{ marginBottom: '12px' }}>
-            <TextField 
+          <FormControl
+            variant="outlined"
+            fullWidth
+            sx={{ marginBottom: "12px" }}
+          >
+            <TextField
               label="Artist"
               name="artist"
               value={formData.artist}
@@ -138,7 +170,11 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
               fullWidth
             />
           </FormControl>
-          <FormControl variant="outlined" fullWidth sx={{ marginBottom: '12px' }}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            sx={{ marginBottom: "12px" }}
+          >
             <FormLabel htmlFor="releasedOn">Released on</FormLabel>
             <TextField
               type="date"
@@ -157,7 +193,7 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
           <CustomButton type="submit" variant="contained">
             Submit
           </CustomButton>
-          <CustomButton type="button" onClick={clearForm} variant="contained" >
+          <CustomButton type="button" onClick={clearForm} variant="contained">
             Clear Form
           </CustomButton>
         </form>

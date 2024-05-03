@@ -1,5 +1,5 @@
 // AppRouter.tsx
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./Layout";
 import Home from "./components/pages/Home";
 import MusicForm from "./components/pages/music";
@@ -9,6 +9,7 @@ import { useState } from "react";
 import { FormData as MusicFormData } from "./components/pages/music";
 import { FormDataUser as UserFormData } from "./components/pages/user";
 import Favorites from "./components/pages/Favorites";
+import NotFound from "./components/pages/NotFound.tsx";
 
 function AppRouter() {
   const [songData, setMusicData] = useState<MusicFormData[]>([]);
@@ -43,7 +44,7 @@ function AppRouter() {
             path="music"
             element={<MusicForm onSubmit={handleMusicFormSubmit} />}
           />
-          <Route path="*" element={<Outlet />} />
+          <Route path="*" element={<NotFound />} />
           <Route
             path="cards"
             element={<CardsPage musicData={songData} userData={userData} />}

@@ -38,10 +38,9 @@ export default function Favorites({ favDataList }: Data) {
               maxWidth: 500,
               minWidth: 300,
               paddingLeft: 50,
-              marginRight: -20,
+              marginRight: -70,
             }}
           >
-            {" "}
             <Typography
               variant="h3"
               sx={{ textTransform: "uppercase", fontSize: 80 }}

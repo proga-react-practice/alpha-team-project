@@ -129,11 +129,11 @@ export const FavBox = styled(Box)(({ theme }) => ({
   color: theme.palette.mode === "dark" ? "#ffffff" : " #33334d",
   width: 500,
   minHeight: 70,
-  maxHeight: '80%',
-  margin: 'auto',
+  maxHeight: "80%",
+  margin: "auto",
   borderRadius: 7,
   textTransform: "uppercase",
   border: "3px solid #ccc",
-  justifyContent:'center',
-  alignItems: 'center'
+  justifyContent: "center",
+  alignItems: "center",
 }));
