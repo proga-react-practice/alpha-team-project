@@ -34,7 +34,7 @@ function AppRouter() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route
             path="user"
             element={<Form onSubmit={handleUserFormSubmit} />}
