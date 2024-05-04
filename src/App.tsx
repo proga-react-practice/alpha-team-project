@@ -24,26 +24,27 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <Box
-        sx={{
-          position: "absolute",
-          top: 0,
-          right: 0,
-          marginRight: 5,
-          marginTop: 3,
-          zIndex: 2,
-        }}
-      >
-        <MaterialUISwitch
-          checked={darkMode}
-          onChange={handleToggleDarkMode}
-          inputProps={{ "aria-label": "toggle dark mode" }}
-          color="secondary"
-          sx={{ mr: 1 }}
-        />
-      </Box>
+  sx={{
+    position: "fixed",
+    top: "3px", 
+    right: "20px",
+    zIndex: 2,
+    padding: "10px",
+  }}
+>
+  <MaterialUISwitch
+    checked={darkMode}
+    onChange={handleToggleDarkMode}
+    inputProps={{ "aria-label": "toggle dark mode" }}
+    color="secondary"
+    sx={{ marginTop: "10px" }}
+  />
+</Box>
+
       <AppRouter />
     </ThemeProvider>
   );
 };
 
 export default App;
+
