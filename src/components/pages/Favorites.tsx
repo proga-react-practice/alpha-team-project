@@ -29,33 +29,37 @@ export default function Favorites({ favDataList }: Data) {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            height: "100vh",
-            flexDirection: "row",
+            flexDirection: "column",
+            minHeight: "100vh",
+            padding: "0 20px", 
+            marginTop: { xs: 12, md: 20 }, 
           }}
         >
-          <Box
+          <Typography
+            variant="h3"
             sx={{
-              maxWidth: 500,
-              minWidth: 300,
-              paddingLeft: 50,
-              marginRight: -70,
+              textTransform: "uppercase",
+              fontSize: { xs: 32, md: 64 },
+              textAlign: "center",
+              marginBottom: 4, 
+            }}
+            gutterBottom
+          >
+            Mark some Cards To create your own Playlist
+          </Typography>
+
+          <FavBox
+            sx={{
+              maxWidth: { xs: 300, sm: 400 },
+              minWidth: 200,
+              marginTop: 4, 
             }}
           >
-            <Typography
-              variant="h3"
-              sx={{ textTransform: "uppercase", fontSize: 80 }}
-              gutterBottom
-            >
-              Mark some Cards To create your own Playlist{" "}
-            </Typography>
-          </Box>
-
-          <FavBox>
-            <Typography variant="h4">
+            <Typography variant="h6">
               <List>
                 {favoriteFormDataList.map((formData, index) => (
                   <ListItem key={index}>
-                    <Typography variant="h4">
+                    <Typography variant="body1">
                       {formData.artist} - {formData.name}&nbsp;
                       {formData.releasedOn}
                     </Typography>
@@ -66,7 +70,6 @@ export default function Favorites({ favDataList }: Data) {
           </FavBox>
         </Box>
       )}
-      ;
     </>
   );
 }
