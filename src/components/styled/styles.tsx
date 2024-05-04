@@ -28,11 +28,18 @@ export const FormContainer = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
-  marginTop: 250, //changed
+  marginTop: 200, //changed
   position: "absolute",
   right: "calc(40% - 300px)",
   zIndex: 1,
   overflow: "hidden",
+  transition: "all 0.3s ease", 
+  "@media (max-width: 600px)": { 
+    maxWidth: "80%", 
+    padding: 20, 
+    marginTop: 100, 
+    right: "calc(50% - 200px)", 
+  },
 }));
 
 export const LeftGreenBackground = styled(Box)(({ theme }) => ({
@@ -48,6 +55,10 @@ export const LeftGreenBackground = styled(Box)(({ theme }) => ({
   justifyContent: "center",
   padding: "10px",
   zIndex: 0,
+  transition: "all 0.3s ease", 
+  "@media (max-width: 600px)": {
+    display: "none", 
+  },
 }));
 
 export const CustomButton = styled(Button)(({ theme }) => ({
@@ -75,13 +86,13 @@ export const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#646bf3" : "#6ee6ba",
   alignItems: "center",
   justifyContent: "center",
-  padding: 10,
+  padding: 8,
   zIndex: 1,
 }));
 
 export const StyledLink = styled(Link)(({ theme }) => ({
   color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
-  padding: 30,
+  padding: 20,
   marginRight: 50,
   fontFamily: '"Montserrat", sans-serif',
   fontSize: 25,
