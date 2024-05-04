@@ -13,21 +13,21 @@ export default function Home() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "100vh",
-          width: "100%",
-          flexDirection: "row",
+          height: "98vh",
+          width: "90%",
+          flexDirection: { xs: "column", md: "row" } as any,
         }}
       >
         <Box
           sx={{
-            width: 300,
-
-            marginRight: 10,
+            width: { xs: "90%", md: 300 } as any, 
+            textAlign: "center",
+            marginBottom: { xs: 4, md: 0 } as any, 
           }}
         >
           <Typography
             variant="h3"
-            sx={{ textTransform: "uppercase", fontSize: 100 }}
+            sx={{ textTransform: "uppercase", fontSize: { xs: 40, md: 70 } }} 
             gutterBottom
           >
             Your Day, Your Choice, Your Music
@@ -36,7 +36,11 @@ export default function Home() {
         <img
           src={imagePath}
           alt="theme image"
-          style={{ width: 700, height: 700 }}
+          style={{
+            width: { xs: "90%", md: 700 } as any, 
+            height: "auto", 
+            marginTop: { xs: 4, md: 0 } as any,
+          }}
         />
       </Box>
     </Box>
