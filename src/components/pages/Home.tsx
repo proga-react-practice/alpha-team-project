@@ -7,41 +7,53 @@ export default function Home() {
   const imagePath = theme.palette.mode === "dark" ? violet : green;
 
   return (
-    <Box>
+    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
       <Box
         sx={{
           display: "flex",
-          justifyContent: "center",
           alignItems: "center",
-          height: "98vh",
+          flexDirection: { xs: "column", md: "row" },
           width: "90%",
-          flexDirection: { xs: "column", md: "row" } as any,
+          maxWidth: 1200,
         }}
       >
         <Box
           sx={{
-            width: { xs: "90%", md: 300 } as any, 
             textAlign: "center",
-            marginBottom: { xs: 4, md: 0 } as any, 
+            paddingRight: { xs: 0, md: 4 },
+            paddingBottom: { xs: 4, md: 0 },
+            width: "60%"
           }}
         >
           <Typography
-            variant="h3"
-            sx={{ textTransform: "uppercase", fontSize: { xs: 40, md: 70 } }} 
-            gutterBottom
+            variant="h4"
+            sx={{ textTransform: "uppercase", fontSize: { xs: 32, md: 48 }, marginBottom: 2 }}
           >
             Your Day, Your Choice, Your Music
           </Typography>
+          <Typography variant="body1" sx={{ fontSize: { xs: 14, md: 18 }, lineHeight: 1.6 }}>
+            Welcome to our music selection platform! Customize your listening experience based on your preferences and mood. Explore curated playlists and discover new tracks that resonate with you.
+          </Typography>
         </Box>
-        <img
-          src={imagePath}
-          alt="theme image"
-          style={{
-            width: { xs: "90%", md: 700 } as any, 
-            height: "auto", 
-            marginTop: { xs: 4, md: 0 } as any,
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "70%"
           }}
-        />
+        >
+          <img
+            src={imagePath}
+            alt="theme image"
+            style={{
+              marginTop: "40px",
+              width: "100%",
+              height: "auto",
+              maxHeight: "80vh",
+            }}
+          />
+        </Box>
       </Box>
     </Box>
   );
