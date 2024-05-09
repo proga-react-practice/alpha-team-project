@@ -5,7 +5,7 @@ import { CardBox, StyledDivider } from "../styled/styles";
 import { waveform } from "ldrs";
 import { useState } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-
+import SyncIcon from "@mui/icons-material/Sync";
 waveform.register();
 
 export interface FavoriteCard {
@@ -22,7 +22,7 @@ export interface Props {
 export default function Card({ data, dataUser }: Props) {
   const theme = useTheme();
   const colorAnimation = theme.palette.mode === "dark" ? "#ffffff" : "#000000";
-
+  const [isFlipped, setIsFlipped] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
 
   const toggleFavorite = () => {
@@ -44,6 +44,9 @@ export default function Card({ data, dataUser }: Props) {
   const handleToggleFavorite = () => {
     toggleFavorite();
   };
+  const handleCardFlip = () => {
+    setIsFlipped(!isFlipped);
+  };
 
   return (
     <Box
@@ -56,7 +59,7 @@ export default function Card({ data, dataUser }: Props) {
         marginTop: 30,
       }}
     >
-      <CardBox>
+      <CardBox style={{ transform: isFlipped ? "rotateY(180deg)" : "none" }}>
         <Box
           sx={{
             position: "absolute",
@@ -158,22 +161,30 @@ export default function Card({ data, dataUser }: Props) {
             <Typography variant="h6">{data?.name}</Typography>
           </StyledDivider>
         </Box>
-        <FavoriteIcon
-          onClick={handleToggleFavorite}
+        <Box
           sx={{
-            width: 70,
-            height: 70,
-            marginTop: -3,
-            cursor: "pointer",
-            marginLeft: 20,
-            borderRadius: 1,
-            color: isFavorite
-              ? colorAnimation === "#ffffff"
-                ? "#332E54"
-                : "#FF0000"
-              : "rgb(191, 81, 81)",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            marginTop: -4,
           }}
-        />
+        >
+          <FavoriteIcon
+            onClick={handleToggleFavorite}
+            sx={{
+              width: 70,
+              height: 70,
+              cursor: "pointer",
+              color: isFavorite
+                ? colorAnimation === "#ffffff"
+                  ? "#332E54"
+                  : "#FF0000"
+                : "rgb(191, 81, 81)",
+            }}
+          />
+          <SyncIcon onClick={handleCardFlip} sx={{ width: 60, height: 60 }} />
+        </Box>
       </CardBox>
     </Box>
   );
