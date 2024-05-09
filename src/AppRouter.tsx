@@ -16,19 +16,11 @@ function AppRouter() {
   const [userData, setUserData] = useState<UserFormData[]>([]);
 
   const handleMusicFormSubmit = (formData: MusicFormData) => {
-    if (songData.length === 4) {
-      setMusicData((prevDataList) => prevDataList.slice(1).concat(formData));
-    } else {
-      setMusicData((prevDataList) => [...prevDataList, formData]);
-    }
+    setMusicData((prevDataList) => [...prevDataList, formData]);
   };
-
+  
   const handleUserFormSubmit = (formData: UserFormData) => {
-    if (songData.length === 4) {
-      setUserData((prevDataList) => prevDataList.slice(1).concat(formData));
-    } else {
-      setUserData((prevDataList) => [...prevDataList, formData]);
-    }
+    setUserData((prevDataList) => [...prevDataList, formData]);
   };
 
   return (
