@@ -1,6 +1,11 @@
-// user.tsx
-//changed FormData to FormDataUser because of problems with exporting
-import React, { useState } from "react";
+import React from "react";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import {
+  CustomButton,
+  FormContainer,
+  LeftGreenBackground,
+} from "../styled/styles";
 import {
   TextField,
   Typography,
@@ -10,13 +15,6 @@ import {
   InputLabel,
   Box,
 } from "@mui/material";
-import { SelectChangeEvent } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import {
-  CustomButton,
-  FormContainer,
-  LeftGreenBackground,
-} from "../styled/styles";
 
 enum Mood {
   Happy = "Happy",
@@ -41,74 +39,33 @@ enum Genre {
 }
 
 interface FormProps {
-  onSubmit?: (formDataUser: FormDataUser) => void;
+  onSubmit?: SubmitHandler<FormDataUser>;
 }
 
 export interface FormDataUser {
   name: string;
-  age: string;
+  age: string; 
   mood: Mood | "";
   genres: Genre[];
 }
 
 const Form: React.FC<FormProps> = ({ onSubmit }) => {
   const navigate = useNavigate();
-  const [formDataUser, setFormData] = useState<FormDataUser>({
-    name: "",
-    age: "",
-    mood: "",
-    genres: [],
-  });
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formDataUser, [name]: value });
-  };
-
-  const handleMoodChange = (e: SelectChangeEvent<Mood>) => {
-    const selectedMood = e.target.value as Mood;
-    setFormData({ ...formDataUser, mood: selectedMood });
-  };
-
-  const handleGenreChange = (
-    e: SelectChangeEvent<typeof formDataUser.genres>
-  ) => {
-    const selectedGenres = e.target.value as Genre[];
-    setFormData({ ...formDataUser, genres: selectedGenres });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (
-      !formDataUser.name ||
-      !formDataUser.age ||
-      !formDataUser.mood ||
-      formDataUser.genres.length === 0
-    ) {
-      alert("Please fill in all fields.");
-      return;
-    }
-
-    if (formDataUser.genres.length > 3) {
-      alert("Please select up to 3 genres.");
-      return;
-    }
-
-    if (onSubmit) {
-      onSubmit(formDataUser);
-    }
-    clearForm();
-    navigate("/music");
-  };
-
-  const clearForm = () => {
-    setFormData({
+  const { handleSubmit, control, reset, formState: { errors } } = useForm<FormDataUser>({
+    defaultValues: {
       name: "",
       age: "",
       mood: "",
       genres: [],
-    });
+    },
+  });
+
+  const onFormSubmit: SubmitHandler<FormDataUser> = (data) => {
+    if (onSubmit) {
+      onSubmit(data);
+    }
+    reset(); 
+    navigate("/music");
   };
 
   return (
@@ -121,31 +78,47 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
         />
       </LeftGreenBackground>
       <FormContainer>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onFormSubmit)}>
           <Typography variant="h4" gutterBottom>
             Music enjoyer
           </Typography>
           <Box sx={{ marginBottom: "12px" }}>
-            <TextField
-              label="Name"
+            <Controller
               name="name"
-              value={formDataUser.name}
-              onChange={handleInputChange}
-              variant="outlined"
-              size="small"
-              fullWidth
+              control={control}
+              defaultValue=""
+              rules={{ required: true, validate: value => /^[a-zA-Z\s]*$/.test(value) }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Name"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  error={!!errors.name}
+                  helperText={errors.name ? "Only letters and spaces are allowed" : ""}
+                />
+              )}
             />
           </Box>
           <Box sx={{ marginBottom: "12px" }}>
-            <TextField
-              label="Age"
+            <Controller
               name="age"
-              value={formDataUser.age}
-              onChange={handleInputChange}
-              type="number"
-              variant="outlined"
-              size="small"
-              fullWidth
+              control={control}
+              defaultValue=""
+              rules={{ required: true, min: 18, max: 120 }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Age"
+                  type="number"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  error={!!errors.age}
+                  helperText={errors.age ? "Age must be between 18 and 120" : ""}
+                />
+              )}
             />
           </Box>
           <FormControl
@@ -154,20 +127,27 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
             sx={{ marginBottom: "12px" }}
           >
             <InputLabel>Mood</InputLabel>
-            <Select
-              label="Mood"
+            <Controller
               name="mood"
-              value={formDataUser.mood}
-              onChange={handleMoodChange}
-              required
-              fullWidth
-            >
-              {Object.values(Mood).map((mood) => (
-                <MenuItem key={mood} value={mood}>
-                  {mood}
-                </MenuItem>
-              ))}
-            </Select>
+              control={control}
+              defaultValue=""
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  label="Mood"
+                  required
+                  fullWidth
+                  error={!!errors.mood}
+                >
+                  {Object.values(Mood).map((mood) => (
+                    <MenuItem key={mood} value={mood}>
+                      {mood}
+                    </MenuItem>
+                  ))}
+                </Select>
+              )}
+            />
           </FormControl>
           <FormControl
             variant="outlined"
@@ -175,26 +155,40 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
             sx={{ marginBottom: "12px" }}
           >
             <InputLabel>Genre Preferences (select up to 3)</InputLabel>
-            <Select
-              multiple
-              label="Genre Preferences (select up to 3)"
+            <Controller
               name="genres"
-              value={formDataUser.genres}
-              onChange={handleGenreChange}
-              required
-              fullWidth
-            >
-              {Object.values(Genre).map((genre) => (
-                <MenuItem key={genre} value={genre}>
-                  {genre}
-                </MenuItem>
-              ))}
-            </Select>
+              control={control}
+              defaultValue={[]}
+              rules={{ validate: value => value.length > 0 && value.length <= 3 }}
+              render={({ field }) => (
+                <>
+                  <Select
+                    {...field}
+                    multiple
+                    label="Genre Preferences (select up to 3)"
+                    required
+                    fullWidth
+                    error={!!errors.genres}
+                  >
+                    {Object.values(Genre).map((genre) => (
+                      <MenuItem key={genre} value={genre}>
+                        {genre}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {errors.genres && (
+                    <Typography variant="body2" color="error">
+                      {errors.genres.type === "validate" && "Select up to 3 genres"}
+                    </Typography>
+                  )}
+                </>
+              )}
+            />
           </FormControl>
           <CustomButton type="submit" variant="contained">
             Submit
           </CustomButton>
-          <CustomButton type="button" onClick={clearForm} variant="contained">
+          <CustomButton type="button" onClick={() => reset()} variant="contained">
             Clear Form
           </CustomButton>
         </form>
