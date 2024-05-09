@@ -1,5 +1,6 @@
 // music.tsx
-import React, { useState } from "react";
+import React from "react";
+import { useForm, Controller } from "react-hook-form";
 import {
   TextField,
   Typography,
@@ -10,7 +11,7 @@ import {
   Box,
   FormLabel,
 } from "@mui/material";
-import { SelectChangeEvent } from "@mui/material";
+
 import {
   FormContainer,
   CustomButton,
@@ -46,62 +47,26 @@ export interface FormData {
 
 const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState<FormData>({
-    name: "",
-    genre: "",
-    artist: "",
-    releasedOn: "",
-  });
+  const {
+    control,
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormData>();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    if (name === "releasedOn") {
-      const today = new Date().toISOString().split("T")[0];
-      if (value < "1980-01-01") {
-        setFormData((prev) => ({ ...prev, [name]: "1980-01-01" }));
-      } else if (value > today) {
-        setFormData((prev) => ({ ...prev, [name]: today }));
-      } else {
-        setFormData((prev) => ({ ...prev, [name]: value }));
-      }
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
-  };
-
-  const handleGenreChange = (e: SelectChangeEvent<Genre>) => {
-    const selectedGenre = e.target.value as Genre;
-    setFormData({ ...formData, genre: selectedGenre });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (
-      !formData.name ||
-      !formData.genre ||
-      !formData.artist ||
-      !formData.releasedOn
-    ) {
-      alert("Please fill in all fields.");
-      return;
-    }
-
+  const onSubmitHandler = (data: FormData) => {
     if (onSubmit) {
-      onSubmit(formData);
+      onSubmit(data);
     }
-    clearForm();
     navigate("/cards");
   };
-
-  const clearForm = () => {
-    setFormData({
-      name: "",
-      genre: "",
-      artist: "",
-      releasedOn: "",
-    });
+  const handleReset = () => {
+    reset();
   };
+
+  const minDate = "1980-01-01";
+  const today = new Date().toISOString().split("T")[0];
 
   return (
     <Box>
@@ -119,81 +84,92 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
       </LeftGreenBackground>
 
       <FormContainer>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmitHandler)}>
           <Typography variant="h4" gutterBottom>
             Tracks
           </Typography>
+
           <TextField
             label="Name"
-            name="name"
-            value={formData.name}
-            onChange={handleInputChange}
+            {...register("name", { required: true })}
             variant="outlined"
             margin="normal"
-            required
             fullWidth
-            sx={{ marginBottom: "12px" }} // Add marginBottom style here
+            sx={{ marginBottom: 1.5 }}
           />
-          <FormControl
-            variant="outlined"
-            fullWidth
-            sx={{ marginBottom: "12px" }}
-          >
-            <InputLabel>Genre</InputLabel>
-            <Select
-              label="Genre"
-              name="genre"
-              value={formData.genre}
-              onChange={handleGenreChange}
-              required
-            >
-              {Object.values(Genre).map((genre) => (
-                <MenuItem key={genre} value={genre}>
-                  {genre}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl
-            variant="outlined"
-            fullWidth
-            sx={{ marginBottom: "12px" }}
-          >
+          {errors.name && (
+            <Typography sx={{ marginBottom: 2, marginTop: -0.5 }}>
+              Name is required
+            </Typography>
+          )}
+
+          <Controller
+            name="genre"
+            control={control}
+            defaultValue=""
+            rules={{ required: true }}
+            render={({ field }) => (
+              <FormControl
+                variant="outlined"
+                fullWidth
+                sx={{ marginBottom: 1.5 }}
+              >
+                <InputLabel>Genre</InputLabel>
+                <Select {...field} label="Genre">
+                  {Object.values(Genre).map((genre) => (
+                    <MenuItem key={genre} value={genre}>
+                      {genre}
+                    </MenuItem>
+                  ))}
+                </Select>
+                {errors.genre && (
+                  <Typography sx={{ marginBottom: -2, marginTop: 1 }}>
+                    Genre is required
+                  </Typography>
+                )}
+              </FormControl>
+            )}
+          />
+          <FormControl variant="outlined" fullWidth sx={{ marginBottom: 1.5 }}>
             <TextField
               label="Artist"
-              name="artist"
-              value={formData.artist}
-              onChange={handleInputChange}
+              {...register("artist", { required: true })}
               variant="outlined"
               margin="normal"
-              required
               fullWidth
             />
+            {errors.artist && (
+              <Typography sx={{ marginBottom: 1, marginTop: -0.3 }}>
+                Artist is required
+              </Typography>
+            )}
           </FormControl>
-          <FormControl
-            variant="outlined"
-            fullWidth
-            sx={{ marginBottom: "12px" }}
-          >
+
+          <FormControl variant="outlined" fullWidth sx={{ marginBottom: 1.5 }}>
             <FormLabel htmlFor="releasedOn">Released on</FormLabel>
             <TextField
               type="date"
-              id="releasedOn"
-              name="releasedOn"
-              value={formData.releasedOn}
-              required
-              onChange={handleInputChange}
+              {...register("releasedOn", {
+                required: "Date is required",
+                min: { value: minDate, message: "Enter a date after 1980" },
+                max: { value: today, message: "Enter a date before today" },
+              })}
               variant="outlined"
               InputLabelProps={{
                 shrink: true,
               }}
               size="small"
             />
+            {errors.releasedOn && (
+              <Typography sx={{ marginBottom: -1, marginTop: 1 }}>
+                {errors.releasedOn.message}
+              </Typography>
+            )}
           </FormControl>
           <CustomButton type="submit" variant="contained">
             Submit
           </CustomButton>
-          <CustomButton type="button" onClick={clearForm} variant="contained">
+          <CustomButton type="button" onClick={handleReset} variant="contained">
             Clear Form
           </CustomButton>
         </form>
