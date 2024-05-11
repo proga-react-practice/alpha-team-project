@@ -19,6 +19,10 @@ const CardsPage: React.FC<CardsPageProps> = ({ musicData, userData }) => {
     }))
   );
 
+  const handleDeleteCard = (cardId: string) => {
+    setCards((prevCards) => prevCards.filter((card) => card.id !== cardId));
+  };
+
   return (
     <Reorder.Group
       values={cards}
@@ -31,7 +35,11 @@ const CardsPage: React.FC<CardsPageProps> = ({ musicData, userData }) => {
         {cards.map((card) => (
           <Grid item key={card.id} xs={12} sm={6} md={4} lg={3}>
             <Reorder.Item value={card} key={card.id} whileDrag={{ scale: 1.1 }}>
-              <Card data={card.musicData} dataUser={card.userData} />
+              <Card
+                data={card.musicData}
+                dataUser={card.userData}
+                onDelete={() => handleDeleteCard(card.id)}
+              />
             </Reorder.Item>
           </Grid>
         ))}

@@ -6,6 +6,7 @@ import { waveform } from "ldrs";
 import { useState } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SyncIcon from "@mui/icons-material/Sync";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 waveform.register();
 
 export interface FavoriteCard {
@@ -17,14 +18,14 @@ export interface FavoriteCard {
 export interface Props {
   data: FormData;
   dataUser: FormDataUser;
+  onDelete: () => void;
 }
 
-export default function Card({ data, dataUser }: Props) {
+export default function Card({ data, dataUser, onDelete }: Props) {
   const theme = useTheme();
   const colorAnimation = theme.palette.mode === "dark" ? "#ffffff" : "#000000";
   const [isFlipped, setIsFlipped] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
     const favorites: FavoriteCard[] = JSON.parse(
@@ -183,7 +184,14 @@ export default function Card({ data, dataUser }: Props) {
                 : "rgb(191, 81, 81)",
             }}
           />
-          <SyncIcon onClick={handleCardFlip} sx={{ width: 60, height: 60 }} />
+          <SyncIcon
+            onClick={handleCardFlip}
+            sx={{ width: 60, height: 60, cursor: "pointer" }}
+          />
+          <DeleteOutlineIcon
+            onClick={onDelete}
+            sx={{ width: 60, height: 60, cursor: "pointer" }}
+          />
         </Box>
       </CardBox>
     </Box>
