@@ -3,7 +3,7 @@ import { Typography, Box, useTheme } from "@mui/material";
 import { FormDataUser } from "./user";
 import { CardBox, StyledDivider } from "../styled/styles";
 import { waveform } from "ldrs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SyncIcon from "@mui/icons-material/Sync";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -26,22 +26,28 @@ export default function Card({ data, dataUser, onDelete }: Props) {
   const colorAnimation = theme.palette.mode === "dark" ? "#ffffff" : "#000000";
   const [isFlipped, setIsFlipped] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-  const toggleFavorite = () => {
-    setIsFavorite(!isFavorite);
+
+  useEffect(() => {
     const favorites: FavoriteCard[] = JSON.parse(
       localStorage.getItem("favorites") || "[]"
     );
-    if (!isFavorite) {
-      const newFavorites = [...favorites, data];
-      localStorage.setItem("favorites", JSON.stringify(newFavorites));
-    } else {
-      const newFavorites = favorites.filter(
-        (item: FavoriteCard) => item.name !== data.name
-      );
-      localStorage.setItem("favorites", JSON.stringify(newFavorites));
-    }
-  };
+    setIsFavorite(favorites.some((favorite) => favorite.name === data.name));
+  }, [data.name]);
 
+  const toggleFavorite = () => {
+    const favorites: FavoriteCard[] = JSON.parse(
+      localStorage.getItem("favorites") || "[]"
+    );
+    const isCurrentlyFavorite = favorites.some(
+      (favorite) => favorite.name === data.name
+    );
+    const newFavorites = isCurrentlyFavorite
+      ? favorites.filter((item) => item.name !== data.name)
+      : [...favorites, data];
+    localStorage.setItem("favorites", JSON.stringify(newFavorites));
+    setIsFavorite(!isCurrentlyFavorite);
+  };
+  
   const handleToggleFavorite = () => {
     toggleFavorite();
   };
@@ -179,8 +185,8 @@ export default function Card({ data, dataUser, onDelete }: Props) {
               cursor: "pointer",
               color: isFavorite
                 ? colorAnimation === "#ffffff"
-                  ? "#332E54"
-                  : "#FF0000"
+                  ? "#FF0000"
+                  : "#FC2424"
                 : "rgb(191, 81, 81)",
             }}
           />
