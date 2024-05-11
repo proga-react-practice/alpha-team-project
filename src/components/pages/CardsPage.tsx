@@ -19,9 +19,20 @@ const CardsPage: React.FC<CardsPageProps> = ({ musicData, userData }) => {
     }))
   );
 
+  const [deletedCardIds, setDeletedCardIds] = useState<string[]>(
+    () => JSON.parse(localStorage.getItem("deletedCardIds") || "[]")
+  );
+  
   const handleDeleteCard = (cardId: string) => {
-    setCards((prevCards) => prevCards.filter((card) => card.id !== cardId));
+    setDeletedCardIds((prevDeletedCardIds) => {
+      const newDeletedCardIds = prevDeletedCardIds.concat(cardId);
+      localStorage.setItem("deletedCardIds", JSON.stringify(newDeletedCardIds));
+      return newDeletedCardIds;
+    });
   };
+  
+  const filteredCards = cards.filter((card) => !deletedCardIds.includes(card.id));
+  
 
   return (
     <Reorder.Group
@@ -32,7 +43,7 @@ const CardsPage: React.FC<CardsPageProps> = ({ musicData, userData }) => {
       axis="x"
     >
       <Grid container spacing={2}>
-        {cards.map((card) => (
+        {filteredCards.map((card) => (
           <Grid item key={card.id} xs={12} sm={6} md={4} lg={3}>
             <Reorder.Item value={card} key={card.id} whileDrag={{ scale: 1.1 }}>
               <Card
