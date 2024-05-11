@@ -1,5 +1,5 @@
 // music.tsx
-import React from "react";
+import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
   TextField,
@@ -36,9 +36,11 @@ enum Genre {
 
 interface MusicFormProps {
   onSubmit?: (formData: FormData) => void;
+  id: string;
 }
 
 export interface FormData {
+  id: string;
   name: string;
   genre: Genre | "";
   artist: string;
@@ -47,13 +49,14 @@ export interface FormData {
 
 const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
   const navigate = useNavigate();
+  const [id, setId] = useState<string>(new Date().getTime().toString());
   const {
     control,
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<FormData>({ defaultValues: { id } });
 
   const onSubmitHandler = (data: FormData) => {
     if (onSubmit) {
@@ -62,6 +65,7 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
     navigate("/cards");
   };
   const handleReset = () => {
+    setId(new Date().getTime().toString());
     reset();
   };
 
