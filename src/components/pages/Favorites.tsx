@@ -4,22 +4,26 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import { FavBox } from "../styled/styles";
 import { Box } from "@mui/material";
+import { useEffect, useState } from "react";
 
 interface Data {
   favDataList: FavoriteCard[];
 }
 
 export default function Favorites({ favDataList }: Data) {
-  const favorites: FavoriteCard[] = JSON.parse(
-    localStorage.getItem("favorites") || "[]"
-  );
+  const [favoriteFormDataList, setFavoriteFormDataList] = useState<
+    FavoriteCard[]
+  >([]);
 
-  const favoriteFormDataList = favorites.filter((favorite) =>
-    favDataList.some(
-      (formData) =>
-        formData.name === favorite.name && formData.artist === favorite.artist
-    )
-  );
+  useEffect(() => {
+    const favorites: FavoriteCard[] = JSON.parse(
+      localStorage.getItem("favorites") || "[]"
+    );
+    const filteredFavorites = favorites.filter((favorite) =>
+      favDataList.some((formData) => formData.id === favorite.id)
+    );
+    setFavoriteFormDataList(filteredFavorites);
+  }, [favDataList]);
 
   return (
     <>
@@ -31,8 +35,8 @@ export default function Favorites({ favDataList }: Data) {
             alignItems: "center",
             flexDirection: "column",
             minHeight: "100vh",
-            padding: "0 20px", 
-            marginTop: { xs: 12, md: 20 }, 
+            padding: "0 20px",
+            marginTop: { xs: 12, md: 20 },
           }}
         >
           <Typography
@@ -41,7 +45,7 @@ export default function Favorites({ favDataList }: Data) {
               textTransform: "uppercase",
               fontSize: { xs: 32, md: 64 },
               textAlign: "center",
-              marginBottom: 4, 
+              marginBottom: 4,
             }}
             gutterBottom
           >
@@ -52,7 +56,7 @@ export default function Favorites({ favDataList }: Data) {
             sx={{
               maxWidth: { xs: 300, sm: 400 },
               minWidth: 200,
-              marginTop: 4, 
+              marginTop: 4,
             }}
           >
             <Typography variant="h6">
