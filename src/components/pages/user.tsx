@@ -87,7 +87,24 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               name="name"
               control={control}
               defaultValue=""
-              rules={{ required: true, validate: value => /^[a-zA-Z\s]*$/.test(value) }}
+              rules={{
+                required: "Name is required",
+                pattern: {
+                  value: /^[a-zA-Z\s]*$/,
+                  message: "Only letters and spaces are allowed",
+                },
+                minLength: {
+                  value: 3,
+                  message: "Name must be at least 3 characters long",
+                },
+                maxLength: {
+                  value: 30,
+                  message: "Name must be less than 30 characters long",
+                },
+                validate: {
+                  noLeadingSpace: value => value.trim().length === value.length || "Name cannot start with a space",
+                }
+              }}
               render={({ field }) => (
                 <TextField
                   {...field}
@@ -95,7 +112,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                   variant="outlined"
                   fullWidth
                   error={!!errors.name}
-                  helperText={errors.name ? "Only letters and spaces are allowed" : ""}
+                  helperText={errors.name ? errors.name.message : ""}
                 />
               )}
             />
@@ -105,7 +122,21 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               name="age"
               control={control}
               defaultValue=""
-              rules={{ required: true, min: 18, max: 120 }}
+              rules={{
+                required: "Age is required",
+                min: {
+                  value: 18,
+                  message: "Age must be at least 18",
+                },
+                max: {
+                  value: 120,
+                  message: "Age must be less than or equal to 120",
+                },
+                validate: {
+                  isNumber: value => !isNaN(Number(value)) || "Age must be a number",
+                  noSpecialChars: value => /^[0-9]*$/.test(value) || "Age must not contain special characters"
+                }
+              }}
               render={({ field }) => (
                 <TextField
                   {...field}
@@ -114,7 +145,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                   variant="outlined"
                   fullWidth
                   error={!!errors.age}
-                  helperText={errors.age ? "Age must be between 18 and 120" : ""}
+                  helperText={errors.age ? errors.age.message : ""}
                 />
               )}
             />
@@ -129,7 +160,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               name="mood"
               control={control}
               defaultValue=""
-              rules={{ required: true }}
+              rules={{ required: "Mood is required" }}
               render={({ field }) => (
                 <Select
                   {...field}
@@ -146,6 +177,11 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                 </Select>
               )}
             />
+            {errors.mood && (
+              <Typography variant="body2" color="error">
+                {errors.mood.message}
+              </Typography>
+            )}
           </FormControl>
           <FormControl
             variant="outlined"
@@ -157,7 +193,12 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               name="genres"
               control={control}
               defaultValue={[]}
-              rules={{ validate: value => value.length > 0 && value.length <= 3 }}
+              rules={{
+                validate: {
+                  required: value => value.length > 0 || "At least one genre is required",
+                  max: value => value.length <= 3 || "You can select up to 3 genres",
+                },
+              }}
               render={({ field }) => (
                 <>
                   <Select
@@ -176,7 +217,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                   </Select>
                   {errors.genres && (
                     <Typography variant="body2" color="error">
-                      {errors.genres.type === "validate" && "Select up to 3 genres"}
+                      {errors.genres.type === "validate" && errors.genres.message}
                     </Typography>
                   )}
                 </>
