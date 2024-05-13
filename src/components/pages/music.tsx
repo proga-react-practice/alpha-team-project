@@ -10,6 +10,7 @@ import {
   MenuItem,
   Box,
   FormLabel,
+  FormHelperText,
 } from "@mui/material";
 
 import {
@@ -95,23 +96,33 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
 
           <TextField
             label="Name"
-            {...register("name", { required: true })}
+            {...register("name", {
+              required: "Name is required",
+              minLength: {
+                value: 2,
+                message: "Name must be at least 2 character long",
+              },
+              maxLength: {
+                value: 20,
+                message: "Name must be less than 20 character long",
+              },
+              validate: (value) =>
+                value.charAt(0) === value.charAt(0).toUpperCase() ||
+                "Name should start with a capital letter",
+            })}
             variant="outlined"
             margin="normal"
             fullWidth
             sx={{ marginBottom: 1.5 }}
+            error={!!errors.name}
+            helperText={errors.name?.message}
           />
-          {errors.name && (
-            <Typography sx={{ marginBottom: 2, marginTop: -0.5 }}>
-              Name is required
-            </Typography>
-          )}
 
           <Controller
             name="genre"
             control={control}
             defaultValue=""
-            rules={{ required: true }}
+            rules={{ required: { value: true, message: "Genre is required" } }}
             render={({ field }) => (
               <FormControl
                 variant="outlined"
@@ -127,9 +138,7 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
                   ))}
                 </Select>
                 {errors.genre && (
-                  <Typography sx={{ marginBottom: -2, marginTop: 1 }}>
-                    Genre is required
-                  </Typography>
+                  <FormHelperText error>{errors.genre.message}</FormHelperText>
                 )}
               </FormControl>
             )}
@@ -137,16 +146,26 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
           <FormControl variant="outlined" fullWidth sx={{ marginBottom: 1.5 }}>
             <TextField
               label="Artist"
-              {...register("artist", { required: true })}
+              {...register("artist", {
+                required: "Artist is required",
+                minLength: {
+                  value: 2,
+                  message: "Artist must be at least 2 character long",
+                },
+                maxLength: {
+                  value: 20,
+                  message: "Artist must be less than 20 character long",
+                },
+                validate: (value) =>
+                  value.charAt(0) === value.charAt(0).toUpperCase() ||
+                  "Artist should start with a capital letter",
+              })}
               variant="outlined"
               margin="normal"
               fullWidth
+              error={!!errors.artist}
+              helperText={errors.artist?.message}
             />
-            {errors.artist && (
-              <Typography sx={{ marginBottom: 1, marginTop: -0.3 }}>
-                Artist is required
-              </Typography>
-            )}
           </FormControl>
 
           <FormControl variant="outlined" fullWidth sx={{ marginBottom: 1.5 }}>
@@ -163,12 +182,9 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
                 shrink: true,
               }}
               size="small"
+              error={!!errors.releasedOn}
+              helperText={errors.releasedOn?.message}
             />
-            {errors.releasedOn && (
-              <Typography sx={{ marginBottom: -1, marginTop: 1 }}>
-                {errors.releasedOn.message}
-              </Typography>
-            )}
           </FormControl>
           <CustomButton type="submit" variant="contained">
             Submit
