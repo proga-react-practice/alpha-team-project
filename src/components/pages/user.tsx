@@ -82,7 +82,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
           <Typography variant="h4" gutterBottom>
             Music enjoyer
           </Typography>
-          <Box sx={{ marginBottom: "12px" }}>
+          <Box sx={{ marginBottom: 1.5 }}>
             <Controller
               name="name"
               control={control}
@@ -93,7 +93,6 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                   {...field}
                   label="Name"
                   variant="outlined"
-                  size="small"
                   fullWidth
                   error={!!errors.name}
                   helperText={errors.name ? "Only letters and spaces are allowed" : ""}
@@ -101,7 +100,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               )}
             />
           </Box>
-          <Box sx={{ marginBottom: "12px" }}>
+          <Box sx={{ marginBottom: 1.5 }}>
             <Controller
               name="age"
               control={control}
@@ -113,7 +112,6 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                   label="Age"
                   type="number"
                   variant="outlined"
-                  size="small"
                   fullWidth
                   error={!!errors.age}
                   helperText={errors.age ? "Age must be between 18 and 120" : ""}
@@ -124,7 +122,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
           <FormControl
             variant="outlined"
             fullWidth
-            sx={{ marginBottom: "12px" }}
+            sx={{ marginBottom: 1.5 }}
           >
             <InputLabel>Mood</InputLabel>
             <Controller
@@ -152,7 +150,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
           <FormControl
             variant="outlined"
             fullWidth
-            sx={{ marginBottom: "12px" }}
+            sx={{ marginBottom: 1.5 }}
           >
             <InputLabel>Genre Preferences (select up to 3)</InputLabel>
             <Controller
