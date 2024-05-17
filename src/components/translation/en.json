@@ -1,0 +1,85 @@
+{
+    "form": {
+      "usertitle": "Music enjoyer",
+      "musictitle": "Tracks",
+      "nameLabel": "Name",
+      "musicLabel": "Name",
+      "ageLabel": "Age",
+      "moodLabel": "Mood",
+      "genreLabel": "Genre Preferences (select up to 3)",
+      "musicGenre": "Genre",
+      "artistLabel": "Artist",
+      "dateLabel": "Released on",
+      "nextButton": "Next",
+      "submitButton": "Submit",
+      "clearButton": "Clear Form",
+      "nameError": "Only letters and spaces are allowed",
+      "ageError": "Age must be between 18 and 120",
+      "moodError": "Mood is required",
+      "genresError": "Select up to 3 genres",
+      "musicDescription": "SHARE YOUR MUSICAL JOURNEY WITH US"
+    },
+    "notFound": {
+      "title": "404 - Not Found",
+      "message": "The page you are looking for does not exist."
+    },
+    "home": {
+      "title": "Your Day, Your Choice, Your Music",
+      "description": "Welcome to our music selection platform! Customize your listening experience based on your preferences and mood. Explore curated playlists and discover new tracks that resonate with you.",
+      "timeline1": "Complete Your Profile",
+      "description1": "Provide us with your preferences and musical tastes to tailor your experience.",
+      "timeline2": "Submit Your Tracks",
+      "description2": "Add your favorite tracks to our platform to create a personalized music library.",
+      "timeline3": "Manage Your Collection",
+      "description3": "Edit, delete, or rearrange your tracks to keep your collection organized and up-to-date.",
+      "timeline4": "Highlight Your Favorites",
+      "description4": "Select your top tracks and add them to your Favorites page for easy access and listening."
+    },
+    "favorites": {
+      "title": "Mark some Cards To create your own Playlist"
+    },
+    "card": {
+      "songName": "Name of the song:",
+      "genre": "Genre:",
+      "artist": "Artist:",
+      "date": "Date for note:",
+      "user": "User:",
+      "age": "Age:",
+      "mood": "Mood:",
+      "preferredGenres": "Preferred genres:"
+    },
+    "enums": {
+      "Mood": {
+        "Happy": "Happy",
+        "Sad": "Sad",
+        "Energetic": "Energetic",
+        "Relaxing": "Relaxing",
+        "Chill": "Chill",
+        "PumpUp": "Pump-up"
+      },
+      "Genre": {
+        "Pop": "Pop",
+        "Rock": "Rock",
+        "HipHopRap": "Hip-hop/Rap",
+        "ElectronicDance": "Electronic/Dance",
+        "RnBSoul": "R&B/Soul",
+        "Classical": "Classical",
+        "Jazz": "Jazz",
+        "Country": "Country",
+        "Alternative": "Alternative",
+        "Indie": "Indie"
+      }
+    },
+    "Card":{
+      "searchLabel": "search",
+      "songLabel": "Name of the song:",
+      "cardGenreLabel": "Genre:",
+      "cardArtistLabel": "Artist:",
+      "cardDateLabel": "Date for note:",
+      "cardUsertLabel": "User:",
+      "cardAgeLabel": "Age:",
+      "cardMoodLabel": "Mood:",
+      "cardPrGenreLabel": "Preferred genres:"
+    }
+  }
+  
