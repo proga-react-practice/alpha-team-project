@@ -7,7 +7,7 @@ export default function Home() {
   const imagePath = theme.palette.mode === "dark" ? violet : green;
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>
       <Box
         sx={{
           display: "flex",
@@ -27,7 +27,7 @@ export default function Home() {
         >
           <Typography
             variant="h4"
-            sx={{ textTransform: "uppercase", fontSize: { xs: 32, md: 48 }, marginBottom: 2 }}
+            sx={{ textTransform: "uppercase", fontSize: { xs: 32, md: 48 }, marginTop: 30}}
           >
             Your Day, Your Choice, Your Music
           </Typography>
@@ -40,17 +40,17 @@ export default function Home() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            width: "70%"
+            width: "70%",
           }}
         >
           <img
             src={imagePath}
             alt="theme image"
             style={{
-              marginTop: "40px",
+              marginTop: "190px",
               width: "100%",
               height: "auto",
-              maxHeight: "80vh",
+              maxHeight: "80%",
             }}
           />
         </Box>

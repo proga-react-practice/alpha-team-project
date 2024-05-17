@@ -1,29 +1,25 @@
 import Typography from "@mui/material/Typography";
-import { FavoriteCard } from "./Card";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import { FavBox } from "../styled/styles";
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useFormData } from "./DataContext";
+import { FavoriteCard } from "./Card";
 
-interface Data {
-  favDataList: FavoriteCard[];
-}
-
-export default function Favorites({ favDataList }: Data) {
+export default function Favorites() {
+  const { formData } = useFormData();
   const [favoriteFormDataList, setFavoriteFormDataList] = useState<
     FavoriteCard[]
   >([]);
-
+  const formDataArray = Object.values(formData || {});
   useEffect(() => {
-    const favorites: FavoriteCard[] = JSON.parse(
-      localStorage.getItem("favorites") || "[]"
-    );
-    const filteredFavorites = favorites.filter((favorite) =>
-      favDataList.some((formData) => formData.id === favorite.id)
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    const filteredFavorites = favorites.filter((favorite: FavoriteCard) =>
+      formDataArray.some((data) => data.id === favorite.id)
     );
     setFavoriteFormDataList(filteredFavorites);
-  }, [favDataList]);
+  }, [formData]);
 
   return (
     <>

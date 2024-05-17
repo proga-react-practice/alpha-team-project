@@ -19,6 +19,7 @@ import {
   LeftGreenBackground,
 } from "../styled/styles";
 import { useNavigate } from "react-router-dom";
+import { useFormData } from "./DataContext";
 
 enum Genre {
   Funk = "Funk",
@@ -37,7 +38,6 @@ enum Genre {
 
 interface MusicFormProps {
   onSubmit?: (formData: FormData) => void;
-  id: string;
 }
 
 export interface FormData {
@@ -59,10 +59,14 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
     formState: { errors },
   } = useForm<FormData>({ defaultValues: { id } });
 
+  const { setFormData } = useFormData();
+
   const onSubmitHandler = (data: FormData) => {
     if (onSubmit) {
       onSubmit(data);
+      console.log("Form data submitted:", data);
     }
+    setFormData((prevData) => [...prevData, data]);
     navigate("/cards");
   };
   const handleReset = () => {
@@ -87,7 +91,6 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
           </Typography>
         </div>
       </LeftGreenBackground>
-
       <FormContainer>
         <form onSubmit={handleSubmit(onSubmitHandler)}>
           <Typography variant="h4" gutterBottom>

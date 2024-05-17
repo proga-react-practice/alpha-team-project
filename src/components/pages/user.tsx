@@ -1,4 +1,3 @@
-import React from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import {
@@ -15,6 +14,7 @@ import {
   InputLabel,
   Box,
 } from "@mui/material";
+import { useUserData } from "./DataContext";
 
 enum Mood {
   Happy = "Happy",
@@ -44,14 +44,19 @@ interface FormProps {
 
 export interface FormDataUser {
   name: string;
-  age: string; 
+  age: string;
   mood: Mood | "";
   genres: Genre[];
 }
 
 const Form: React.FC<FormProps> = ({ onSubmit }) => {
   const navigate = useNavigate();
-  const { handleSubmit, control, reset, formState: { errors } } = useForm<FormDataUser>({
+  const {
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm<FormDataUser>({
     defaultValues: {
       name: "",
       age: "",
@@ -59,12 +64,15 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
       genres: [],
     },
   });
-
+  const { setUserData } = useUserData();
   const onFormSubmit: SubmitHandler<FormDataUser> = (data) => {
     if (onSubmit) {
       onSubmit(data);
+      console.log("User data submitted:", data);
     }
-    reset(); 
+
+    setUserData((prevData) => [...prevData, data]);
+    reset();
     navigate("/music");
   };
 
@@ -102,8 +110,10 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                   message: "Name must be less than 30 characters long",
                 },
                 validate: {
-                  noLeadingSpace: value => value.trim().length === value.length || "Name cannot start with a space",
-                }
+                  noLeadingSpace: (value) =>
+                    value.trim().length === value.length ||
+                    "Name cannot start with a space",
+                },
               }}
               render={({ field }) => (
                 <TextField
@@ -133,9 +143,12 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                   message: "Age must be less than or equal to 120",
                 },
                 validate: {
-                  isNumber: value => !isNaN(Number(value)) || "Age must be a number",
-                  noSpecialChars: value => /^[0-9]*$/.test(value) || "Age must not contain special characters"
-                }
+                  isNumber: (value) =>
+                    !isNaN(Number(value)) || "Age must be a number",
+                  noSpecialChars: (value) =>
+                    /^[0-9]*$/.test(value) ||
+                    "Age must not contain special characters",
+                },
               }}
               render={({ field }) => (
                 <TextField
@@ -150,11 +163,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               )}
             />
           </Box>
-          <FormControl
-            variant="outlined"
-            fullWidth
-            sx={{ marginBottom: 1.5 }}
-          >
+          <FormControl variant="outlined" fullWidth sx={{ marginBottom: 1.5 }}>
             <InputLabel>Mood</InputLabel>
             <Controller
               name="mood"
@@ -183,11 +192,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               </Typography>
             )}
           </FormControl>
-          <FormControl
-            variant="outlined"
-            fullWidth
-            sx={{ marginBottom: 1.5 }}
-          >
+          <FormControl variant="outlined" fullWidth sx={{ marginBottom: 1.5 }}>
             <InputLabel>Genre Preferences (select up to 3)</InputLabel>
             <Controller
               name="genres"
@@ -195,8 +200,10 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               defaultValue={[]}
               rules={{
                 validate: {
-                  required: value => value.length > 0 || "At least one genre is required",
-                  max: value => value.length <= 3 || "You can select up to 3 genres",
+                  required: (value) =>
+                    value.length > 0 || "At least one genre is required",
+                  max: (value) =>
+                    value.length <= 3 || "You can select up to 3 genres",
                 },
               }}
               render={({ field }) => (
@@ -217,7 +224,8 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                   </Select>
                   {errors.genres && (
                     <Typography variant="body2" color="error">
-                      {errors.genres.type === "validate" && errors.genres.message}
+                      {errors.genres.type === "validate" &&
+                        errors.genres.message}
                     </Typography>
                   )}
                 </>
@@ -227,7 +235,11 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
           <CustomButton type="submit" variant="contained">
             Submit
           </CustomButton>
-          <CustomButton type="button" onClick={() => reset()} variant="contained">
+          <CustomButton
+            type="button"
+            onClick={() => reset()}
+            variant="contained"
+          >
             Clear Form
           </CustomButton>
         </form>

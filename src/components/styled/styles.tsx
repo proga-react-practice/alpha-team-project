@@ -32,7 +32,7 @@ export const FormContainer = styled(Box)(({ theme }) => ({
   position: "absolute",
   right: "calc(40% - 300px)",
   zIndex: 1,
-  overflow: "hidden",
+  overflowY: "hidden",
   transition: "all 0.3s ease", 
   "@media (max-width: 600px)": { 
     maxWidth: "80%", 
@@ -47,7 +47,7 @@ export const LeftGreenBackground = styled(Box)(({ theme }) => ({
   top: 0,
   left: 0,
   width: "30%",
-  height: "100%",
+  height: '1085px',
   backgroundColor: theme.palette.mode === "dark" ? "#646bf3" : "#6ee6ba",
   color: theme.palette.mode === "dark" ? "#ffffff" : "#000000",
   display: "flex",
@@ -58,6 +58,7 @@ export const LeftGreenBackground = styled(Box)(({ theme }) => ({
   transition: "all 0.3s ease", 
   "@media (max-width: 600px)": {
     display: "none", 
+   
   },
 }));
 

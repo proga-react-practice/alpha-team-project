@@ -1,27 +1,24 @@
 import React, { useState } from "react";
 import Card from "./Card";
-import { FormData as MusicFormData } from "./music";
-import { FormDataUser as UserFormData } from "./user";
 import { Box, Grid, IconButton, TextField } from "@mui/material";
 import { Reorder } from "framer-motion";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
+import { useFormData, useUserData } from "./DataContext";
 
-interface CardsPageProps {
-  musicData: MusicFormData[];
-  userData: UserFormData[];
-}
-
-const CardsPage: React.FC<CardsPageProps> = ({ musicData, userData }) => {
+const CardsPage: React.FC = () => {
+  const { formData } = useFormData();
+  const { userData } = useUserData();
   const [cards, setCards] = useState(
-    musicData.map((data, index) => ({
+    formData.map((data, index) => ({
       id: data.id,
-      musicData: data,
+      formData: data,
       userData: userData[index],
     }))
   );
 
+  console.log(cards);
   const [deletedCardIds, setDeletedCardIds] = useState<string[]>(() =>
     JSON.parse(localStorage.getItem("deletedCardIds") || "[]")
   );
@@ -54,7 +51,7 @@ const CardsPage: React.FC<CardsPageProps> = ({ musicData, userData }) => {
   };
 
   const filteredCardsBySearch = filteredCards.filter((card) =>
-    card.musicData.name.toLowerCase().includes(searchQuery.toLowerCase())
+    card.formData.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -72,10 +69,10 @@ const CardsPage: React.FC<CardsPageProps> = ({ musicData, userData }) => {
           ),
         }}
         sx={{
-          textTransform: 'lowercase', 
-          width: '40%', 
-          borderRadius: '50px', 
-          margin: '10px auto -55px'
+          textTransform: "lowercase",
+          width: "40%",
+          borderRadius: "50px",
+          margin: "10px auto -55px",
         }}
         style={{
           position: "fixed",
@@ -97,18 +94,24 @@ const CardsPage: React.FC<CardsPageProps> = ({ musicData, userData }) => {
         axis="x"
       >
         <Grid container spacing={2}>
-          {filteredCardsBySearch.slice(currentIndex, currentIndex + 4).map((card) => (
-            <Grid item key={card.id} xs={12} sm={6} md={4} lg={3}>
-              <Reorder.Item value={card} key={card.id} whileDrag={{ scale: 1.1 }}>
-                <Card
-                  cardId={card.id}
-                  data={card.musicData}
-                  dataUser={card.userData}
-                  onDelete={() => handleDeleteCard(card.id)}
-                />
-              </Reorder.Item>
-            </Grid>
-          ))}
+          {filteredCardsBySearch
+            .slice(currentIndex, currentIndex + 4)
+            .map((card) => (
+              <Grid item key={card.id} xs={12} sm={6} md={4} lg={3}>
+                <Reorder.Item
+                  value={card}
+                  key={card.id}
+                  whileDrag={{ scale: 1.1 }}
+                >
+                  <Card
+                    data={card.formData}
+                    dataUser={card.userData}
+                    cardId={card.id}
+                    onDelete={() => handleDeleteCard(card.id)}
+                  />
+                </Reorder.Item>
+              </Grid>
+            ))}
         </Grid>
         <Box sx={{ display: "flex", marginTop: "1rem" }}>
           {currentIndex > 0 && (
