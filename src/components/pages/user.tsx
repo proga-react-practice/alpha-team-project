@@ -25,15 +25,15 @@ enum Mood {
   Energetic = "Energetic",
   Relaxing = "Relaxing",
   Chill = "Chill",
-  PumpUp = "Pump-up",
+  PumpUp = "PumpUp",
 }
 
 enum Genre {
   Pop = "Pop",
   Rock = "Rock",
-  HipHopRap = "Hip-hop/Rap",
-  ElectronicDance = "Electronic/Dance",
-  RnBSoul = "R&B/Soul",
+  HipHopRap = "HipHopRap",
+  ElectronicDance = "ElectronicDance",
+  RnBSoul = "RnBSoul",
   Classical = "Classical",
   Jazz = "Jazz",
   Country = "Country",

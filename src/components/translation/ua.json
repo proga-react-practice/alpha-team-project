@@ -1,27 +1,27 @@
 {
   "form": {
-      "usertitle": "Користувач",
-      "musictitle": "Треки",
-      "nameLabel": "Ім'я",
-      "musicLabel": "Назва",
-      "ageLabel": "Вік",
-      "moodLabel": "Настрій",
-      "genreLabel": "Вподобання щодо жанру (виберіть до 3)",
-      "musicGenre": "Жанр",
-      "artistLabel": "Виконавець",
-      "dateLabel": "Випущено",
-      "nextButton": "Наступна",
-      "submitButton": "Надіслати",
-      "clearButton": "Очистити",
-      "nameError": "Дозволяються тільки літери та пробіли",
-      "ageError": "Вік повинен бути від 18 до 120",
-      "moodError": "Необхідно вибрати настрій",
-      "genresError": "Виберіть до 3 жанрів",
-      "musicDescription": "ПОДІЛІТЬСЯ СВОЄЮ МУЗИЧНОЮ ПОДОРОЖЮ З НАМИ"
+    "usertitle": "Користувач",
+    "musictitle": "Треки",
+    "nameLabel": "Ім'я",
+    "musicLabel": "Назва",
+    "ageLabel": "Вік",
+    "moodLabel": "Настрій",
+    "genreLabel": "Вподобання щодо жанру (виберіть до 3)",
+    "musicGenre": "Жанр",
+    "artistLabel": "Виконавець",
+    "dateLabel": "Випущено",
+    "nextButton": "Наступна",
+    "submitButton": "Надіслати",
+    "clearButton": "Очистити",
+    "nameError": "Дозволяються тільки літери та пробіли",
+    "ageError": "Вік повинен бути від 18 до 120",
+    "moodError": "Необхідно вибрати настрій",
+    "genresError": "Виберіть до 3 жанрів",
+    "musicDescription": "ПОДІЛІТЬСЯ СВОЄЮ МУЗИЧНОЮ ПОДОРОЖЮ З НАМИ"
   },
   "notFound": {
-      "title": "404 - Сторінку не знайдено",
-      "message": "Сторінку, яку ви шукаєте, не існує."
+    "title": "404 - Сторінку не знайдено",
+    "message": "Сторінку, яку ви шукаєте, не існує."
   },
   "home": {
     "title": "Ваш день, ваш вибір, ваша музика",
@@ -37,41 +37,43 @@
   },
 
   "favorites": {
-      "title": "Відзначте деякі картки, щоб створити свій власний плейлист"
+    "title": "Відзначте деякі картки, щоб створити свій власний плейлист"
   },
   "card": {
-      "songName": "Назва пісні:",
-      "genre": "Жанр:",
-      "artist": "Виконавець:",
-      "date": "Дата для примітки:",
-      "user": "Користувач:",
-      "age": "Вік:",
-      "mood": "Настрій:",
-      "preferredGenres": "Переваги жанрів:"
+    "songName": "Назва пісні:",
+    "genre": "Жанр:",
+    "artist": "Виконавець:",
+    "date": "Дата для примітки:",
+    "user": "Користувач:",
+    "age": "Вік:",
+    "mood": "Настрій:",
+    "preferredGenres": "Переваги жанрів:"
   },
-    "enums": {
-      "Mood": {
-        "Happy": "Веселий",
-        "Sad": "Сумний",
-        "Energetic": "Енергійний",
-        "Relaxing": "Релаксуючий",
-        "Chill": "Спокійний",
-        "PumpUp": "Збадьорливий"
-      },
-      "Genre": {
-        "Pop": "Поп",
-        "Rock": "Рок",
-        "HipHopRap": "Хіп-хоп/Реп",
-        "ElectronicDance": "Електронна/Танцювальна",
-        "RnBSoul": "R&B/Soul",
-        "Classical": "Класична",
-        "Jazz": "Джаз",
-        "Country": "Кантрі",
-        "Alternative": "Альтернативна",
-        "Indie": "Інді"
-      }
+  "enums": {
+    "Mood": {
+      "Happy": "Веселий",
+      "Sad": "Сумний",
+      "Energetic": "Енергійний",
+      "Relaxing": "Релаксуючий",
+      "Chill": "Спокійний",
+      "PumpUp": "Збадьорливий"
+    },
+    "Genre": {
+      "Funk": "Фанк",
+      "Pop": "Поп",
+      "Metal": "Метал",
+      "Rock": "Рок",
+      "HipHopRap": "Хіп Хоп Реп",
+      "ElectronicDance": "Електронна Танцювальна",
+      "RnBSoul": "RnB Soul",
+      "Classical": "Класична",
+      "Jazz": "Джаз",
+      "Country": "Кантрі",
+      "Alternative": "Альтернативна",
+      "Indie": "Інді"
+    }
   },
-  "Card":{
+  "Card": {
     "searchLabel": "search",
     "songLabel": "Назва пісні:",
     "cardGenreLabel": "Жанр:",
@@ -82,12 +84,11 @@
     "cardMoodLabel": "Настрій:",
     "cardPrGenreLabel": "Вподобання:"
   },
-  "routes":{
+  "routes": {
     "homepage": "Домашня сторінка",
     "userform": "Юзер",
     "musicform": "Треки",
     "cards": "Картки",
     "favorites": "Улюблені"
   }
-  
 }

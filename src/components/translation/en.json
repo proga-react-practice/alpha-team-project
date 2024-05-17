@@ -55,14 +55,16 @@
         "Energetic": "Energetic",
         "Relaxing": "Relaxing",
         "Chill": "Chill",
-        "PumpUp": "Pump-up"
+        "PumpUp": "PumpUp"
       },
       "Genre": {
+        "Funk": "Funk",
+        "Metal": "Metal",
         "Pop": "Pop",
         "Rock": "Rock",
-        "HipHopRap": "Hip-hop/Rap",
-        "ElectronicDance": "Electronic/Dance",
-        "RnBSoul": "R&B/Soul",
+        "HipHopRap": "Hip Hop Rap",
+        "ElectronicDance": "Electronic Dance",
+        "RnBSoul": "RnB Soul",
         "Classical": "Classical",
         "Jazz": "Jazz",
         "Country": "Country",
