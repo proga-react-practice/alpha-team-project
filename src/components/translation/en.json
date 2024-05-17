@@ -76,10 +76,18 @@
       "cardGenreLabel": "Genre:",
       "cardArtistLabel": "Artist:",
       "cardDateLabel": "Date for note:",
-      "cardUsertLabel": "User:",
+      "cardUserLabel": "User:",
       "cardAgeLabel": "Age:",
       "cardMoodLabel": "Mood:",
       "cardPrGenreLabel": "Preferred genres:"
+    },
+    "routes":{
+      "homepage": "Home",
+      "userform": "User Form",
+      "musicform": "Music Form",
+      "cards": "Cards",
+      "favorites": "Favorites"
     }
+    
   }
   
