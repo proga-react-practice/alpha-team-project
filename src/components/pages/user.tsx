@@ -1,3 +1,5 @@
+//user.tsx
+import React from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import {
@@ -14,6 +16,7 @@ import {
   InputLabel,
   Box,
 } from "@mui/material";
+import { useLanguage } from "../LanguageContext";
 import { useUserData } from "./DataContext";
 
 enum Mood {
@@ -50,6 +53,7 @@ export interface FormDataUser {
 }
 
 const Form: React.FC<FormProps> = ({ onSubmit }) => {
+  const { translations } = useLanguage();
   const navigate = useNavigate();
   const {
     handleSubmit,
@@ -76,6 +80,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
     navigate("/music");
   };
 
+
   return (
     <Box>
       <LeftGreenBackground>
@@ -88,7 +93,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
       <FormContainer>
         <form onSubmit={handleSubmit(onFormSubmit)}>
           <Typography variant="h4" gutterBottom>
-            Music enjoyer
+          {translations.form.usertitle} 
           </Typography>
           <Box sx={{ marginBottom: 1.5 }}>
             <Controller
@@ -110,15 +115,13 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                   message: "Name must be less than 30 characters long",
                 },
                 validate: {
-                  noLeadingSpace: (value) =>
-                    value.trim().length === value.length ||
-                    "Name cannot start with a space",
-                },
+                  noLeadingSpace: value => value.trim().length === value.length || "Name cannot start with a space",
+                }
               }}
               render={({ field }) => (
                 <TextField
                   {...field}
-                  label="Name"
+                  label={translations.form.nameLabel}
                   variant="outlined"
                   fullWidth
                   error={!!errors.name}
@@ -143,17 +146,14 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                   message: "Age must be less than or equal to 120",
                 },
                 validate: {
-                  isNumber: (value) =>
-                    !isNaN(Number(value)) || "Age must be a number",
-                  noSpecialChars: (value) =>
-                    /^[0-9]*$/.test(value) ||
-                    "Age must not contain special characters",
-                },
+                  isNumber: value => !isNaN(Number(value)) || "Age must be a number",
+                  noSpecialChars: value => /^[0-9]*$/.test(value) || "Age must not contain special characters"
+                }
               }}
               render={({ field }) => (
                 <TextField
                   {...field}
-                  label="Age"
+                  label={translations.form.ageLabel}
                   type="number"
                   variant="outlined"
                   fullWidth
@@ -163,8 +163,12 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               )}
             />
           </Box>
-          <FormControl variant="outlined" fullWidth sx={{ marginBottom: 1.5 }}>
-            <InputLabel>Mood</InputLabel>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            sx={{ marginBottom: 1.5 }}
+          >
+            <InputLabel>{translations.form.moodLabel}</InputLabel>
             <Controller
               name="mood"
               control={control}
@@ -173,14 +177,14 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               render={({ field }) => (
                 <Select
                   {...field}
-                  label="Mood"
+                  label={translations.form.moodLabel}
                   required
                   fullWidth
                   error={!!errors.mood}
                 >
                   {Object.values(Mood).map((mood) => (
                     <MenuItem key={mood} value={mood}>
-                      {mood}
+                      {translations.enums.Mood[mood]}
                     </MenuItem>
                   ))}
                 </Select>
@@ -192,18 +196,20 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               </Typography>
             )}
           </FormControl>
-          <FormControl variant="outlined" fullWidth sx={{ marginBottom: 1.5 }}>
-            <InputLabel>Genre Preferences (select up to 3)</InputLabel>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            sx={{ marginBottom: 1.5 }}
+          >
+            <InputLabel>{translations.form.genreLabel}</InputLabel>
             <Controller
               name="genres"
               control={control}
               defaultValue={[]}
               rules={{
                 validate: {
-                  required: (value) =>
-                    value.length > 0 || "At least one genre is required",
-                  max: (value) =>
-                    value.length <= 3 || "You can select up to 3 genres",
+                  required: value => value.length > 0 || "At least one genre is required",
+                  max: value => value.length <= 3 || "You can select up to 3 genres",
                 },
               }}
               render={({ field }) => (
@@ -211,21 +217,20 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                   <Select
                     {...field}
                     multiple
-                    label="Genre Preferences (select up to 3)"
+                    label={translations.form.genreLabel}
                     required
                     fullWidth
                     error={!!errors.genres}
                   >
                     {Object.values(Genre).map((genre) => (
                       <MenuItem key={genre} value={genre}>
-                        {genre}
+                        {translations.enums.Genre[genre]}
                       </MenuItem>
                     ))}
                   </Select>
                   {errors.genres && (
                     <Typography variant="body2" color="error">
-                      {errors.genres.type === "validate" &&
-                        errors.genres.message}
+                      {errors.genres.type === "validate" && errors.genres.message}
                     </Typography>
                   )}
                 </>
@@ -233,14 +238,10 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
             />
           </FormControl>
           <CustomButton type="submit" variant="contained">
-            Submit
+          {translations.form.nextButton}
           </CustomButton>
-          <CustomButton
-            type="button"
-            onClick={() => reset()}
-            variant="contained"
-          >
-            Clear Form
+          <CustomButton type="button" onClick={() => reset()} variant="contained">
+          {translations.form.clearButton} 
           </CustomButton>
         </form>
       </FormContainer>
