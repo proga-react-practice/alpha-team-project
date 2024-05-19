@@ -1,5 +1,14 @@
 // styles.tsx
-import { styled, Box, Button, Select, AppBar, Divider } from "@mui/material";
+import {
+  styled,
+  Box,
+  Button,
+  Select,
+  AppBar,
+  Divider,
+  Modal,
+  Accordion,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 
 export const GlobalStyle = styled("div")({
@@ -33,12 +42,12 @@ export const FormContainer = styled(Box)(({ theme }) => ({
   right: "calc(40% - 300px)",
   zIndex: 1,
   overflowY: "hidden",
-  transition: "all 0.3s ease", 
-  "@media (max-width: 600px)": { 
-    maxWidth: "80%", 
-    padding: 20, 
-    marginTop: 100, 
-    right: "calc(50% - 200px)", 
+  transition: "all 0.3s ease",
+  "@media (max-width: 600px)": {
+    maxWidth: "80%",
+    padding: 20,
+    marginTop: 100,
+    right: "calc(50% - 200px)",
   },
 }));
 
@@ -47,7 +56,7 @@ export const LeftGreenBackground = styled(Box)(({ theme }) => ({
   top: 0,
   left: 0,
   width: "30%",
-  height: '1085px',
+  height: "1085px",
   backgroundColor: theme.palette.mode === "dark" ? "#646bf3" : "#6ee6ba",
   color: theme.palette.mode === "dark" ? "#ffffff" : "#000000",
   display: "flex",
@@ -55,10 +64,9 @@ export const LeftGreenBackground = styled(Box)(({ theme }) => ({
   justifyContent: "center",
   padding: "10px",
   zIndex: 0,
-  transition: "all 0.3s ease", 
+  transition: "all 0.3s ease",
   "@media (max-width: 600px)": {
-    display: "none", 
-   
+    display: "none",
   },
 }));
 
@@ -148,4 +156,40 @@ export const FavBox = styled(Box)(({ theme }) => ({
   border: "3px solid #ccc",
   justifyContent: "center",
   alignItems: "center",
+}));
+
+export const StyledModal = styled(Modal)(() => ({
+  width: 520,
+  height: 550,
+  borderRadius: 20,
+  display: "flex",
+  justifyContent: "center",
+  flexDirection: "column",
+  alignItems: "center",
+  position: "fixed",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  border: "5px solid #ccc",
+  backdropFilter: "blur(10px)",
+}));
+
+export const StyledAccordion = styled(Accordion)(() => ({
+  backgroundColor: "transparent",
+  backgroundImage: "none",
+  width: 400,
+  height: 100,
+  display: "flex",
+  flexDirection: "column",
+  textAlign: "center",
+  textTransform: "uppercase",
+  margin: 50,
+  borderBottom: 0,
+  boxShadow: "none",
+  "&:last-child": {
+    borderBottom: 0,
+  },
+  "&:before": {
+    display: "none",
+  },
 }));

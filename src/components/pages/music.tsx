@@ -1,6 +1,6 @@
 // music.tsx
 import React, { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import {
   TextField,
   Typography,
@@ -63,13 +63,13 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
 
   const { setFormData } = useFormData();
 
-  const onSubmitHandler = (data: FormData) => {
+  const onSubmitHandler: SubmitHandler<FormData> = (data) => {
     if (onSubmit) {
       onSubmit(data);
       console.log("Form data submitted:", data);
     }
     setFormData((prevData) => [...prevData, data]);
-    navigate("/cards");
+    navigate("/playlist");
   };
   const handleReset = () => {
     setId(new Date().getTime().toString());
@@ -89,7 +89,7 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
             style={{ width: "62%", height: "36%", objectFit: "cover" }}
           />
           <Typography variant="h4" sx={{ textTransform: "uppercase" }}>
-          {translations.form.musicDescription}
+            {translations.form.musicDescription}
           </Typography>
         </div>
       </LeftGreenBackground>
@@ -97,28 +97,38 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
       <FormContainer>
         <form onSubmit={handleSubmit(onSubmitHandler)}>
           <Typography variant="h4" gutterBottom>
-          {translations.form.musictitle}
+            {translations.form.musictitle}
           </Typography>
 
           <TextField
             label={translations.form.musicLabel}
-            {...register("name", { required: true })}
+            {...register("name", {
+              required: "Name is required",
+              minLength: {
+                value: 2,
+                message: "Name must be at least 2 character long",
+              },
+              maxLength: {
+                value: 20,
+                message: "Name must be less than 20 character long",
+              },
+              validate: (value) =>
+                value.charAt(0) === value.charAt(0).toUpperCase() ||
+                "Name should start with a capital letter",
+            })}
             variant="outlined"
             margin="normal"
             fullWidth
             sx={{ marginBottom: 1.5 }}
+            error={!!errors.name}
+            helperText={errors.name?.message}
           />
-          {errors.name && (
-            <Typography sx={{ marginBottom: 2, marginTop: -0.5 }}>
-              Name is required
-            </Typography>
-          )}
 
           <Controller
             name="genre"
             control={control}
             defaultValue=""
-            rules={{ required: true }}
+            rules={{ required: { value: true, message: "Genre is required" } }}
             render={({ field }) => (
               <FormControl
                 variant="outlined"
@@ -134,9 +144,7 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
                   ))}
                 </Select>
                 {errors.genre && (
-                  <FormHelperText sx={{ marginBottom: -2, marginTop: 1 }}>
-                    Genre is required
-                  </FormHelperText>
+                  <FormHelperText error>{errors.genre.message}</FormHelperText>
                 )}
               </FormControl>
             )}
@@ -144,20 +152,32 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
           <FormControl variant="outlined" fullWidth sx={{ marginBottom: 1.5 }}>
             <TextField
               label={translations.form.artistLabel}
-              {...register("artist", { required: true })}
+              {...register("artist", {
+                required: "Artist is required",
+                minLength: {
+                  value: 2,
+                  message: "Artist must be at least 2 character long",
+                },
+                maxLength: {
+                  value: 20,
+                  message: "Artist must be less than 20 character long",
+                },
+                validate: (value) =>
+                  value.charAt(0) === value.charAt(0).toUpperCase() ||
+                  "Artist should start with a capital letter",
+              })}
               variant="outlined"
               margin="normal"
               fullWidth
+              error={!!errors.artist}
+              helperText={errors.artist?.message}
             />
-            {errors.artist && (
-              <Typography sx={{ marginBottom: 1, marginTop: -0.3 }}>
-                Artist is required
-              </Typography>
-            )}
           </FormControl>
 
           <FormControl variant="outlined" fullWidth sx={{ marginBottom: 1.5 }}>
-            <FormLabel htmlFor="releasedOn">{translations.form.dateLabel}</FormLabel>
+            <FormLabel htmlFor="releasedOn">
+              {translations.form.dateLabel}
+            </FormLabel>
             <TextField
               type="date"
               {...register("releasedOn", {
@@ -170,18 +190,15 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
                 shrink: true,
               }}
               size="small"
+              error={!!errors.releasedOn}
+              helperText={errors.releasedOn?.message}
             />
-            {errors.releasedOn && (
-              <Typography sx={{ marginBottom: -1, marginTop: 1 }}>
-                {errors.releasedOn.message}
-              </Typography>
-            )}
           </FormControl>
           <CustomButton type="submit" variant="contained">
-          {translations.form.submitButton}
+            {translations.form.submitButton}
           </CustomButton>
           <CustomButton type="button" onClick={handleReset} variant="contained">
-          {translations.form.clearButton}
+            {translations.form.clearButton}
           </CustomButton>
         </form>
       </FormContainer>

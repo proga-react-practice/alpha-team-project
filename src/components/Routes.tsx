@@ -14,6 +14,7 @@ const Routes: React.FC<{ onClick: () => void }> = ({ onClick }) => {
     { path: "/music", label: translations.routes.musicform },
     { path: "/cards", label: translations.routes.cards },
     { path: "/favorites", label: translations.routes.favorites },
+    { path: "/playlist", label: translations.routes.playlist}
   ];
 
   return (

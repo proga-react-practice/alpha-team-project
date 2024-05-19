@@ -158,10 +158,10 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
     };
 
   const handleSelectChange =
-    (field: keyof FormData) => (event: SelectChangeEvent<Genre>) => {
+  (field: keyof FormData) => (event: SelectChangeEvent<string | undefined>)=> {
       const updatedData = {
         ...editedData,
-        [field]: event.target.value as Genre,
+        [field]: event.target.value || undefined,
       };
       setEditedData(updatedData);
       saveCardToLocalStorage(updatedData, editedUser);

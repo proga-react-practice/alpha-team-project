@@ -1,5 +1,5 @@
 //user.tsx
-import React from "react";
+import React, { useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import {
@@ -19,7 +19,7 @@ import {
 import { useLanguage } from "../LanguageContext";
 import { useUserData } from "./DataContext";
 
-enum Mood {
+export enum Mood {
   Happy = "Happy",
   Sad = "Sad",
   Energetic = "Energetic",
@@ -28,7 +28,7 @@ enum Mood {
   PumpUp = "PumpUp",
 }
 
-enum Genre {
+export enum Genre {
   Pop = "Pop",
   Rock = "Rock",
   HipHopRap = "HipHopRap",
@@ -46,6 +46,7 @@ interface FormProps {
 }
 
 export interface FormDataUser {
+  id: string;
   name: string;
   age: string;
   mood: Mood | "";
@@ -55,6 +56,7 @@ export interface FormDataUser {
 const Form: React.FC<FormProps> = ({ onSubmit }) => {
   const { translations } = useLanguage();
   const navigate = useNavigate();
+  const [id, setId] = useState<string>(new Date().getTime().toString());
   const {
     handleSubmit,
     control,
@@ -62,6 +64,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
     formState: { errors },
   } = useForm<FormDataUser>({
     defaultValues: {
+      id,
       name: "",
       age: "",
       mood: "",
@@ -73,6 +76,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
     if (onSubmit) {
       onSubmit(data);
       console.log("User data submitted:", data);
+      setId(new Date().getTime().toString());
     }
 
     setUserData((prevData) => [...prevData, data]);
