@@ -97,5 +97,42 @@
     "header": " Make your own Playlist",
     "songs": " Current songs added",
     "users": " Current users added"
-  }
+  },
+  "userErrors": {
+    "nameRequired": "Name is required",
+    "pattern": "Only letters and spaces are allowed",
+    "nameMinLength": "Name must be at least 3 characters long",
+    "nameMaxLength": "Name must be less than 30 characters long",
+    "noLeadingSpace": "Name cannot start with a space",
+    "ageRequired": "Age is required",
+    "ageMin": "Age must be at least 18",
+    "ageMax": "Age must be less than or equal to 120",
+    "isNumber": "Age must be a number",
+    "noSpecialChars": "Age must not contain special characters",
+    "moodRequired": "Mood is required",
+    "genresRequired": "At least one genre is required",
+    "genresMax": "You can select up to 3 genres"
+},
+  "musicErrors": {
+    "name": {
+      "required": "Name is required",
+      "minLength": "Name must be at least 2 characters long",
+      "maxLength": "Name must be less than 20 characters long",
+      "validate": "Name should start with a capital letter"
+    },
+    "genre": {
+      "required": "Genre is required"
+    },
+    "artist": {
+      "required": "Artist is required",
+      "minLength": "Artist must be at least 2 characters long",
+      "maxLength": "Artist must be less than 20 characters long",
+      "validate": "Artist should start with a capital letter"
+    },
+    "releasedOn": {
+      "required": "Date is required",
+      "min": "Enter a date after 1980",
+      "max": "Enter a date before today"
+    }
+}
 }
