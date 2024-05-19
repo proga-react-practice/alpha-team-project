@@ -9,9 +9,11 @@ import violet from "../../img/violet.svg";
 import green from "../../img/green.svg";
 import { useLanguage } from "../LanguageContext";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { useThemeCustom } from "../../theme/ThemeContext";
 export default function Home() {
   const theme = useTheme();
-  const imagePath = theme.palette.mode === "dark" ? violet : green;
+  const { darkMode } = useThemeCustom();
+  const imagePath = darkMode ? violet : green;
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { translations } = useLanguage();
   return (

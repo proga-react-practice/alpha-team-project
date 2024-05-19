@@ -2,7 +2,6 @@ import { FormData } from "./music";
 import {
   Typography,
   Box,
-  useTheme,
   TextField,
   MenuItem,
   Select,
@@ -18,6 +17,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useLanguage } from "../LanguageContext";
+import { useThemeCustom } from "../../theme/ThemeContext";
 waveform.register();
 
 export interface FavoriteCard {
@@ -60,8 +60,8 @@ enum Mood {
 
 export default function Card({ data, dataUser, onDelete, cardId }: Props) {
   const { translations } = useLanguage();
-  const theme = useTheme();
-  const colorAnimation = theme.palette.mode === "dark" ? "#ffffff" : "#000000";
+  const { darkMode } = useThemeCustom(); 
+  const colorAnimation = darkMode ? "#ffffff" : "#000000";
   const [isFlipped, setIsFlipped] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);

@@ -18,7 +18,6 @@ export interface Song {
 export default function Songs() {
   const { formData } = useFormData();
   const [deletedSongIds, setDeletedSongIds] = useState<string[]>([]);
-
   const [songs, setSongs] = useState<Song[]>(() => {
     const savedSongs = localStorage.getItem("songs");
     if (savedSongs) {

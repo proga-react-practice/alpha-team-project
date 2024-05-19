@@ -5,16 +5,16 @@ import {
   MusicProvider,
   UserProvider,
 } from "./components/pages/DataContext.tsx";
-import { LanguageProvider } from "./components/LanguageContext.tsx";
+import { ThemeProvider } from "./theme/ThemeContext.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
+  <ThemeProvider>
   <MusicProvider>
     <UserProvider>
-      <LanguageProvider>
       <React.StrictMode>
         <App />
       </React.StrictMode>
-      </LanguageProvider>
     </UserProvider>
   </MusicProvider>
+  </ThemeProvider>
 );

@@ -1,11 +1,12 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React from "react";
 import violet from "../../img/error_violet.svg";
 import green from "../../img/error_green.svg";
+import { useThemeCustom } from "../../theme/ThemeContext";
 
 const NotFound: React.FC = () => {
-  const theme = useTheme();
-  const imagePath = theme.palette.mode === "dark" ? violet : green;
+  const { darkMode } = useThemeCustom();
+  const imagePath = darkMode? violet : green;
   return (
     <Box>
       <Box
