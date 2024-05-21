@@ -18,6 +18,8 @@ import {
 } from "@mui/material";
 import { useLanguage } from "../LanguageContext";
 import { useUserData } from "./DataContext";
+import { routes } from "../Routes";
+
 
 export enum Mood {
   Happy = "Happy",
@@ -81,7 +83,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
 
     setUserData((prevData) => [...prevData, data]);
     reset();
-    navigate("/music");
+    navigate(routes.music);
   };
 
   return (
