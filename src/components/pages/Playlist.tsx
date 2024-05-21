@@ -22,6 +22,8 @@ export default function Playlist() {
       <Grid container spacing={3} justifyContent="center">
         <Grid
           item
+          xs={12}
+          md={4}
           sx={{
             border: "3px solid #ccc",
             borderRadius: 5,
@@ -43,6 +45,8 @@ export default function Playlist() {
         />
         <Grid
           item
+          xs={12}
+          md={5}
           sx={{
             border: "3px solid #ccc",
             borderRadius: 5,

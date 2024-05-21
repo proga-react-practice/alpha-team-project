@@ -113,19 +113,27 @@ export default function Songs() {
   };
 
   return (
-    <Box>
+    <Box sx={{ display: "flex", flexDirection: "column" }}>
       {songs.map((song, index) => (
         <StyledAccordion
           key={index}
-          sx={{ height: 80, width: "auto", boxShadow: "none", marginTop: 8 }}
+          sx={{ height: 80, width: "auto", boxShadow: "none" }}
           draggable
           onDragStart={(event) => handleDragStart(event, song)}
         >
           <AccordionSummary>
-            <Box sx={{ marginTop: 0.5, cursor: "pointer", marginRight: 3 }}>
+            <Box
+              sx={{
+                marginTop: 0.5,
+                cursor: "pointer",
+                marginRight: 3,
+                display: "flex",
+                flexDirection: "row",
+              }}
+            >
               <DeleteOutlineIcon
                 onClick={() => handleDeleteSong(song.id)}
-                sx={{ width: 50, height: 40, cursor: "pointer" }}
+                sx={{ width: 50, height: 40 }}
               />
               <FavoriteIcon
                 onClick={() => {
@@ -136,7 +144,6 @@ export default function Songs() {
                 sx={{
                   width: 50,
                   height: 40,
-
                   color: isFavorite(song.id) ? "#FF0000" : "rgb(191, 81, 81)",
                 }}
               />
