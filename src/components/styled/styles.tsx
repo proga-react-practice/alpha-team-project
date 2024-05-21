@@ -13,8 +13,6 @@ import { Link } from "react-router-dom";
 
 export const GlobalStyle = styled("div")({
   "@global": {
-    "@import":
-      "url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap')",
     body: {
       fontFamily: '"Montserrat", sans-serif',
       margin: 0,

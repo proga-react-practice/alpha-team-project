@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 import violet from "../../img/error_violet.svg";
 import green from "../../img/error_green.svg";
@@ -6,7 +6,9 @@ import { useThemeCustom } from "../../theme/ThemeContext";
 
 const NotFound: React.FC = () => {
   const { darkMode } = useThemeCustom();
-  const imagePath = darkMode? violet : green;
+  const theme = useTheme();
+  const imagePath = darkMode ? violet : green;
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <Box>
       <Box
@@ -16,28 +18,38 @@ const NotFound: React.FC = () => {
           alignItems: "center",
           height: "100vh",
           width: "100%",
-          flexDirection: "row",
+          flexDirection: isMobile ? "column" : "row",
         }}
       >
         <Box
           sx={{
-            width: 600,
-            height: 600,
+            width: isMobile ? "100%" : 600,
+            height: isMobile ? "auto" : 600,
             display: "flex",
             flexDirection: "column",
             marginRight: 0,
+            alignItems: isMobile ? "center" : "flex-start",
+            textAlign: isMobile ? "center" : "left",
           }}
         >
           <Typography
-            variant="h3"
-            sx={{ textTransform: "uppercase", fontSize: 100 }}
+            variant={isMobile ? "h4" : "h3"}
+            sx={{
+              textTransform: "uppercase",
+              fontSize: isMobile ? 50 : 100,
+              marginBottom: isMobile ? 2 : "inherit",
+            }}
             gutterBottom
           >
             404 - Not Found
           </Typography>
           <Typography
-            variant="h3"
-            sx={{ textTransform: "uppercase", fontSize: 80 }}
+            variant={isMobile ? "h4" : "h3"}
+            sx={{
+              textTransform: "uppercase",
+              fontSize: isMobile ? 30 : 80,
+              marginBottom: isMobile ? 2 : "inherit",
+            }}
             gutterBottom
           >
             The page you are looking for does not exist.
@@ -46,7 +58,11 @@ const NotFound: React.FC = () => {
         <img
           src={imagePath}
           alt="theme image"
-          style={{ width: 700, height: 700 }}
+          style={{
+            width: isMobile ? 400 : 700,
+            height: isMobile ? 400 : 700,
+            marginRight: isMobile ? 50 : 0,
+          }}
         />
       </Box>
     </Box>
