@@ -68,7 +68,7 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
       onSubmit(data);
     }
     setFormData((prevData) => [...prevData, data]);
-    navigate("/playlist");
+    navigate(routes.playlist);
   };
 
   const handleReset = () => {
