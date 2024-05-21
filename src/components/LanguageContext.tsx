@@ -22,7 +22,6 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
 
   const translations = language === 'en' ? enTranslations : uaTranslations;
 
-  console.log("Current language:", language);
 
   return (
     <LanguageContext.Provider value={{ language, translations, toggleLanguage }}>

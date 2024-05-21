@@ -66,7 +66,6 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
   const onSubmitHandler: SubmitHandler<FormData> = (data) => {
     if (onSubmit) {
       onSubmit(data);
-      console.log("Form data submitted:", data);
     }
     setFormData((prevData) => [...prevData, data]);
     navigate("/playlist");

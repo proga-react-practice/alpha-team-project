@@ -18,7 +18,6 @@ const CardsPage: React.FC = () => {
     }))
   );
 
-  console.log(cards);
   const [deletedCardIds, setDeletedCardIds] = useState<string[]>(() =>
     JSON.parse(localStorage.getItem("deletedCardIds") || "[]")
   );

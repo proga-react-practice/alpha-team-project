@@ -27,7 +27,7 @@ export default function Favorites() {
             justifyContent: "center",
             alignItems: "center",
             flexDirection: "column",
-            minHeight: "100vh",
+            minHeight: "100%",
             padding: "0 20px",
             marginTop: { xs: 12, md: 20 },
           }}

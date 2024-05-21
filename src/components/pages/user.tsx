@@ -76,7 +76,6 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
   const onFormSubmit: SubmitHandler<FormDataUser> = (data) => {
     if (onSubmit) {
       onSubmit(data);
-      console.log("User data submitted:", data);
       setId(new Date().getTime().toString());
     }
 
