@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "./Card";
 import { Box, Grid, IconButton, TextField } from "@mui/material";
 import { Reorder } from "framer-motion";
@@ -6,17 +6,30 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import SearchIcon from "@mui/icons-material/Search";
 import { useFormData, useUserData } from "./DataContext";
+import { FormDataUser } from "./user";
+import { FormData } from "./music";
+
+interface CardData {
+  id: string;
+  formData: FormData;
+  userData: FormDataUser;
+}
 
 const CardsPage: React.FC = () => {
   const { formData } = useFormData();
   const { userData } = useUserData();
-  const [cards, setCards] = useState(
-    formData.map((data, index) => ({
+
+  const [cards, setCards] = useState<CardData[]>(() => {
+    const savedCards = localStorage.getItem("cards");
+    if (savedCards) {
+      return JSON.parse(savedCards);
+    }
+    return formData.map((data, index) => ({
       id: data.id,
       formData: data,
       userData: userData[index],
-    }))
-  );
+    }));
+  });
 
   const [deletedCardIds, setDeletedCardIds] = useState<string[]>(() =>
     JSON.parse(localStorage.getItem("deletedCardIds") || "[]")
@@ -24,6 +37,31 @@ const CardsPage: React.FC = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("cards", JSON.stringify(cards));
+  }, [cards]);
+
+  useEffect(() => {
+    const newCards = formData.map((data, index) => ({
+      id: data.id,
+      formData: data,
+      userData: userData[index],
+    }));
+
+    setCards((prevCards) => {
+      const updatedCards = [...prevCards];
+      newCards.forEach((newCard) => {
+        if (
+          !prevCards.some((card) => card.id === newCard.id) &&
+          !deletedCardIds.includes(newCard.id)
+        ) {
+          updatedCards.push(newCard);
+        }
+      });
+      return updatedCards.filter((card) => !deletedCardIds.includes(card.id));
+    });
+  }, [formData, deletedCardIds, userData]);
 
   const handleDeleteCard = (cardId: string) => {
     setDeletedCardIds((prevDeletedCardIds) => {
@@ -85,7 +123,7 @@ const CardsPage: React.FC = () => {
         onReorder={(newCards) => {
           const updatedCards = [...cards];
           newCards.forEach((newCard, index) => {
-            updatedCards[currentIndex + index] = newCard;
+            updatedCards.splice(currentIndex + index, 1, newCard);
           });
           setCards(updatedCards);
         }}
@@ -95,7 +133,7 @@ const CardsPage: React.FC = () => {
         <Grid container spacing={2}>
           {filteredCardsBySearch
             .slice(currentIndex, currentIndex + 4)
-            .map((card) => (
+            .map((card: CardData) => (
               <Grid item key={card.id} xs={12} sm={6} md={4} lg={3}>
                 <Reorder.Item
                   value={card}
