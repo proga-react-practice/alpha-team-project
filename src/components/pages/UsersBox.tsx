@@ -28,6 +28,7 @@ export interface User {
   genres: Genre[];
   age: string;
   id: string;
+  icon?: string;
 }
 
 export default function UsersBox() {
@@ -47,6 +48,7 @@ export default function UsersBox() {
         genres: data.genres || [],
         age: data.age,
         id: data.id,
+        icon: data.icon,
       }));
     }
   });
@@ -65,6 +67,7 @@ export default function UsersBox() {
       genres: data.genres || [],
       age: data.age,
       id: data.id,
+      icon: data.icon,
     }));
 
     setUsers((prevUsers) => {
@@ -161,10 +164,23 @@ export default function UsersBox() {
             aria-controls="panel1-content"
             id="panel1-header"
           >
-            <AccountCircleIcon
-              onClick={() => handleModalOpen(index)}
-              sx={{ width: 60, height: 60, cursor: "pointer" }}
-            />
+            {user && user.icon ? (
+              <img
+                src={user.icon}
+                alt="User Icon"
+                onClick={() => handleModalOpen(index)}
+                style={{
+                  width: 70,
+                  height: 70,
+                  cursor: "pointer",
+                }}
+              />
+            ) : (
+              <AccountCircleIcon
+                onClick={() => handleModalOpen(index)}
+                sx={{ width: 60, height: 60, cursor: "pointer" }}
+              />
+            )}
             <DeleteOutlineIcon
               onClick={() => handleDeleteUser(user.id)}
               sx={{ width: 60, height: 60, cursor: "pointer" }}
@@ -194,6 +210,13 @@ export default function UsersBox() {
             isOpen={user.isModalOpen}
             onClose={() => handleModalClose(index)}
             userId={user.id}
+            updateUserData={(updatedUser) => {
+              setUsers((prevUsers) =>
+                prevUsers.map((prevUser) =>
+                  prevUser.id === updatedUser.id ? updatedUser : prevUser
+                )
+              );
+            }}
           />
         </StyledAccordion>
       ))}
