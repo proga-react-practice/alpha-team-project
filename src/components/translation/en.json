@@ -98,7 +98,8 @@
   "playlist": {
     "header": " Make your own Playlist",
     "songs": " Current songs added",
-    "users": " Current users added"
+    "users": " Current users added",
+    "iconPicker": " Select an Icon"
   },
   "userErrors": {
     "nameRequired": "Name is required",
