@@ -10,6 +10,7 @@ export const routes = {
   cards: "/cards",
   favorites: "/favorites",
   playlist: "/playlist",
+  contact: "/contact",
 };
 
 const Routes: React.FC<{ onClick: () => void }> = ({ onClick }) => {
@@ -23,7 +24,8 @@ const Routes: React.FC<{ onClick: () => void }> = ({ onClick }) => {
     { path: routes.music, label: translations.routes.musicform },
     { path: routes.cards, label: translations.routes.cards },
     { path: routes.favorites, label: translations.routes.favorites },
-    { path: routes.playlist, label: translations.routes.playlist }
+    { path: routes.playlist, label: translations.routes.playlist },
+    { path: routes.contact}
   ];
 
   return (
