@@ -1,6 +1,6 @@
 import { Box, Typography, Modal, IconButton, Tooltip, useTheme, useMediaQuery } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Timeline from "./Time";
+import Timeline from "./Timeline";
 import violet from "../../img/violet.svg";
 import green from "../../img/green.svg";
 import { useLanguage } from "../LanguageContext";
