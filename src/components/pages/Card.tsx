@@ -18,6 +18,9 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useLanguage } from "../LanguageContext";
 import { useThemeCustom } from "../../theme/ThemeContext";
+import Rating from "@mui/material/Rating";
+import Stack from "@mui/material/Stack";
+
 waveform.register();
 
 export interface FavoriteCard {
@@ -25,6 +28,8 @@ export interface FavoriteCard {
   name: string;
   artist: string;
   releasedOn: string;
+  
+
 }
 
 export interface Props {
@@ -67,6 +72,23 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedData, setEditedData] = useState<FormData>(data);
   const [editedUser, setEditedUser] = useState<FormDataUser>(dataUser);
+  const [rating, setRating] = useState(0);
+
+const handleRatingChange = (event: React.ChangeEvent<{}>, newRating: number | null) => {
+  if (newRating !== null) {
+    setRating(newRating);
+    saveRatingToLocalStorage(newRating); 
+  }
+};
+
+const saveRatingToLocalStorage = (newRating: number) => {
+  localStorage.setItem(`rating_${cardId}`, JSON.stringify(newRating));
+};
+
+useEffect(() => {
+  const savedRating = JSON.parse(localStorage.getItem(`rating_${cardId}`) || '0');
+  setRating(savedRating);
+}, [cardId]);
 
 
   const saveCardToLocalStorage = (data: FormData, userData: FormDataUser) => {
@@ -202,12 +224,13 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
       saveCardToLocalStorage(editedData, updatedUser);
     };
 
+
+
   const minDate = "1980-01-01";
   const maxDate = new Date().toISOString().split("T")[0];
   const minAge = "18";
 
   return (
-    
     <Box
       sx={{
         display: "flex",
@@ -248,7 +271,7 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
             )}
           </Box>
           <Typography variant="h4" gutterBottom>
-          {translations.Card.songLabel}
+            {translations.Card.songLabel}
           </Typography>
           {isEditMode ? (
             <TextField
@@ -263,7 +286,7 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
           )}
 
           <Typography variant="h4" gutterBottom>
-          {translations.Card.cardGenreLabel}
+            {translations.Card.cardGenreLabel}
           </Typography>
           {isEditMode ? (
             <Select
@@ -284,7 +307,7 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
             </Typography>
           )}
           <Typography variant="h4" gutterBottom>
-          {translations.Card.cardArtistLabel}
+            {translations.Card.cardArtistLabel}
           </Typography>
           {isEditMode ? (
             <TextField
@@ -298,7 +321,7 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
             </Typography>
           )}
           <Typography variant="h4" gutterBottom>
-          {translations.Card.cardDateLabel}
+            {translations.Card.cardDateLabel}
           </Typography>
           {isEditMode ? (
             <TextField
@@ -317,6 +340,12 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
               {editedData.releasedOn}
             </Typography>
           )}
+
+
+<Stack spacing={1}>
+  <Rating name="size-medium" value={rating} onChange={handleRatingChange} />
+</Stack>
+
           <StyledDivider>
             <Typography variant="h6">{editedUser?.name}</Typography>
           </StyledDivider>
@@ -352,7 +381,7 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
             )}
           </Box>
           <Typography variant="h4" gutterBottom>
-          {translations.Card.cardUserLabel}
+            {translations.Card.cardUserLabel}
           </Typography>
           {isEditMode ? (
             <TextField
@@ -366,7 +395,7 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
             </Typography>
           )}
           <Typography variant="h4" gutterBottom>
-          {translations.Card.cardAgeLabel}
+            {translations.Card.cardAgeLabel}
           </Typography>
           {isEditMode ? (
             <TextField
@@ -384,14 +413,14 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
             </Typography>
           )}
           <Typography variant="h4" gutterBottom>
-          {translations.Card.cardMoodLabel}
+            {translations.Card.cardMoodLabel}
           </Typography>
           {isEditMode ? (
             <Select
               sx={{ width: 220 }}
               value={editedUser.mood}
               onChange={handleUserSelectChange("mood")}
-              label="Genre"
+              label="Mood"
             >
               {Object.values(Mood).map((mood) => (
                 <MenuItem key={mood} value={mood}>
@@ -405,7 +434,7 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
             </Typography>
           )}
           <Typography variant="h4" gutterBottom>
-          {translations.Card.cardPrGenreLabel}
+            {translations.Card.cardPrGenreLabel}
           </Typography>
           {isEditMode ? (
             <Select
