@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Card from "./Card";
-import { Box, Grid, IconButton, TextField } from "@mui/material";
+import { Box, Grid, IconButton, TextField, Select, MenuItem, InputAdornment, SelectChangeEvent } from "@mui/material";
 import { Reorder } from "framer-motion";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -14,6 +14,12 @@ interface CardData {
   formData: FormData;
   userData: FormDataUser;
 }
+
+const searchOptions = [
+  { label: 'Name', value: 'name' },
+  { label: 'Genre', value: 'genre' },
+  { label: 'Artist', value: 'artist' },
+];
 
 const CardsPage: React.FC = () => {
   const { formData } = useFormData();
@@ -37,6 +43,7 @@ const CardsPage: React.FC = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchCriteria, setSearchCriteria] = useState(searchOptions[0].value);
 
   useEffect(() => {
     localStorage.setItem("cards", JSON.stringify(cards));
@@ -87,36 +94,63 @@ const CardsPage: React.FC = () => {
     setSearchQuery(event.target.value);
   };
 
-  const filteredCardsBySearch = filteredCards.filter((card) =>
-    card.formData.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const handleCriteriaChange = (event: SelectChangeEvent) => {
+    setSearchCriteria(event.target.value as string);
+  };
+
+  const filteredCardsBySearch = filteredCards.filter((card) => {
+    const searchValue = searchQuery.toLowerCase();
+    if (searchCriteria === "name") {
+      return card.formData.name.toLowerCase().includes(searchValue);
+    } else if (searchCriteria === "genre") {
+      return card.formData.genre.toLowerCase().includes(searchValue);
+    } else if (searchCriteria === "artist") {
+      return card.formData.artist.toLowerCase().includes(searchValue);
+    }
+    return false;
+  });
 
   return (
     <div style={{ position: "relative" }}>
-      <TextField
-        label="Search"
-        variant="outlined"
-        value={searchQuery}
-        onChange={handleSearchChange}
-        InputProps={{
-          endAdornment: (
-            <IconButton>
-              <SearchIcon />
-            </IconButton>
-          ),
-        }}
+      <Box
         sx={{
-          textTransform: "lowercase",
+          display: "flex",
+          alignItems: "center",
           width: "40%",
-          borderRadius: "50px",
           margin: "10px auto -55px",
-        }}
-        style={{
           position: "fixed",
           top: "90px",
           left: "30%",
         }}
-      />
+      >
+        <Select
+          value={searchCriteria}
+          onChange={handleCriteriaChange}
+          sx={{ minWidth: 120, marginRight: 2 }}
+        >
+          {searchOptions.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </Select>
+        <TextField
+          label="Search"
+          variant="outlined"
+          value={searchQuery}
+          onChange={handleSearchChange}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+          sx={{
+            flexGrow: 1,
+          }}
+        />
+      </Box>
 
       <Reorder.Group
         values={filteredCardsBySearch.slice(currentIndex, currentIndex + 4)}
