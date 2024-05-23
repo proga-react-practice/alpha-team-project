@@ -35,7 +35,9 @@
     "timeline4": "Highlight Your Favorites",
     "description4": "Select your top tracks and add them to your Favorites page for easy access and listening.",
      "alert1" : "To add card: fill out two forms in order.",
-     "alert2" : "To add user or song to playlist : fill out the forms depending on your needs."
+     "alert2" : "To add user or song to playlist : fill out the forms depending on your needs.",
+    "alerticon":"Alert",
+    "emailicon":"Contact Form"
   },
   "favorites": {
     "title": "Mark some Cards To create your own Playlist"
@@ -134,5 +136,23 @@
       "min": "Enter a date after 1980",
       "max": "Enter a date before today"
     }
+}, 
+"Contact":{
+  "header": "Contact Us",
+  "name":{
+    "NameLabel": "Name",
+    "required": "Name is required",
+    "minLength": "Name should be at least 2 characters long"
+  },
+  "email":{
+    "EmailLabel": "Email",
+    "required": "Email is required",
+    "Email": "Invalid email address"
+  },
+  "message":{
+    "MessageLabel": "Message",
+    "required": "Message is required",
+    "minLength": "Message should be at least 10 characters long"
+  }
 }
 }
