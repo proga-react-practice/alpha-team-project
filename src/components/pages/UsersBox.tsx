@@ -1,9 +1,8 @@
-import { Box, Divider, List, ListItem, Typography } from "@mui/material";
+import { Accordion, Box, Divider, List, ListItem, Typography } from "@mui/material";
 import { useUserData } from "./DataContext";
 import { useEffect, useState } from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ModalUser from "./ModalUser";
-import { StyledAccordion } from "../styled/styles";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -152,7 +151,7 @@ export default function UsersBox() {
   return (
     <Box>
       {users.map((user, index) => (
-        <StyledAccordion
+        <Accordion
           key={index}
           sx={{ height: "auto", boxShadow: "none", textAlign: "center" }}
           onDrop={(event) => handleDrop(event, index)}
@@ -218,7 +217,7 @@ export default function UsersBox() {
               );
             }}
           />
-        </StyledAccordion>
+        </Accordion>
       ))}
     </Box>
   );

@@ -11,10 +11,10 @@ import {
   Box,
   FormLabel,
   FormHelperText,
+  Button,
 } from "@mui/material";
 import {
   FormContainer,
-  CustomButton,
   LeftGreenBackground,
 } from "../styled/styles";
 import { useNavigate } from "react-router-dom";
@@ -117,7 +117,7 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
                 value.charAt(0) === value.charAt(0).toUpperCase() ||
                 translations.musicErrors.name.validate,
             })}
-            variant="outlined"
+
             margin="normal"
             fullWidth
             sx={{ marginBottom: 1.5 }}
@@ -181,7 +181,6 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
                   value.charAt(0) === value.charAt(0).toUpperCase() ||
                   translations.musicErrors.artist.validate,
               })}
-              variant="outlined"
               margin="normal"
               fullWidth
               error={!!errors.artist}
@@ -205,7 +204,6 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
                 min: { value: minDate, message: translations.musicErrors.releasedOn.min },
                 max: { value: today, message: translations.musicErrors.releasedOn.max},
               })}
-              variant="outlined"
               InputLabelProps={{
                 shrink: true,
               }}
@@ -220,12 +218,12 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
             />
           </FormControl>
 
-          <CustomButton type="submit" variant="contained">
+          <Button type="submit">
             {translations.form.submitButton}
-          </CustomButton>
-          <CustomButton type="button" onClick={handleReset} variant="contained">
+          </Button>
+          <Button type="button" onClick={handleReset}>
             {translations.form.clearButton}
-          </CustomButton>
+          </Button>
         </form>
       </FormContainer>
     </Box>

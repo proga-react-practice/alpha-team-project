@@ -2,12 +2,9 @@
 import {
   styled,
   Box,
-  Button,
-  Select,
   AppBar,
   Divider,
   Modal,
-  Accordion,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -26,7 +23,7 @@ export const GlobalStyle = styled("div")({
 export const FormContainer = styled(Box)(({ theme }) => ({
   width: "100%",
   maxWidth: 400,
-  padding: 50, //changed
+  padding: 50, 
   border: "1px solid #ccc",
   borderRadius: 10,
   backgroundColor: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
@@ -35,7 +32,7 @@ export const FormContainer = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
-  marginTop: 200, //changed
+  marginTop: 200, 
   position: "absolute",
   right: "calc(40% - 300px)",
   transition: "all 0.3s ease",
@@ -64,25 +61,6 @@ export const LeftGreenBackground = styled(Box)(({ theme }) => ({
   "@media (max-width: 600px)": {
     display: "none",
   },
-}));
-
-export const CustomButton = styled(Button)(({ theme }) => ({
-  width: 150,
-  height: 35,
-  margin: "0.5em",
-  color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
-  backgroundColor: theme.palette.mode === "dark" ? "#646bf3" : "#6ee6ba",
-  border: "none",
-  borderRadius: 5,
-  fontSize: 15,
-  cursor: "pointer",
-  position: "relative",
-  zIndex: 1,
-  overflow: "hidden",
-}));
-
-export const StyledSelect = styled(Select)(({ theme }) => ({
-  color: theme.palette.mode === "dark" ? "#646bf3" : "#6ee6ba",
 }));
 
 export const StyledAppBar = styled(AppBar)(({ theme }) => ({
@@ -170,25 +148,6 @@ export const StyledModal = styled(Modal)(() => ({
   backdropFilter: "blur(10px)",
 }));
 
-export const StyledAccordion = styled(Accordion)(() => ({
-  backgroundColor: "transparent",
-  backgroundImage: "none",
-  width: 400,
-  height: 100,
-  display: "flex",
-  flexDirection: "column",
-  textAlign: "center",
-  textTransform: "uppercase",
-  margin: 50,
-  borderBottom: 0,
-  boxShadow: "none",
-  "&:last-child": {
-    borderBottom: 0,
-  },
-  "&:before": {
-    display: "none",
-  },
-}));
 
 export const StyledIconBox = styled(Box)(({ theme }) => ({
   position: "absolute",

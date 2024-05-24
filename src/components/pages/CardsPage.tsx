@@ -136,7 +136,6 @@ const CardsPage: React.FC = () => {
         </Select>
         <TextField
           label="Search"
-          variant="outlined"
           value={searchQuery}
           onChange={handleSearchChange}
           InputProps={{

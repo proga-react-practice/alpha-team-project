@@ -88,7 +88,6 @@ const ContactForm: React.FC = () => {
                 <TextField
                   {...field}
                   label={translations.Contact.name.NameLabel}
-                  variant="outlined"
                   fullWidth
                   error={!!errors.name}
                   helperText={errors.name ? errors.name.message : ""}
@@ -117,7 +116,6 @@ const ContactForm: React.FC = () => {
                 <TextField
                   {...field}
                   label={translations.Contact.email.EmailLabel} 
-                  variant="outlined"
                   fullWidth
                   error={!!errors.email}
                   helperText={errors.email ? errors.email.message : ""}
@@ -146,7 +144,6 @@ const ContactForm: React.FC = () => {
                 <TextField
                   {...field}
                   label={translations.Contact.message.MessageLabel}
-                  variant="outlined"
                   multiline
                   rows={4}
                   fullWidth
@@ -161,7 +158,7 @@ const ContactForm: React.FC = () => {
               )}
             />
           </Box>
-          <Button type="submit" variant="contained" color="primary">
+          <Button type="submit" color="primary">
             {translations.form.submitButton}
           </Button>
           <Typography 

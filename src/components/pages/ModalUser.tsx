@@ -1,4 +1,4 @@
-import { Box, Typography, Modal } from "@mui/material";
+import { Box, Typography, Modal, Button } from "@mui/material";
 import icon1 from "../../img/icon1female.png";
 import icon2 from "../../img/icon2female.png";
 import icon3 from "../../img/icon3female.png";
@@ -10,7 +10,7 @@ import icon8 from "../../img/sea-lion.png";
 import icon9 from "../../img/icon3man.png";
 import userWhite from "../../img/userWhite.png";
 import userBlack from "../../img/userBlack.png";
-import { CustomButton, StyledIconBox, StyledModal } from "../styled/styles";
+import { StyledIconBox, StyledModal } from "../styled/styles";
 import { useLanguage } from "../LanguageContext";
 import { useEffect, useState } from "react";
 import { User } from "./UsersBox";
@@ -124,9 +124,9 @@ export default function ModalUser({
                   .join(", ")
               : "No genres available"}
           </Typography>
-          <CustomButton sx={{ marginTop: 4 }} onClick={onClose}>
+          <Button sx={{ marginTop: 4 }} onClick={onClose}>
             Close
-          </CustomButton>
+          </Button>
         </Box>
 
         <Modal open={isIconModalOpen} onClose={() => setIsIconModalOpen(false)}>
@@ -161,7 +161,7 @@ export default function ModalUser({
                 />
               ))}
             </Box>
-            <CustomButton onClick={handleSaveIcon}>Save</CustomButton>
+            <Button onClick={handleSaveIcon}>Save</Button>
           </StyledIconBox>
         </Modal>
       </Box>

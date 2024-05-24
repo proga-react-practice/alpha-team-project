@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useFormData } from "./DataContext";
-import { Box, Typography } from "@mui/material";
-import { StyledAccordion } from "../styled/styles";
+import { Accordion, Box, Typography } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { FavoriteCard } from "./Card";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -115,7 +114,7 @@ export default function Songs() {
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
       {songs.map((song, index) => (
-        <StyledAccordion
+        <Accordion
           key={index}
           sx={{ height: 80, width: "auto", boxShadow: "none" }}
           draggable
@@ -152,7 +151,7 @@ export default function Songs() {
               {song.songName} - {song.artist}
             </Typography>
           </AccordionSummary>
-        </StyledAccordion>
+        </Accordion>
       ))}
     </Box>
   );

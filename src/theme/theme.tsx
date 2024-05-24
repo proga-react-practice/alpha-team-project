@@ -23,6 +23,58 @@ export const createCustomTheme = (darkMode: boolean) => {
           gutterBottom: true
         },
       },
+      MuiButton: {
+        defaultProps: {
+          variant: "contained",
+        },
+        styleOverrides: {
+          root: {
+            width: 150,
+            height: 35,
+            margin: "0.5em",
+            color: darkMode ? "#000000" : "#ffffff",
+            backgroundColor: darkMode ? "#646bf3" : "#6ee6ba",
+            border: "none",
+            borderRadius: 5,
+            fontSize: 15,
+            cursor: "pointer",
+            position: "relative",
+            zIndex: 1,
+            overflow: "hidden",
+            '&:hover': {
+              backgroundColor: darkMode ? "#575ed1" : "#5ed5a5",
+            },
+          },
+        },
+      },
+      MuiAccordion:{
+        styleOverrides:{
+          root:{
+            backgroundColor: "transparent",
+            backgroundImage: "none",
+            width: 400,
+            height: 100,
+            display: "flex",
+            flexDirection: "column",
+            textAlign: "center",
+            textTransform: "uppercase",
+            margin: 50,
+            borderBottom: 0,
+            boxShadow: "none",
+            "&:last-child": {
+              borderBottom: 0,
+            },
+            "&:before": {
+              display: "none",
+            },
+          }
+        }
+      },
+      MuiTextField:{
+        defaultProps:{
+          variant: "outlined",
+        },
+      }
     },
   });
 };

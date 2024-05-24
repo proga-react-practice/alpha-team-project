@@ -268,7 +268,6 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
           <Typography variant="h4">{translations.Card.songLabel}</Typography>
           {isEditMode ? (
             <TextField
-              autoFocus
               value={editedData.name}
               onChange={handleFieldChange("name")}
             />
@@ -300,7 +299,6 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
           </Typography>
           {isEditMode ? (
             <TextField
-              autoFocus
               value={editedData.artist}
               onChange={handleFieldChange("artist")}
             />
@@ -313,7 +311,6 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
           {isEditMode ? (
             <TextField
               type="date"
-              autoFocus
               value={editedData.releasedOn}
               onChange={handleFieldChange("releasedOn")}
               sx={{ width: 220 }}
@@ -373,7 +370,6 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
           </Typography>
           {isEditMode ? (
             <TextField
-              autoFocus
               value={editedUser.name}
               onChange={handleUserFieldChange("name")}
             />
@@ -383,7 +379,6 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
           <Typography variant="h4">{translations.Card.cardAgeLabel}</Typography>
           {isEditMode ? (
             <TextField
-              autoFocus
               type="number"
               value={editedUser.age}
               onChange={handleUserFieldChange("age")}

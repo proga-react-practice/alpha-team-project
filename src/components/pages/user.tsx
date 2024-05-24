@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import {
-  CustomButton,
   FormContainer,
   LeftGreenBackground,
 } from "../styled/styles";
@@ -15,6 +14,7 @@ import {
   FormControl,
   InputLabel,
   Box,
+  Button,
 } from "@mui/material";
 import { useLanguage } from "../LanguageContext";
 import { useUserData } from "./DataContext";
@@ -129,7 +129,6 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                 <TextField
                   {...field}
                   label={translations.form.nameLabel}
-                  variant="outlined"
                   fullWidth
                   error={!!errors.name}
                   helperText={errors.name ? errors.name.message : ""}
@@ -170,7 +169,6 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                   {...field}
                   label={translations.form.ageLabel}
                   type="number"
-                  variant="outlined"
                   fullWidth
                   error={!!errors.age}
                   helperText={errors.age ? errors.age.message : ""}
@@ -261,16 +259,15 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               )}
             />
           </FormControl>
-          <CustomButton type="submit" variant="contained">
+          <Button type="submit">
             {translations.form.nextButton}
-          </CustomButton>
-          <CustomButton
+          </Button>
+          <Button
             type="button"
             onClick={() => reset()}
-            variant="contained"
           >
             {translations.form.clearButton}
-          </CustomButton>
+          </Button>
         </form>
       </FormContainer>
     </Box>
