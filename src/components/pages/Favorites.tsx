@@ -5,8 +5,10 @@ import { FavBox } from "../styled/styles";
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { FavoriteCard } from "./Card";
+import { useLanguage } from "../LanguageContext";
 
 export default function Favorites() {
+  const { translations } = useLanguage();
   const [favoriteFormDataList, setFavoriteFormDataList] = useState<
     FavoriteCard[]
   >([]);
@@ -39,7 +41,7 @@ export default function Favorites() {
               textAlign: "center",
             }}
           >
-            Mark some Cards To create your own Playlist
+            {translations.favorites.title}
           </Typography>
 
           <FavBox
