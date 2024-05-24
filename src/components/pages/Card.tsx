@@ -67,7 +67,7 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
   const [rating, setRating] = useState(0);
 
   const handleRatingChange = (
-    event: React.ChangeEvent<{}>,
+    _event: React.ChangeEvent<{}>, 
     newRating: number | null
   ) => {
     if (newRating !== null) {
