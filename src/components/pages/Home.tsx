@@ -1,6 +1,6 @@
 import { Box, Typography, Modal, IconButton, Tooltip, useTheme, useMediaQuery } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Timeline from "./Timeline";
+import Timeline from "./Time";
 import violet from "../../img/violet.svg";
 import green from "../../img/green.svg";
 import { useLanguage } from "../LanguageContext";
@@ -10,6 +10,7 @@ import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import { useThemeCustom } from "../../theme/ThemeContext";
 import { useState } from "react";
 import { routes } from "../Routes";
+import { useSpring, useTrail, animated, config } from "react-spring";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -27,6 +28,34 @@ export default function Home() {
     navigate(routes.contact);
   };
 
+  const titleProps = useSpring({
+    from: { opacity: 0, transform: "translateY(-50%)" },
+    to: { opacity: 1, transform: "translateX(0)" },
+    delay: 800,
+    config: config.gentle,
+  });
+
+  const descriptionProps = useSpring({
+    from: { opacity: 0, transform: "translateY(50%)" },
+    to: { opacity: 1, transform: "translateX(0)" },
+    delay: 900,
+    config: config.gentle,
+  });
+
+  const imageProps = useSpring({
+    from: { opacity: 0, transform: "scale(0.8)" },
+    to: { opacity: 1, transform: "scale(1)" },
+    delay: 1000,
+    config: config.gentle,
+  });
+
+  const iconTrail = useTrail(2, {
+    from: { opacity: 0, transform: "scale(0.5) rotate(0deg)" },
+    to: { opacity: 1, transform: "scale(1) rotate(360deg)" },
+    delay: 1100,
+    config: config.gentle,
+  });
+
   return (
     <Box
       sx={{
@@ -37,10 +66,14 @@ export default function Home() {
       }}
     >
       <Box sx={{ textAlign: "center", width: "80%", marginTop: 12 }}>
-        <Typography variant="h4" sx={{ textTransform: "uppercase" }}>
-          {translations.home.title}
-        </Typography>
-        <Typography variant="body1">{translations.home.description}</Typography>
+        <animated.div style={titleProps}>
+          <Typography variant="h4" sx={{ textTransform: "uppercase" }}>
+            {translations.home.title}
+          </Typography>
+        </animated.div>
+        <animated.div style={descriptionProps}>
+          <Typography variant="body1">{translations.home.description}</Typography>
+        </animated.div>
       </Box>
 
       <Box
@@ -73,7 +106,7 @@ export default function Home() {
             width: isMobile ? "80%" : "60%",
           }}
         >
-          <img
+          <animated.img
             src={imagePath}
             alt="theme image"
             style={{
@@ -82,6 +115,7 @@ export default function Home() {
               width: "100%",
               height: "auto",
               maxHeight: "50%",
+              ...imageProps,
             }}
           />
         </Box>
@@ -120,52 +154,56 @@ export default function Home() {
 
       <Box sx={{ display: "flex", alignItems: "center", marginTop: 2 }}>
         <Tooltip title={translations.home.alerticon} arrow>
-          <IconButton
-            onClick={handleOpen}
-            sx={{
-              animation: 'pulse 1.5s infinite',
-              '@keyframes pulse': {
-                '0%': {
-                  transform: 'scale(1)',
-                  color: theme.palette.text.primary,
+          <animated.div style={iconTrail[0]}>
+            <IconButton
+              onClick={handleOpen}
+              sx={{
+                animation: 'pulse 1.5s infinite',
+                '@keyframes pulse': {
+                  '0%': {
+                    transform: 'scale(1)',
+                    color: theme.palette.text.primary,
+                  },
+                  '50%': {
+                    transform: 'scale(1.2)',
+                    color: theme.palette.primary.main,
+                  },
+                  '100%': {
+                    transform: 'scale(1)',
+                    color: theme.palette.text.primary,
+                  },
                 },
-                '50%': {
-                  transform: 'scale(1.2)',
-                  color: theme.palette.primary.main,
-                },
-                '100%': {
-                  transform: 'scale(1)',
-                  color: theme.palette.text.primary,
-                },
-              },
-            }}
-          >
-            <ErrorOutlineIcon sx={{ width: 30, height: 30 }} />
-          </IconButton>
+              }}
+            >
+              <ErrorOutlineIcon sx={{ width: 30, height: 30 }} />
+            </IconButton>
+          </animated.div>
         </Tooltip>
         <Tooltip title={translations.home.emailicon} arrow>
-          <IconButton
-            onClick={redirectToContactForm}
-            sx={{
-              animation: 'pulse 1.5s infinite',
-              '@keyframes pulse': {
-                '0%': {
-                  transform: 'scale(1)',
-                  color: theme.palette.text.primary,
+          <animated.div style={iconTrail[1]}>
+            <IconButton
+              onClick={redirectToContactForm}
+              sx={{
+                animation: 'pulse 1.5s infinite',
+                '@keyframes pulse': {
+                  '0%': {
+                    transform: 'scale(1)',
+                    color: theme.palette.text.primary,
+                  },
+                  '50%': {
+                    transform: 'scale(1.2)',
+                    color: theme.palette.secondary.main,
+                  },
+                  '100%': {
+                    transform: 'scale(1)',
+                    color: theme.palette.text.primary,
+                  },
                 },
-                '50%': {
-                  transform: 'scale(1.2)',
-                  color: theme.palette.secondary.main,
-                },
-                '100%': {
-                  transform: 'scale(1)',
-                  color: theme.palette.text.primary,
-                },
-              },
-            }}
-          >
-            <MailOutlineIcon sx={{ width: 30, height: 30 }} />
-          </IconButton>
+              }}
+            >
+              <MailOutlineIcon sx={{ width: 30, height: 30 }} />
+            </IconButton>
+          </animated.div>
         </Tooltip>
       </Box>
     </Box>
