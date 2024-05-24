@@ -178,17 +178,17 @@ const ContactForm: React.FC = () => {
           </Typography>
         </form>
       </Box>
-      <div
-        style={{
+      <Box
+        sx={{
           borderLeft: `2px solid ${darkMode ? "#ffffff" : "#000000"}`,
           height: "400px",
           marginTop: "20%",
         }}
       />
-      <img
+      <Box component="img"
         src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa2dpc3FqYjJzdmZjMjA3NXl5YWg0emIxdjJoZGU2N2NmYnJpcjBrNyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/e57rLyk3DYvwAxJ5W5/giphy.gif"
         alt="GIF"
-        style={{
+        sx={{
           width: "35%",
           height: "35%",
           marginTop: "18%",
