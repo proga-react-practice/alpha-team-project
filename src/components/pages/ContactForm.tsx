@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useThemeCustom } from "../../theme/ThemeContext";
 import { useLanguage } from "../LanguageContext";
 import emailjs from 'emailjs-com';
+import { emailRegex } from "../RegexUtil";
 
 interface FormData {
   name: string;
@@ -15,6 +16,7 @@ const ContactForm: React.FC = () => {
   const { translations } = useLanguage();
   const { handleSubmit, control, reset, formState: { errors }, trigger } = useForm<FormData>();
   const { darkMode } = useThemeCustom();
+  const [isEmailSent, setIsEmailSent] = useState(false);
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     const formData: Record<string, unknown> = {
@@ -29,10 +31,22 @@ const ContactForm: React.FC = () => {
       formData,
       'c_brlNASItcnI_Ar8' 
     ).then((response) => {
-      console.log('SUCCESS!', response.status, response.text);
       reset();
+      setIsEmailSent(true);
+      setTimeout(() => {
+        setIsEmailSent(false);
+      }, 3000); 
     }).catch((err) => {
       console.error('FAILED...', err);
+      if (err.response) {
+        console.error('Response data:', err.response.data);
+        console.error('Response status:', err.response.status);
+        console.error('Response headers:', err.response.headers);
+      } else if (err.request) {
+        console.error('Request:', err.request);
+      } else {
+        console.error('Error:', err.message);
+      }
     });
   };
 
@@ -55,7 +69,7 @@ const ContactForm: React.FC = () => {
         }}
       >
         <Typography variant="h4" gutterBottom>
-        {translations.Contact.header}
+          {translations.Contact.header}
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box sx={{ marginBottom: 2 }}>
@@ -73,7 +87,7 @@ const ContactForm: React.FC = () => {
               render={({ field }) => (
                 <TextField
                   {...field}
-                  label= {translations.Contact.name.NameLabel}
+                  label={translations.Contact.name.NameLabel}
                   variant="outlined"
                   fullWidth
                   error={!!errors.name}
@@ -95,7 +109,7 @@ const ContactForm: React.FC = () => {
               rules={{
                 required: translations.Contact.email.required,
                 pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                  value: emailRegex, 
                   message: translations.Contact.email.Email,
                 },
               }}
@@ -131,7 +145,7 @@ const ContactForm: React.FC = () => {
               render={({ field }) => (
                 <TextField
                   {...field}
-                  label= {translations.Contact.message.MessageLabel}
+                  label={translations.Contact.message.MessageLabel}
                   variant="outlined"
                   multiline
                   rows={4}
@@ -148,8 +162,20 @@ const ContactForm: React.FC = () => {
             />
           </Box>
           <Button type="submit" variant="contained" color="primary">
-          {translations.form.submitButton}
+            {translations.form.submitButton}
           </Button>
+          <Typography 
+            variant="body1" 
+            sx={{
+              marginTop: 2, 
+              color: "green",
+              opacity: isEmailSent ? 1 : 0,
+              transition: "opacity 0.5s ease-in-out",
+              animation: `${isEmailSent ? 'fadeIn' : ''} 0.5s`,
+            }}
+          >
+            {translations.Contact.emailSentMessage}
+          </Typography>
         </form>
       </Box>
       <div
