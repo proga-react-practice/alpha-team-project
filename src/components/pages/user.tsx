@@ -97,7 +97,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
       </LeftGreenBackground>
       <FormContainer>
         <form onSubmit={handleSubmit(onFormSubmit)}>
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h4">
             {translations.form.usertitle}
           </Typography>
           <Box sx={{ marginBottom: 1.5 }}>

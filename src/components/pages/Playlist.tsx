@@ -15,7 +15,6 @@ export default function Playlist() {
           marginTop: 15,
           marginBottom: 6,
         }}
-        gutterBottom
       >
         {translations.playlist.header}
       </Typography>

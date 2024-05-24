@@ -1,4 +1,3 @@
-// theme.tsx
 import { createTheme } from "@mui/material/styles";
 
 export const createCustomTheme = (darkMode: boolean) => {
@@ -16,6 +15,13 @@ export const createCustomTheme = (darkMode: boolean) => {
       },
       text: {
         primary: darkMode ? "#646bf3" : "#333333",
+      },
+    },
+    components: {
+      MuiTypography: {
+        defaultProps: {
+          gutterBottom: true
+        },
       },
     },
   });

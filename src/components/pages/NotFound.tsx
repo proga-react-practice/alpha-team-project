@@ -39,7 +39,6 @@ const NotFound: React.FC = () => {
               fontSize: isMobile ? 50 : 100,
               marginBottom: isMobile ? 2 : "inherit",
             }}
-            gutterBottom
           >
             404 - Not Found
           </Typography>
@@ -50,7 +49,6 @@ const NotFound: React.FC = () => {
               fontSize: isMobile ? 30 : 80,
               marginBottom: isMobile ? 2 : "inherit",
             }}
-            gutterBottom
           >
             The page you are looking for does not exist.
           </Typography>

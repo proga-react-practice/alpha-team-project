@@ -97,7 +97,7 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
 
       <FormContainer>
         <form onSubmit={handleSubmit(onSubmitHandler)}>
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h4">
             {translations.form.musictitle}
           </Typography>
 

@@ -1,11 +1,5 @@
 import { FormData } from "./music";
-import {
-  Typography,
-  Box,
-  TextField,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { Typography, Box, TextField, MenuItem, Select } from "@mui/material";
 import { FormDataUser } from "./user";
 import { CardBox, StyledDivider } from "../styled/styles";
 import { waveform } from "ldrs";
@@ -28,8 +22,6 @@ export interface FavoriteCard {
   name: string;
   artist: string;
   releasedOn: string;
-  
-
 }
 
 export interface Props {
@@ -65,7 +57,7 @@ enum Mood {
 
 export default function Card({ data, dataUser, onDelete, cardId }: Props) {
   const { translations } = useLanguage();
-  const { darkMode } = useThemeCustom(); 
+  const { darkMode } = useThemeCustom();
   const colorAnimation = darkMode ? "#ffffff" : "#000000";
   const [isFlipped, setIsFlipped] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -74,22 +66,26 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
   const [editedUser, setEditedUser] = useState<FormDataUser>(dataUser);
   const [rating, setRating] = useState(0);
 
-const handleRatingChange = (event: React.ChangeEvent<{}>, newRating: number | null) => {
-  if (newRating !== null) {
-    setRating(newRating);
-    saveRatingToLocalStorage(newRating); 
-  }
-};
+  const handleRatingChange = (
+    event: React.ChangeEvent<{}>,
+    newRating: number | null
+  ) => {
+    if (newRating !== null) {
+      setRating(newRating);
+      saveRatingToLocalStorage(newRating);
+    }
+  };
 
-const saveRatingToLocalStorage = (newRating: number) => {
-  localStorage.setItem(`rating_${cardId}`, JSON.stringify(newRating));
-};
+  const saveRatingToLocalStorage = (newRating: number) => {
+    localStorage.setItem(`rating_${cardId}`, JSON.stringify(newRating));
+  };
 
-useEffect(() => {
-  const savedRating = JSON.parse(localStorage.getItem(`rating_${cardId}`) || '0');
-  setRating(savedRating);
-}, [cardId]);
-
+  useEffect(() => {
+    const savedRating = JSON.parse(
+      localStorage.getItem(`rating_${cardId}`) || "0"
+    );
+    setRating(savedRating);
+  }, [cardId]);
 
   const saveCardToLocalStorage = (data: FormData, userData: FormDataUser) => {
     localStorage.setItem(`editedData_${cardId}`, JSON.stringify(data));
@@ -180,7 +176,8 @@ useEffect(() => {
     };
 
   const handleSelectChange =
-  (field: keyof FormData) => (event: SelectChangeEvent<string | undefined>)=> {
+    (field: keyof FormData) =>
+    (event: SelectChangeEvent<string | undefined>) => {
       const updatedData = {
         ...editedData,
         [field]: event.target.value || undefined,
@@ -224,8 +221,6 @@ useEffect(() => {
       saveCardToLocalStorage(editedData, updatedUser);
     };
 
-
-
   const minDate = "1980-01-01";
   const maxDate = new Date().toISOString().split("T")[0];
   const minAge = "18";
@@ -240,7 +235,7 @@ useEffect(() => {
         width: "100%",
         marginTop: 30,
       }}
-    > 
+    >
       <CardBox style={{ transform: isFlipped ? "rotateY(180deg)" : "none" }}>
         <Box
           sx={{
@@ -270,9 +265,7 @@ useEffect(() => {
               ></l-waveform>
             )}
           </Box>
-          <Typography variant="h4" gutterBottom>
-            {translations.Card.songLabel}
-          </Typography>
+          <Typography variant="h4">{translations.Card.songLabel}</Typography>
           {isEditMode ? (
             <TextField
               autoFocus
@@ -280,12 +273,10 @@ useEffect(() => {
               onChange={handleFieldChange("name")}
             />
           ) : (
-            <Typography variant="h6" gutterBottom>
-              {editedData.name}
-            </Typography>
+            <Typography variant="h6">{editedData.name}</Typography>
           )}
 
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h4">
             {translations.Card.cardGenreLabel}
           </Typography>
           {isEditMode ? (
@@ -302,11 +293,9 @@ useEffect(() => {
               ))}
             </Select>
           ) : (
-            <Typography variant="h6" gutterBottom>
-              {editedData.genre}
-            </Typography>
+            <Typography variant="h6">{editedData.genre}</Typography>
           )}
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h4">
             {translations.Card.cardArtistLabel}
           </Typography>
           {isEditMode ? (
@@ -316,11 +305,9 @@ useEffect(() => {
               onChange={handleFieldChange("artist")}
             />
           ) : (
-            <Typography variant="h6" gutterBottom>
-              {editedData.artist}
-            </Typography>
+            <Typography variant="h6">{editedData.artist}</Typography>
           )}
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h4">
             {translations.Card.cardDateLabel}
           </Typography>
           {isEditMode ? (
@@ -336,15 +323,16 @@ useEffect(() => {
               }}
             />
           ) : (
-            <Typography variant="h6" gutterBottom>
-              {editedData.releasedOn}
-            </Typography>
+            <Typography variant="h6">{editedData.releasedOn}</Typography>
           )}
 
-
-<Stack spacing={1}>
-  <Rating name="size-medium" value={rating} onChange={handleRatingChange} />
-</Stack>
+          <Stack spacing={1}>
+            <Rating
+              name="size-medium"
+              value={rating}
+              onChange={handleRatingChange}
+            />
+          </Stack>
 
           <StyledDivider>
             <Typography variant="h6">{editedUser?.name}</Typography>
@@ -380,7 +368,7 @@ useEffect(() => {
               ></l-waveform>
             )}
           </Box>
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h4">
             {translations.Card.cardUserLabel}
           </Typography>
           {isEditMode ? (
@@ -390,13 +378,9 @@ useEffect(() => {
               onChange={handleUserFieldChange("name")}
             />
           ) : (
-            <Typography variant="h6" gutterBottom>
-              {editedUser.name}
-            </Typography>
+            <Typography variant="h6">{editedUser.name}</Typography>
           )}
-          <Typography variant="h4" gutterBottom>
-            {translations.Card.cardAgeLabel}
-          </Typography>
+          <Typography variant="h4">{translations.Card.cardAgeLabel}</Typography>
           {isEditMode ? (
             <TextField
               autoFocus
@@ -408,11 +392,9 @@ useEffect(() => {
               }}
             />
           ) : (
-            <Typography variant="h6" gutterBottom>
-              {editedUser.age}
-            </Typography>
+            <Typography variant="h6">{editedUser.age}</Typography>
           )}
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h4">
             {translations.Card.cardMoodLabel}
           </Typography>
           {isEditMode ? (
@@ -429,11 +411,9 @@ useEffect(() => {
               ))}
             </Select>
           ) : (
-            <Typography variant="h6" gutterBottom>
-              {editedUser.mood}
-            </Typography>
+            <Typography variant="h6">{editedUser.mood}</Typography>
           )}
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h4">
             {translations.Card.cardPrGenreLabel}
           </Typography>
           {isEditMode ? (
@@ -451,9 +431,7 @@ useEffect(() => {
               ))}
             </Select>
           ) : (
-            <Typography variant="h6" gutterBottom>
-              {editedUser.genres.join(", ")}
-            </Typography>
+            <Typography variant="h6">{editedUser.genres.join(", ")}</Typography>
           )}
           <StyledDivider>
             <Typography variant="h6">{editedData?.name}</Typography>
@@ -495,7 +473,6 @@ useEffect(() => {
           />
         </Box>
       </CardBox>
-      
     </Box>
   );
 }

@@ -68,7 +68,7 @@ const ContactForm: React.FC = () => {
           textAlign: "left",
         }}
       >
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h4">
           {translations.Contact.header}
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>

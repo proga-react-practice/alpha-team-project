@@ -38,7 +38,6 @@ export default function Favorites() {
               textTransform: "uppercase",
               textAlign: "center",
             }}
-            gutterBottom
           >
             Mark some Cards To create your own Playlist
           </Typography>

@@ -143,10 +143,10 @@ export default function Home() {
           >
             <CloseIcon />
           </IconButton>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h6">
             {translations.home.alert1}
           </Typography>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h6">
             {translations.home.alert2}
           </Typography>
         </Box>

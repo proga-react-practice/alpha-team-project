@@ -131,7 +131,7 @@ export default function ModalUser({
 
         <Modal open={isIconModalOpen} onClose={() => setIsIconModalOpen(false)}>
           <StyledIconBox>
-            <Typography variant="h4" component="h2" gutterBottom>
+            <Typography variant="h4" component="h2">
               {translations.playlist.iconPicker}
             </Typography>
             <Box
