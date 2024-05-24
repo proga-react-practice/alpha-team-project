@@ -6,16 +6,16 @@ export const createCustomTheme = (darkMode: boolean) => {
     palette: {
       mode: darkMode ? "dark" : "light",
       primary: {
-        main: darkMode ? "#646bf3" : "#00FF00",
+        main: darkMode ? "#646bf3" : "#6ee6ba",
       },
       secondary: {
-        main: darkMode ? "#00FF00" : "#646bf3",
+        main: darkMode ? "#6ee6ba" : "#646bf3",
       },
       background: {
-        default: darkMode ? "#101113" : "#ffffff",
+        default: darkMode ? "#101113" : "#f5f5dc",
       },
       text: {
-        primary: darkMode ? "#646bf3" : "#00FF00",
+        primary: darkMode ? "#646bf3" : "#333333",
       },
     },
   });
