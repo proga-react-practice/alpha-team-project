@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Card from "./Card";
-import { Box, Grid, IconButton, TextField, Select, MenuItem, InputAdornment, SelectChangeEvent } from "@mui/material";
+import {
+  Box,
+  Grid,
+  IconButton,
+  TextField,
+  Select,
+  MenuItem,
+  InputAdornment,
+  SelectChangeEvent,
+} from "@mui/material";
 import { Reorder } from "framer-motion";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -16,9 +25,9 @@ interface CardData {
 }
 
 const searchOptions = [
-  { label: 'Name', value: 'name' },
-  { label: 'Genre', value: 'genre' },
-  { label: 'Artist', value: 'artist' },
+  { label: "Name", value: "name" },
+  { label: "Genre", value: "genre" },
+  { label: "Artist", value: "artist" },
 ];
 
 const CardsPage: React.FC = () => {
@@ -168,18 +177,20 @@ const CardsPage: React.FC = () => {
             .slice(currentIndex, currentIndex + 4)
             .map((card: CardData) => (
               <Grid item key={card.id} xs={12} sm={6} md={4} lg={3}>
-                <Reorder.Item
-                  value={card}
-                  key={card.id}
-                  whileDrag={{ scale: 1.1 }}
-                >
-                  <Card
-                    data={card.formData}
-                    dataUser={card.userData}
-                    cardId={card.id}
-                    onDelete={() => handleDeleteCard(card.id)}
-                  />
-                </Reorder.Item>
+                {card.formData && card.userData && (
+                  <Reorder.Item
+                    value={card}
+                    key={card.id}
+                    whileDrag={{ scale: 1.1 }}
+                  >
+                    <Card
+                      data={card.formData}
+                      dataUser={card.userData}
+                      cardId={card.id}
+                      onDelete={() => handleDeleteCard(card.id)}
+                    />
+                  </Reorder.Item>
+                )}
               </Grid>
             ))}
         </Grid>
