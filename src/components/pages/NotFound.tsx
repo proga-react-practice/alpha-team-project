@@ -3,8 +3,11 @@ import React from "react";
 import violet from "../../img/error_violet.svg";
 import green from "../../img/error_green.svg";
 import { useThemeCustom } from "../../theme/ThemeContext";
+import { useLanguage } from "../LanguageContext";
+
 
 const NotFound: React.FC = () => {
+const { translations } = useLanguage();
   const { darkMode } = useThemeCustom();
   const theme = useTheme();
   const imagePath = darkMode ? violet : green;
@@ -40,7 +43,7 @@ const NotFound: React.FC = () => {
               marginBottom: isMobile ? 2 : "inherit",
             }}
           >
-            404 - Not Found
+            {translations.notFound.title}
           </Typography>
           <Typography
             variant={isMobile ? "h4" : "h3"}
@@ -50,7 +53,7 @@ const NotFound: React.FC = () => {
               marginBottom: isMobile ? 2 : "inherit",
             }}
           >
-            The page you are looking for does not exist.
+            {translations.notFound.message}
           </Typography>
         </Box>
         <img
