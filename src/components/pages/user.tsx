@@ -19,7 +19,7 @@ import {
 import { useLanguage } from "../LanguageContext";
 import { useUserData } from "./DataContext";
 import { routes } from "../Routes";
-
+import { userName } from "../Regex/RegexUtil";
 
 export enum Mood {
   Happy = "Happy",
@@ -108,7 +108,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               rules={{
                 required: translations.userErrors.nameRequired,
                 pattern: {
-                  value: /^[a-zA-Z\s]*$/,
+                  value: userName,
                   message: translations.userErrors.pattern,
                 },
                 minLength: {

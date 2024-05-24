@@ -4,7 +4,7 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import { useThemeCustom } from "../../theme/ThemeContext";
 import { useLanguage } from "../LanguageContext";
 import emailjs from 'emailjs-com';
-import { emailRegex } from "../RegexUtil";
+import { emailRegex } from "../Regex/RegexUtil";
 
 interface FormData {
   name: string;
@@ -30,7 +30,7 @@ const ContactForm: React.FC = () => {
       'template_lxky6sl', 
       formData,
       'c_brlNASItcnI_Ar8' 
-    ).then((response) => {
+    ).then(() => {
       reset();
       setIsEmailSent(true);
       setTimeout(() => {
