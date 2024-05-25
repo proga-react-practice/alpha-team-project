@@ -7,6 +7,8 @@ import Form from "./components/pages/user";
 import CardsPage from "./components/pages/CardsPage";
 import Favorites from "./components/pages/Favorites";
 import NotFound from "./components/pages/NotFound.tsx";
+import Playlist from "./components/pages/Playlist.tsx";
+import ContactForm from "./components/pages/ContactForm.tsx";
 
 function AppRouter() {
   return (
@@ -17,8 +19,10 @@ function AppRouter() {
           <Route path="user" element={<Form />} />
           <Route path="music" element={<MusicForm />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="playlist" element={<Playlist />} />
           <Route path="cards" element={<CardsPage />} />
           <Route path="favorites" element={<Favorites />} />
+          <Route path="contact" element={<ContactForm/>} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -4,22 +4,21 @@ import ListItem from "@mui/material/ListItem";
 import { FavBox } from "../styled/styles";
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useFormData } from "./DataContext";
 import { FavoriteCard } from "./Card";
+import { useLanguage } from "../LanguageContext";
 
 export default function Favorites() {
-  const { formData } = useFormData();
+  const { translations } = useLanguage();
   const [favoriteFormDataList, setFavoriteFormDataList] = useState<
     FavoriteCard[]
   >([]);
-  const formDataArray = Object.values(formData || {});
+
   useEffect(() => {
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    const filteredFavorites = favorites.filter((favorite: FavoriteCard) =>
-      formDataArray.some((data) => data.id === favorite.id)
+    const storedFavorites = JSON.parse(
+      localStorage.getItem("favorites") || "[]"
     );
-    setFavoriteFormDataList(filteredFavorites);
-  }, [formData]);
+    setFavoriteFormDataList(storedFavorites);
+  }, []);
 
   return (
     <>
@@ -30,22 +29,19 @@ export default function Favorites() {
             justifyContent: "center",
             alignItems: "center",
             flexDirection: "column",
-            minHeight: "100vh",
+            minHeight: "100%",
             padding: "0 20px",
             marginTop: { xs: 12, md: 20 },
           }}
         >
           <Typography
-            variant="h3"
+            variant="h4"
             sx={{
               textTransform: "uppercase",
-              fontSize: { xs: 32, md: 64 },
               textAlign: "center",
-              marginBottom: 4,
             }}
-            gutterBottom
           >
-            Mark some Cards To create your own Playlist
+            {translations.favorites.title}
           </Typography>
 
           <FavBox

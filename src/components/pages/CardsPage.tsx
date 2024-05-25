@@ -1,30 +1,83 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "./Card";
-import { Box, Grid, IconButton, TextField } from "@mui/material";
+import {
+  Box,
+  Grid,
+  IconButton,
+  TextField,
+  Select,
+  MenuItem,
+  InputAdornment,
+  SelectChangeEvent,
+} from "@mui/material";
 import { Reorder } from "framer-motion";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import SearchIcon from "@mui/icons-material/Search";
 import { useFormData, useUserData } from "./DataContext";
+import { FormDataUser } from "./user";
+import { FormData } from "./music";
+
+interface CardData {
+  id: string;
+  formData: FormData;
+  userData: FormDataUser;
+}
+
+const searchOptions = [
+  { label: "Name", value: "name" },
+  { label: "Genre", value: "genre" },
+  { label: "Artist", value: "artist" },
+];
 
 const CardsPage: React.FC = () => {
   const { formData } = useFormData();
   const { userData } = useUserData();
-  const [cards, setCards] = useState(
-    formData.map((data, index) => ({
+
+  const [cards, setCards] = useState<CardData[]>(() => {
+    const savedCards = localStorage.getItem("cards");
+    if (savedCards) {
+      return JSON.parse(savedCards);
+    }
+    return formData.map((data, index) => ({
       id: data.id,
       formData: data,
       userData: userData[index],
-    }))
-  );
+    }));
+  });
 
-  console.log(cards);
   const [deletedCardIds, setDeletedCardIds] = useState<string[]>(() =>
     JSON.parse(localStorage.getItem("deletedCardIds") || "[]")
   );
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchCriteria, setSearchCriteria] = useState(searchOptions[0].value);
+
+  useEffect(() => {
+    localStorage.setItem("cards", JSON.stringify(cards));
+  }, [cards]);
+
+  useEffect(() => {
+    const newCards = formData.map((data, index) => ({
+      id: data.id,
+      formData: data,
+      userData: userData[index],
+    }));
+
+    setCards((prevCards) => {
+      const updatedCards = [...prevCards];
+      newCards.forEach((newCard) => {
+        if (
+          !prevCards.some((card) => card.id === newCard.id) &&
+          !deletedCardIds.includes(newCard.id)
+        ) {
+          updatedCards.push(newCard);
+        }
+      });
+      return updatedCards.filter((card) => !deletedCardIds.includes(card.id));
+    });
+  }, [formData, deletedCardIds, userData]);
 
   const handleDeleteCard = (cardId: string) => {
     setDeletedCardIds((prevDeletedCardIds) => {
@@ -50,43 +103,69 @@ const CardsPage: React.FC = () => {
     setSearchQuery(event.target.value);
   };
 
-  const filteredCardsBySearch = filteredCards.filter((card) =>
-    card.formData.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const handleCriteriaChange = (event: SelectChangeEvent) => {
+    setSearchCriteria(event.target.value as string);
+  };
+
+  const filteredCardsBySearch = filteredCards.filter((card) => {
+    const searchValue = searchQuery.toLowerCase();
+    if (searchCriteria === "name") {
+      return card.formData.name.toLowerCase().includes(searchValue);
+    } else if (searchCriteria === "genre") {
+      return card.formData.genre.toLowerCase().includes(searchValue);
+    } else if (searchCriteria === "artist") {
+      return card.formData.artist.toLowerCase().includes(searchValue);
+    }
+    return false;
+  });
 
   return (
     <div style={{ position: "relative" }}>
-      <TextField
-        label="Search"
-        variant="outlined"
-        value={searchQuery}
-        onChange={handleSearchChange}
-        InputProps={{
-          endAdornment: (
-            <IconButton>
-              <SearchIcon />
-            </IconButton>
-          ),
-        }}
+      <Box
         sx={{
-          textTransform: "lowercase",
+          display: "flex",
+          alignItems: "center",
           width: "40%",
-          borderRadius: "50px",
           margin: "10px auto -55px",
-        }}
-        style={{
           position: "fixed",
           top: "90px",
           left: "30%",
         }}
-      />
+      >
+        <Select
+          value={searchCriteria}
+          onChange={handleCriteriaChange}
+          sx={{ minWidth: 120, marginRight: 2 }}
+        >
+          {searchOptions.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </Select>
+        <TextField
+          label="Search"
+          value={searchQuery}
+          onChange={handleSearchChange}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+          sx={{
+            flexGrow: 1,
+          }}
+        />
+      </Box>
 
       <Reorder.Group
         values={filteredCardsBySearch.slice(currentIndex, currentIndex + 4)}
         onReorder={(newCards) => {
           const updatedCards = [...cards];
           newCards.forEach((newCard, index) => {
-            updatedCards[currentIndex + index] = newCard;
+            updatedCards.splice(currentIndex + index, 1, newCard);
           });
           setCards(updatedCards);
         }}
@@ -96,20 +175,22 @@ const CardsPage: React.FC = () => {
         <Grid container spacing={2}>
           {filteredCardsBySearch
             .slice(currentIndex, currentIndex + 4)
-            .map((card) => (
+            .map((card: CardData) => (
               <Grid item key={card.id} xs={12} sm={6} md={4} lg={3}>
-                <Reorder.Item
-                  value={card}
-                  key={card.id}
-                  whileDrag={{ scale: 1.1 }}
-                >
-                  <Card
-                    data={card.formData}
-                    dataUser={card.userData}
-                    cardId={card.id}
-                    onDelete={() => handleDeleteCard(card.id)}
-                  />
-                </Reorder.Item>
+                {card.formData && card.userData && (
+                  <Reorder.Item
+                    value={card}
+                    key={card.id}
+                    whileDrag={{ scale: 1.1 }}
+                  >
+                    <Card
+                      data={card.formData}
+                      dataUser={card.userData}
+                      cardId={card.id}
+                      onDelete={() => handleDeleteCard(card.id)}
+                    />
+                  </Reorder.Item>
+                )}
               </Grid>
             ))}
         </Grid>

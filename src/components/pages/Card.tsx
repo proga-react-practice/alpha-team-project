@@ -1,12 +1,5 @@
 import { FormData } from "./music";
-import {
-  Typography,
-  Box,
-  useTheme,
-  TextField,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { Typography, Box, TextField, MenuItem, Select } from "@mui/material";
 import { FormDataUser } from "./user";
 import { CardBox, StyledDivider } from "../styled/styles";
 import { waveform } from "ldrs";
@@ -17,6 +10,11 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { SelectChangeEvent } from "@mui/material/Select";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import ClearIcon from "@mui/icons-material/Clear";
+import { useLanguage } from "../LanguageContext";
+import { useThemeCustom } from "../../theme/ThemeContext";
+import Rating from "@mui/material/Rating";
+import Stack from "@mui/material/Stack";
+
 waveform.register();
 
 export interface FavoriteCard {
@@ -58,13 +56,36 @@ enum Mood {
 }
 
 export default function Card({ data, dataUser, onDelete, cardId }: Props) {
-  const theme = useTheme();
-  const colorAnimation = theme.palette.mode === "dark" ? "#ffffff" : "#000000";
+  const { translations } = useLanguage();
+  const { darkMode } = useThemeCustom();
+  const colorAnimation = darkMode ? "#ffffff" : "#000000";
   const [isFlipped, setIsFlipped] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedData, setEditedData] = useState<FormData>(data);
   const [editedUser, setEditedUser] = useState<FormDataUser>(dataUser);
+  const [rating, setRating] = useState(0);
+
+  const handleRatingChange = (
+    _event: React.ChangeEvent<{}>, 
+    newRating: number | null
+  ) => {
+    if (newRating !== null) {
+      setRating(newRating);
+      saveRatingToLocalStorage(newRating);
+    }
+  };
+
+  const saveRatingToLocalStorage = (newRating: number) => {
+    localStorage.setItem(`rating_${cardId}`, JSON.stringify(newRating));
+  };
+
+  useEffect(() => {
+    const savedRating = JSON.parse(
+      localStorage.getItem(`rating_${cardId}`) || "0"
+    );
+    setRating(savedRating);
+  }, [cardId]);
 
   const saveCardToLocalStorage = (data: FormData, userData: FormDataUser) => {
     localStorage.setItem(`editedData_${cardId}`, JSON.stringify(data));
@@ -155,10 +176,11 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
     };
 
   const handleSelectChange =
-    (field: keyof FormData) => (event: SelectChangeEvent<Genre>) => {
+    (field: keyof FormData) =>
+    (event: SelectChangeEvent<string | undefined>) => {
       const updatedData = {
         ...editedData,
-        [field]: event.target.value as Genre,
+        [field]: event.target.value || undefined,
       };
       setEditedData(updatedData);
       saveCardToLocalStorage(updatedData, editedUser);
@@ -243,23 +265,18 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
               ></l-waveform>
             )}
           </Box>
-          <Typography variant="h4" gutterBottom>
-            Name of the song:
-          </Typography>
+          <Typography variant="h4">{translations.Card.songLabel}</Typography>
           {isEditMode ? (
             <TextField
-              autoFocus
               value={editedData.name}
               onChange={handleFieldChange("name")}
             />
           ) : (
-            <Typography variant="h6" gutterBottom>
-              {editedData.name}
-            </Typography>
+            <Typography variant="h6">{editedData.name}</Typography>
           )}
 
-          <Typography variant="h4" gutterBottom>
-            Genre:
+          <Typography variant="h4">
+            {translations.Card.cardGenreLabel}
           </Typography>
           {isEditMode ? (
             <Select
@@ -275,31 +292,25 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
               ))}
             </Select>
           ) : (
-            <Typography variant="h6" gutterBottom>
-              {editedData.genre}
-            </Typography>
+            <Typography variant="h6">{editedData.genre}</Typography>
           )}
-          <Typography variant="h4" gutterBottom>
-            Artist:
+          <Typography variant="h4">
+            {translations.Card.cardArtistLabel}
           </Typography>
           {isEditMode ? (
             <TextField
-              autoFocus
               value={editedData.artist}
               onChange={handleFieldChange("artist")}
             />
           ) : (
-            <Typography variant="h6" gutterBottom>
-              {editedData.artist}
-            </Typography>
+            <Typography variant="h6">{editedData.artist}</Typography>
           )}
-          <Typography variant="h4" gutterBottom>
-            Date for note:
+          <Typography variant="h4">
+            {translations.Card.cardDateLabel}
           </Typography>
           {isEditMode ? (
             <TextField
               type="date"
-              autoFocus
               value={editedData.releasedOn}
               onChange={handleFieldChange("releasedOn")}
               sx={{ width: 220 }}
@@ -309,10 +320,17 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
               }}
             />
           ) : (
-            <Typography variant="h6" gutterBottom>
-              {editedData.releasedOn}
-            </Typography>
+            <Typography variant="h6">{editedData.releasedOn}</Typography>
           )}
+
+          <Stack spacing={1}>
+            <Rating
+              name="size-medium"
+              value={rating}
+              onChange={handleRatingChange}
+            />
+          </Stack>
+
           <StyledDivider>
             <Typography variant="h6">{editedUser?.name}</Typography>
           </StyledDivider>
@@ -347,26 +365,20 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
               ></l-waveform>
             )}
           </Box>
-          <Typography variant="h4" gutterBottom>
-            User:
+          <Typography variant="h4">
+            {translations.Card.cardUserLabel}
           </Typography>
           {isEditMode ? (
             <TextField
-              autoFocus
               value={editedUser.name}
               onChange={handleUserFieldChange("name")}
             />
           ) : (
-            <Typography variant="h6" gutterBottom>
-              {editedUser.name}
-            </Typography>
+            <Typography variant="h6">{editedUser.name}</Typography>
           )}
-          <Typography variant="h4" gutterBottom>
-            Age:
-          </Typography>
+          <Typography variant="h4">{translations.Card.cardAgeLabel}</Typography>
           {isEditMode ? (
             <TextField
-              autoFocus
               type="number"
               value={editedUser.age}
               onChange={handleUserFieldChange("age")}
@@ -375,19 +387,17 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
               }}
             />
           ) : (
-            <Typography variant="h6" gutterBottom>
-              {editedUser.age}
-            </Typography>
+            <Typography variant="h6">{editedUser.age}</Typography>
           )}
-          <Typography variant="h4" gutterBottom>
-            Mood:
+          <Typography variant="h4">
+            {translations.Card.cardMoodLabel}
           </Typography>
           {isEditMode ? (
             <Select
               sx={{ width: 220 }}
               value={editedUser.mood}
               onChange={handleUserSelectChange("mood")}
-              label="Genre"
+              label="Mood"
             >
               {Object.values(Mood).map((mood) => (
                 <MenuItem key={mood} value={mood}>
@@ -396,12 +406,10 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
               ))}
             </Select>
           ) : (
-            <Typography variant="h6" gutterBottom>
-              {editedUser.mood}
-            </Typography>
+            <Typography variant="h6">{editedUser.mood}</Typography>
           )}
-          <Typography variant="h4" gutterBottom>
-            Preferred genres:
+          <Typography variant="h4">
+            {translations.Card.cardPrGenreLabel}
           </Typography>
           {isEditMode ? (
             <Select
@@ -418,9 +426,7 @@ export default function Card({ data, dataUser, onDelete, cardId }: Props) {
               ))}
             </Select>
           ) : (
-            <Typography variant="h6" gutterBottom>
-              {editedUser.genres.join(", ")}
-            </Typography>
+            <Typography variant="h6">{editedUser.genres.join(", ")}</Typography>
           )}
           <StyledDivider>
             <Typography variant="h6">{editedData?.name}</Typography>

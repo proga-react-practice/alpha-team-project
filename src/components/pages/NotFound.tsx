@@ -1,11 +1,17 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 import violet from "../../img/error_violet.svg";
 import green from "../../img/error_green.svg";
+import { useThemeCustom } from "../../theme/ThemeContext";
+import { useLanguage } from "../LanguageContext";
+
 
 const NotFound: React.FC = () => {
+const { translations } = useLanguage();
+  const { darkMode } = useThemeCustom();
   const theme = useTheme();
-  const imagePath = theme.palette.mode === "dark" ? violet : green;
+  const imagePath = darkMode ? violet : green;
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <Box>
       <Box
@@ -15,37 +21,49 @@ const NotFound: React.FC = () => {
           alignItems: "center",
           height: "100vh",
           width: "100%",
-          flexDirection: "row",
+          flexDirection: isMobile ? "column" : "row",
         }}
       >
         <Box
           sx={{
-            width: 600,
-            height: 600,
+            width: isMobile ? "100%" : 600,
+            height: isMobile ? "auto" : 600,
             display: "flex",
             flexDirection: "column",
             marginRight: 0,
+            alignItems: isMobile ? "center" : "flex-start",
+            textAlign: isMobile ? "center" : "left",
           }}
         >
           <Typography
-            variant="h3"
-            sx={{ textTransform: "uppercase", fontSize: 100 }}
-            gutterBottom
+            variant={isMobile ? "h4" : "h3"}
+            sx={{
+              textTransform: "uppercase",
+              fontSize: isMobile ? 50 : 100,
+              marginBottom: isMobile ? 2 : "inherit",
+            }}
           >
-            404 - Not Found
+            {translations.notFound.title}
           </Typography>
           <Typography
-            variant="h3"
-            sx={{ textTransform: "uppercase", fontSize: 80 }}
-            gutterBottom
+            variant={isMobile ? "h4" : "h3"}
+            sx={{
+              textTransform: "uppercase",
+              fontSize: isMobile ? 30 : 80,
+              marginBottom: isMobile ? 2 : "inherit",
+            }}
           >
-            The page you are looking for does not exist.
+            {translations.notFound.message}
           </Typography>
         </Box>
         <img
           src={imagePath}
           alt="theme image"
-          style={{ width: 700, height: 700 }}
+          style={{
+            width: isMobile ? 400 : 700,
+            height: isMobile ? 400 : 700,
+            marginRight: isMobile ? 50 : 0,
+          }}
         />
       </Box>
     </Box>
