@@ -1,36 +1,58 @@
 import React, { useState } from "react";
-import { Box, Toolbar, IconButton, Drawer, useTheme, useMediaQuery } from "@mui/material";
-import MenuIcon from '@mui/icons-material/Menu';
+import {
+  Box,
+  Toolbar,
+  IconButton,
+  Drawer,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import { Outlet } from "react-router-dom";
 import { StyledAppBar } from "./components/styled/styles";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import Routes from "./components/Routes";
-
+import uaFlag from "./img/ua.png";
+import enFlag from "./img/en.png";
+import { useThemeCustom } from "./theme/ThemeContext";
+import { useLanguage } from "./components/LanguageContext";
+import { MaterialUISwitch } from "./components/styled/Switch";
 const Layout: React.FC = () => {
+  const { darkMode, toggleDarkMode } = useThemeCustom();
+  const { language, toggleLanguage } = useLanguage();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobileOrTablet = useMediaQuery(theme.breakpoints.between("xs", "xl"));
 
   const toggleDrawer = (open: boolean) => () => {
     setIsDrawerOpen(open);
   };
-  
+
   const handleItemClick = () => {
-    setIsDrawerOpen(false); 
+    setIsDrawerOpen(false);
   };
 
   return (
     <Box>
       <StyledAppBar>
         <Toolbar>
-          {!isMobile && <Routes onClick={handleItemClick} />}
-          {isMobile && (
+          {!isMobileOrTablet && (
+            <Box sx={{ display: "flex", width: "100%", alignItems: "center" }}>
+              <Routes onClick={handleItemClick} />
+            </Box>
+          )}
+          {isMobileOrTablet && (
             <IconButton
               color="inherit"
               aria-label="open drawer"
               edge="start"
               onClick={toggleDrawer(true)}
             >
-              <MenuIcon style={{ color: theme.palette.mode === "dark" ? "#ffffff" : "#000000" }} />
+              <MenuIcon
+                style={{
+                  color: theme.palette.mode === "dark" ? "#ffffff" : "#000000",
+                }}
+              />
             </IconButton>
           )}
           <Drawer
@@ -49,8 +71,48 @@ const Layout: React.FC = () => {
             }}
           >
             <Routes onClick={handleItemClick} />
+            <ArrowBackIosIcon
+              onClick={toggleDrawer(false)}
+              sx={{ width: 50, height: 50 }}
+            />
           </Drawer>
+         
+
         </Toolbar>
+        <Box
+            sx={{     
+              position:'fixed',
+              right:20,
+              zIndex: 2,
+              padding: 1,
+              display: "flex",
+              alignItems: "center",
+              gap: 1,        
+            }}
+          >
+            <IconButton
+              onClick={toggleLanguage}
+              aria-label="toggle language"
+              sx={{}}
+            >
+              <Box
+                component="img"
+                src={language === "en" ? enFlag : uaFlag}
+                alt="language flag"
+                sx={{
+                  width: isMobileOrTablet ? 30 : 35,
+                  height: isMobileOrTablet ? 30 : 35,
+                }}
+              />
+            </IconButton>
+            <MaterialUISwitch
+              checked={darkMode}
+              onChange={toggleDarkMode}
+              inputProps={{ "aria-label": "toggle dark mode" }}
+              color="secondary"
+            />
+          </Box>
+       
       </StyledAppBar>
       <main>
         <Outlet />

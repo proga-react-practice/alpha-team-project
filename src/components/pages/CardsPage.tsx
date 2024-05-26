@@ -172,7 +172,7 @@ const CardsPage: React.FC = () => {
         style={{ listStyleType: "none" }}
         axis="x"
       >
-        <Grid container spacing={2}>
+        <Grid container spacing={{ xs: 0, sm: 6, md: 8, lg: 8, xl: 10 }}>
           {filteredCardsBySearch
             .slice(currentIndex, currentIndex + 4)
             .map((card: CardData) => (

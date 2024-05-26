@@ -29,6 +29,7 @@ export default function Playlist() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            overflow: "hidden",
           }}
         >
           <Typography sx={{ fontSize: 30 }}>
@@ -52,6 +53,7 @@ export default function Playlist() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            overflow: "hidden",
           }}
         >
           <Typography sx={{ fontSize: 30 }}>

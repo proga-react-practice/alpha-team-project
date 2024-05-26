@@ -12,11 +12,10 @@ import {
   FormLabel,
   FormHelperText,
   Button,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
-import {
-  FormContainer,
-  LeftGreenBackground,
-} from "../styled/styles";
+import { FormContainer, LeftGreenBackground } from "../styled/styles";
 import { useNavigate } from "react-router-dom";
 import { useFormData } from "./DataContext";
 import { useLanguage } from "../LanguageContext";
@@ -52,6 +51,9 @@ export interface FormData {
 const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
   const { translations } = useLanguage();
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.between("xs", "md"));
+  const isMedium = useMediaQuery(theme.breakpoints.between("md", "xl"));
   const [id, setId] = useState<string>(new Date().getTime().toString());
   const {
     control,
@@ -95,16 +97,25 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
         </div>
       </LeftGreenBackground>
 
-      <FormContainer>
+      <FormContainer
+        sx={{
+          ...(isSmall && {
+            width: "50%",
+            left: '20%',
+            transform: "translateX(-25px)",
+          }),
+          ...(isMedium &&{
+            width: "100%",
+          })
+        }}
+      >
         <form onSubmit={handleSubmit(onSubmitHandler)}>
-          <Typography variant="h4">
-            {translations.form.musictitle}
-          </Typography>
+          <Typography variant="h4">{translations.form.musictitle}</Typography>
 
           <TextField
             label={translations.form.musicLabel}
             {...register("name", {
-              required:  translations.musicErrors.name.required,
+              required: translations.musicErrors.name.required,
               minLength: {
                 value: 2,
                 message: translations.musicErrors.name.minLength,
@@ -117,7 +128,6 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
                 value.charAt(0) === value.charAt(0).toUpperCase() ||
                 translations.musicErrors.name.validate,
             })}
-
             margin="normal"
             fullWidth
             sx={{ marginBottom: 1.5 }}
@@ -134,7 +144,12 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
             name="genre"
             control={control}
             defaultValue=""
-            rules={{ required: { value: true, message: translations.musicErrors.genre.validate} }}
+            rules={{
+              required: {
+                value: true,
+                message: translations.musicErrors.genre.validate,
+              },
+            }}
             render={({ field }) => (
               <FormControl
                 variant="outlined"
@@ -158,13 +173,19 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
                   ))}
                 </Select>
                 {errors.genre && (
-                  <FormHelperText error>{errors.genre.message}</FormHelperText>
+                  <FormHelperText error>
+                    {translations.musicErrors.genre.required}
+                  </FormHelperText>
                 )}
               </FormControl>
             )}
           />
 
-          <FormControl variant="outlined" fullWidth sx={{ marginBottom: 1.5, marginTop: -2 }}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            sx={{ marginBottom: 1.5, marginTop: -2 }}
+          >
             <TextField
               label={translations.form.artistLabel}
               {...register("artist", {
@@ -193,7 +214,11 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
             />
           </FormControl>
 
-          <FormControl variant="outlined" fullWidth sx={{ marginBottom: 1.5, marginTop: -1 }}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            sx={{ marginBottom: 1.5, marginTop: -1 }}
+          >
             <FormLabel htmlFor="releasedOn">
               {translations.form.dateLabel}
             </FormLabel>
@@ -201,8 +226,14 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
               type="date"
               {...register("releasedOn", {
                 required: translations.musicErrors.releasedOn.required,
-                min: { value: minDate, message: translations.musicErrors.releasedOn.min },
-                max: { value: today, message: translations.musicErrors.releasedOn.max},
+                min: {
+                  value: minDate,
+                  message: translations.musicErrors.releasedOn.min,
+                },
+                max: {
+                  value: today,
+                  message: translations.musicErrors.releasedOn.max,
+                },
               })}
               InputLabelProps={{
                 shrink: true,
@@ -218,9 +249,7 @@ const MusicForm: React.FC<MusicFormProps> = ({ onSubmit }) => {
             />
           </FormControl>
 
-          <Button type="submit">
-            {translations.form.submitButton}
-          </Button>
+          <Button type="submit">{translations.form.submitButton}</Button>
           <Button type="button" onClick={handleReset}>
             {translations.form.clearButton}
           </Button>

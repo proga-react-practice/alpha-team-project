@@ -2,10 +2,7 @@
 import React, { useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import {
-  FormContainer,
-  LeftGreenBackground,
-} from "../styled/styles";
+import { FormContainer, LeftGreenBackground } from "../styled/styles";
 import {
   TextField,
   Typography,
@@ -15,6 +12,8 @@ import {
   InputLabel,
   Box,
   Button,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { useLanguage } from "../LanguageContext";
 import { useUserData } from "./DataContext";
@@ -57,6 +56,9 @@ export interface FormDataUser {
 
 const Form: React.FC<FormProps> = ({ onSubmit }) => {
   const { translations } = useLanguage();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.between("xs", "md"));
+  const isMedium = useMediaQuery(theme.breakpoints.between("md", "xl"));
   const navigate = useNavigate();
   const [id, setId] = useState<string>(new Date().getTime().toString());
   const {
@@ -87,7 +89,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
   };
 
   return (
-    <Box>
+    <Box sx={{}}>
       <LeftGreenBackground>
         <img
           src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNGh6enU4cHhwcHgwNG96eHRnbmZrOGVjYWI5dDEyZjZ5bnJrODBwMiZlcD12MV9pbnRlcm5naWZfYnlfaWQmY3Q9cw/TeBpzQZRaBIC4/giphy.gif"
@@ -95,11 +97,20 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
           style={{ width: "62%", height: "70%", objectFit: "cover" }}
         />
       </LeftGreenBackground>
-      <FormContainer>
+      <FormContainer
+        sx={{
+          ...(isSmall && {
+            width: "50%",
+            left: '20%',
+            transform: "translateX(-25px)",
+          }),
+          ...(isMedium &&{
+            width: "100%",
+          })
+        }}
+      >
         <form onSubmit={handleSubmit(onFormSubmit)}>
-          <Typography variant="h4">
-            {translations.form.usertitle}
-          </Typography>
+          <Typography variant="h4">{translations.form.usertitle}</Typography>
           <Box sx={{ marginBottom: 1.5 }}>
             <Controller
               name="name"
@@ -259,13 +270,8 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               )}
             />
           </FormControl>
-          <Button type="submit">
-            {translations.form.nextButton}
-          </Button>
-          <Button
-            type="button"
-            onClick={() => reset()}
-          >
+          <Button type="submit">{translations.form.nextButton}</Button>
+          <Button type="button" onClick={() => reset()}>
             {translations.form.clearButton}
           </Button>
         </form>

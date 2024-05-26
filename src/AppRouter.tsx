@@ -1,5 +1,5 @@
 // AppRouter.tsx
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./Layout";
 import Home from "./components/pages/Home";
 import MusicForm from "./components/pages/music";
@@ -15,6 +15,7 @@ function AppRouter() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Navigate to="/home" replace />} />
           <Route path="/home" element={<Home />} />
           <Route path="user" element={<Form />} />
           <Route path="music" element={<MusicForm />} />
