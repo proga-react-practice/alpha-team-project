@@ -9,6 +9,8 @@ import {
   MenuItem,
   InputAdornment,
   SelectChangeEvent,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import { Reorder } from "framer-motion";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -33,7 +35,8 @@ const searchOptions = [
 const CardsPage: React.FC = () => {
   const { formData } = useFormData();
   const { userData } = useUserData();
-
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("md"));
   const [cards, setCards] = useState<CardData[]>(() => {
     const savedCards = localStorage.getItem("cards");
     if (savedCards) {
@@ -130,12 +133,28 @@ const CardsPage: React.FC = () => {
           position: "fixed",
           top: "90px",
           left: "30%",
+          marginTop: 5,
+          ...(isSmall && {
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop:2
+          }),
         }}
       >
         <Select
           value={searchCriteria}
           onChange={handleCriteriaChange}
-          sx={{ minWidth: 120, marginRight: 2 }}
+          sx={{
+            maxWidth: 350,
+            marginRight: 2,
+            ...(isSmall && {
+              marginBottom: 2,
+              marginTop: 2,
+              marginRight: 0,
+              width: "100%",
+            }),
+          }}
         >
           {searchOptions.map((option) => (
             <MenuItem key={option.value} value={option.value}>
@@ -155,6 +174,7 @@ const CardsPage: React.FC = () => {
             ),
           }}
           sx={{
+            width:'100%',
             flexGrow: 1,
           }}
         />
@@ -172,11 +192,31 @@ const CardsPage: React.FC = () => {
         style={{ listStyleType: "none" }}
         axis="x"
       >
-        <Grid container spacing={{ xs: 0, sm: 6, md: 8, lg: 8, xl: 10 }}>
+        <Grid
+          container
+          spacing={{ xs: 0, sm: 6, md: 8, lg: 8, xl: 10 }}
+          sx={{
+            ...(isSmall && {
+              marginTop: 5,
+            }),
+          }}
+        >
           {filteredCardsBySearch
             .slice(currentIndex, currentIndex + 4)
             .map((card: CardData) => (
-              <Grid item key={card.id} xs={12} sm={6} md={4} lg={3}>
+              <Grid
+                item
+                key={card.id}
+                xs={12}
+                sm={6}
+                md={4}
+                lg={3}
+                sx={{
+                  ...(isSmall && {
+                    marginTop: 5,
+                  }),
+                }}
+              >
                 {card.formData && card.userData && (
                   <Reorder.Item
                     value={card}
