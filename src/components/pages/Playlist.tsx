@@ -31,17 +31,17 @@ export default function Playlist() {
             alignItems: "center",
             padding: 2,
             textAlign: "center",
-            marginBottom: { xs: 3, sm: 3, lg: 0 }, 
-            maxWidth: { xs: "90%" }, 
-            overflow: "auto",
+            marginBottom: { xs: 3, sm: 3, lg: 0 },
+            maxWidth: { xs: "90%" },
+            overflow: "hidden",
           }}
         >
           <Typography
-            variant="h6"
+            variant="h4"
             sx={{
-              overflowWrap: "break-word",
+
               textAlign: "center",
-              fontSize: { xs: 20, md: 30 },
+              fontSize: { xs: 16, md: 20, lg: 30 },
             }}
           >
             {translations.playlist.users}
@@ -52,7 +52,7 @@ export default function Playlist() {
           orientation="vertical"
           variant="middle"
           flexItem
-          sx={{ display: { xs: 'none', lg: 'block' }, marginLeft: { lg: 5 } }}
+          sx={{ display: { xs: "none", lg: "block" }, marginLeft: { lg: 5 } }}
         />
         <Grid
           item
@@ -66,16 +66,16 @@ export default function Playlist() {
             alignItems: "center",
             padding: 2,
             textAlign: "center",
-            maxWidth: { xs: "90%" }, 
-            overflow: "auto", 
+            maxWidth: { xs: "90%" },
+            overflow: "hidden",
           }}
         >
           <Typography
-            variant="h6"
+            variant="h4"
             sx={{
-              overflowWrap: "break-word",
+
               textAlign: "center",
-              fontSize: { xs: 20, md: 30 },
+              fontSize: { xs: 16, md: 20, lg: 30 },
             }}
           >
             {translations.playlist.songs}
