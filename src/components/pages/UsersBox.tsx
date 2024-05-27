@@ -219,15 +219,22 @@ export default function UsersBox() {
               }}
             />
             <Typography
-              sx={{
-                fontSize: isTablet ? 20 : 35,
-                marginLeft: 3,
-                marginTop: 1,
-                overflowWrap: "anywhere",
-              }}
-            >
-              {user.userName}
-            </Typography>
+  sx={{
+    fontSize: isTablet ? 20 : 35,
+    marginLeft: 3,
+    marginTop: 1,
+  }}
+>
+  {user.userName.length > 10 ? (
+    <>
+      {user.userName.substring(0, user.userName.length / 2)} <br />
+      {user.userName.substring(user.userName.length / 2)}
+    </>
+  ) : (
+    user.userName
+  )}
+</Typography>
+
           </AccordionSummary>
           <Divider orientation="horizontal" variant="middle" flexItem />
           <AccordionDetails>
