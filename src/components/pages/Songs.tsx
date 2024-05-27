@@ -156,10 +156,20 @@ export default function Songs() {
               />
             </Box>
             <Typography
-              sx={{ fontSize: isTablet ? 20 : 35, overflowWrap: "anywhere" }}
-            >
-              {song.songName} - {song.artist}
-            </Typography>
+  sx={{
+    fontSize: isTablet ? 16 : 35, 
+  }}
+>
+  {song.songName.length > 10 ? ( 
+    <>
+      {song.songName.substring(0, song.songName.length / 2)} <br />
+      {song.songName.substring(song.songName.length / 2)}
+    </>
+  ) : (
+    `${song.songName} - ${song.artist}`
+  )}
+</Typography>
+
           </AccordionSummary>
         </Accordion>
       ))}
