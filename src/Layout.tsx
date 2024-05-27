@@ -17,12 +17,13 @@ import enFlag from "./img/en.png";
 import { useThemeCustom } from "./theme/ThemeContext";
 import { useLanguage } from "./components/LanguageContext";
 import { MaterialUISwitch } from "./components/styled/Switch";
+
 const Layout: React.FC = () => {
   const { darkMode, toggleDarkMode } = useThemeCustom();
   const { language, toggleLanguage } = useLanguage();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const theme = useTheme();
-  const isMobileOrTablet = useMediaQuery(theme.breakpoints.between("xs", "xl"));
+  const isMobileOrTablet = useMediaQuery(theme.breakpoints.down("lg"));
 
   const toggleDrawer = (open: boolean) => () => {
     setIsDrawerOpen(open);
@@ -55,65 +56,60 @@ const Layout: React.FC = () => {
               />
             </IconButton>
           )}
-          <Drawer
-            anchor="left"
-            open={isDrawerOpen}
-            onClose={toggleDrawer(false)}
-            sx={{
-              "& .MuiDrawer-paper": {
-                backgroundColor: theme.palette.background.default,
-                color: theme.palette.mode === "dark" ? "#ffffff" : "#000000",
-                width: "100vw",
-                display: "flex",
-                flexDirection: "column",
-                padding: "1rem",
-              },
-            }}
-          >
-            <Routes onClick={handleItemClick} />
-            <ArrowBackIosIcon
-              onClick={toggleDrawer(false)}
-              sx={{ width: 50, height: 50 }}
-            />
-          </Drawer>
-         
-
         </Toolbar>
         <Box
-            sx={{     
-              position:'fixed',
-              right:20,
-              zIndex: 2,
-              padding: 1,
-              display: "flex",
-              alignItems: "center",
-              gap: 1,        
-            }}
-          >
-            <IconButton
-              onClick={toggleLanguage}
-              aria-label="toggle language"
-              sx={{}}
-            >
-              <Box
-                component="img"
-                src={language === "en" ? enFlag : uaFlag}
-                alt="language flag"
-                sx={{
-                  width: isMobileOrTablet ? 30 : 35,
-                  height: isMobileOrTablet ? 30 : 35,
-                }}
-              />
-            </IconButton>
-            <MaterialUISwitch
-              checked={darkMode}
-              onChange={toggleDarkMode}
-              inputProps={{ "aria-label": "toggle dark mode" }}
-              color="secondary"
+          sx={{
+            position: "absolute",
+            right: 20,
+            zIndex: 2,
+            padding: 1,
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+          }}
+        >
+          <IconButton onClick={toggleLanguage} aria-label="toggle language">
+            <Box
+              component="img"
+              src={language === "en" ? enFlag : uaFlag}
+              alt="language flag"
+              sx={{
+                width: isMobileOrTablet ? 30 : 35,
+                height: isMobileOrTablet ? 30 : 35,
+              }}
             />
-          </Box>
-       
+          </IconButton>
+          <MaterialUISwitch
+            checked={darkMode}
+            onChange={toggleDarkMode}
+            inputProps={{ "aria-label": "toggle dark mode" }}
+            color="secondary"
+          />
+        </Box>
       </StyledAppBar>
+      <Drawer
+        anchor="left"
+        open={isDrawerOpen}
+        onClose={toggleDrawer(false)}
+        sx={{
+          "& .MuiDrawer-paper": {
+            backgroundColor: theme.palette.background.default,
+            color: theme.palette.mode === "dark" ? "#ffffff" : "#000000",
+            width: isMobileOrTablet ? "80vw" : "100vw",
+            display: "flex",
+            flexDirection: "column",
+            padding: "1rem",
+          },
+        }}
+      >
+        <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
+          <ArrowBackIosIcon
+            onClick={toggleDrawer(false)}
+            sx={{ width: 50, height: 50 }}
+          />
+        </Box>
+        <Routes onClick={handleItemClick} />
+      </Drawer>
       <main>
         <Outlet />
       </main>
