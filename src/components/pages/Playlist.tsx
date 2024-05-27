@@ -6,14 +6,14 @@ import { useLanguage } from "../LanguageContext";
 export default function Playlist() {
   const { translations } = useLanguage();
   return (
-    <Box sx={{}}>
+    <Box>
       <Typography
         variant="h4"
         sx={{
           textTransform: "uppercase",
           textAlign: "center",
-          marginTop: 15,
-          marginBottom: 6,
+          marginTop: { xs: 8, md: 15 },
+          marginBottom: { xs: 4, md: 6 },
         }}
       >
         {translations.playlist.header}
@@ -22,17 +22,28 @@ export default function Playlist() {
         <Grid
           item
           xs={12}
-          md={4}
+          lg={4}
           sx={{
             border: "3px solid #ccc",
             borderRadius: 5,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            overflow: "hidden",
+            padding: 2,
+            textAlign: "center",
+            marginBottom: { xs: 3, sm: 3, lg: 0 }, 
+            maxWidth: { xs: "90%" }, 
+            overflow: "auto",
           }}
         >
-          <Typography sx={{ fontSize: 30 }}>
+          <Typography
+            variant="h6"
+            sx={{
+              overflowWrap: "break-word",
+              textAlign: "center",
+              fontSize: { xs: 20, md: 30 },
+            }}
+          >
             {translations.playlist.users}
           </Typography>
           <UsersBox />
@@ -41,22 +52,32 @@ export default function Playlist() {
           orientation="vertical"
           variant="middle"
           flexItem
-          sx={{ marginLeft: 5 }}
+          sx={{ display: { xs: 'none', lg: 'block' }, marginLeft: { lg: 5 } }}
         />
         <Grid
           item
           xs={12}
-          md={5}
+          lg={5}
           sx={{
             border: "3px solid #ccc",
             borderRadius: 5,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            overflow: "hidden",
+            padding: 2,
+            textAlign: "center",
+            maxWidth: { xs: "90%" }, 
+            overflow: "auto", 
           }}
         >
-          <Typography sx={{ fontSize: 30 }}>
+          <Typography
+            variant="h6"
+            sx={{
+              overflowWrap: "break-word",
+              textAlign: "center",
+              fontSize: { xs: 20, md: 30 },
+            }}
+          >
             {translations.playlist.songs}
           </Typography>
           <Songs />
