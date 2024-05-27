@@ -41,7 +41,7 @@ export const FormContainer = styled(Box)(({ theme }) => ({
 
 export const LeftGreenBackground = styled(Box)(({ theme }) => ({
   position: "absolute",
-  top: `calc(8%- 2px)`,
+  top: `calc(80px- 2px)`,
   left: 0,
   width: "30%",
   height: 'calc(97% + 2px)',
@@ -66,7 +66,7 @@ export const StyledAppBar = styled(AppBar)(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
   zIndex: 1,
-  height: '8%',
+  height: 80,
   padding: 2,
 }));
 
