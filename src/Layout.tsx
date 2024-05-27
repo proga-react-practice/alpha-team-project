@@ -23,8 +23,7 @@ const Layout: React.FC = () => {
   const { language, toggleLanguage } = useLanguage();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const theme = useTheme();
-  const isMobileOrTablet = useMediaQuery(theme.breakpoints.down("lg"));
-
+  const isMobileOrTablet = useMediaQuery(theme.breakpoints.down("md"));
   const toggleDrawer = (open: boolean) => () => {
     setIsDrawerOpen(open);
   };
@@ -37,17 +36,13 @@ const Layout: React.FC = () => {
     <Box>
       <StyledAppBar>
         <Toolbar>
-          {!isMobileOrTablet && (
-            <Box sx={{ display: "flex", width: "100%", alignItems: "center" }}>
-              <Routes onClick={handleItemClick} />
-            </Box>
-          )}
-          {isMobileOrTablet && (
+          {isMobileOrTablet ? (
             <IconButton
               color="inherit"
               aria-label="open drawer"
               edge="start"
               onClick={toggleDrawer(true)}
+              sx={{ position: "fixed", left: "5%" }}
             >
               <MenuIcon
                 style={{
@@ -55,6 +50,10 @@ const Layout: React.FC = () => {
                 }}
               />
             </IconButton>
+          ) : (
+            <Box sx={{ display: "flex", width: "100%" }}>
+              <Routes onClick={handleItemClick} />
+            </Box>
           )}
         </Toolbar>
         <Box
