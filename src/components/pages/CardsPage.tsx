@@ -10,6 +10,7 @@ import {
   SelectChangeEvent,
   useTheme,
   useMediaQuery,
+  InputAdornment,
 } from "@mui/material";
 import { Reorder } from "framer-motion";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -188,6 +189,13 @@ const CardsPage: React.FC = () => {
           label="Search"
           value={searchQuery}
           onChange={handleSearchChange}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
           sx={{
             width: "100%",
             flexGrow: 1,
