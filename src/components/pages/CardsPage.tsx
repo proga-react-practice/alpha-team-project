@@ -194,7 +194,7 @@ const CardsPage: React.FC = () => {
       >
         <Grid
           container
-          spacing={{ md: 2 }}
+          spacing={{ xs: 0, sm: 6, md: 8, lg: 8, xl: 10 }}
           sx={{
             ...(isSmall && {
               marginTop: 5,       
