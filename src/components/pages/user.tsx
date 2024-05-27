@@ -89,7 +89,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
   };
 
   return (
-    <Box sx={{}}>
+    <Box>
       <LeftGreenBackground>
         <img
           src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNGh6enU4cHhwcHgwNG96eHRnbmZrOGVjYWI5dDEyZjZ5bnJrODBwMiZlcD12MV9pbnRlcm5naWZfYnlfaWQmY3Q9cw/TeBpzQZRaBIC4/giphy.gif"
@@ -246,7 +246,6 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                     {...field}
                     multiple
                     label={translations.form.genreLabel}
-                    required
                     fullWidth
                     error={!!errors.genres}
                     onBlur={() => trigger("genres")}
