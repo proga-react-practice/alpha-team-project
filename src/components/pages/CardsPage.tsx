@@ -7,7 +7,6 @@ import {
   TextField,
   Select,
   MenuItem,
-  InputAdornment,
   SelectChangeEvent,
   useTheme,
   useMediaQuery,
@@ -56,6 +55,7 @@ const CardsPage: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchCriteria, setSearchCriteria] = useState(searchOptions[0].value);
+  const [showSearchIcon, setShowSearchIcon] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("cards", JSON.stringify(cards));
@@ -122,15 +122,37 @@ const CardsPage: React.FC = () => {
     return false;
   });
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const searchBox = document.getElementById("search-box");
+      if (searchBox) {
+        const rect = searchBox.getBoundingClientRect();
+        setShowSearchIcon(rect.bottom < 0);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
-    <div style={{ position: "relative" }}>
+    <div>
       <Box
+        id="search-box"
         sx={{
           display: "flex",
           alignItems: "center",
           width: "40%",
-          margin: "10px auto -55px",
-          position: "fixed",
+          position: "absolute",
           top: "90px",
           left: "30%",
           marginTop: 5,
@@ -138,7 +160,7 @@ const CardsPage: React.FC = () => {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            marginTop:2
+            top: "45px",
           }),
         }}
       >
@@ -166,19 +188,33 @@ const CardsPage: React.FC = () => {
           label="Search"
           value={searchQuery}
           onChange={handleSearchChange}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
           sx={{
-            width:'100%',
+            width: "100%",
             flexGrow: 1,
           }}
         />
       </Box>
+
+      {showSearchIcon && (
+        <IconButton
+          onClick={scrollToTop}
+          sx={{
+            position: "fixed",
+            bottom: 16,
+            right: 16,
+            zIndex: 2,
+            width: 80,
+            height: 80,
+            backgroundColor: "primary.main",
+            color: "white",
+            "&:hover": {
+              backgroundColor: "#ccc",
+            },
+          }}
+        >
+          <SearchIcon sx={{ width: 50, height: 50 }} />
+        </IconButton>
+      )}
 
       <Reorder.Group
         values={filteredCardsBySearch.slice(currentIndex, currentIndex + 4)}
@@ -197,7 +233,7 @@ const CardsPage: React.FC = () => {
           spacing={{ xs: 0, sm: 6, md: 8, lg: 8, xl: 10 }}
           sx={{
             ...(isSmall && {
-              marginTop: 5,       
+              marginTop: 5,
             }),
           }}
         >

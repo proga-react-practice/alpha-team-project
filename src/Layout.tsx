@@ -34,7 +34,7 @@ const Layout: React.FC = () => {
 
   return (
     <Box>
-      <StyledAppBar>
+      <StyledAppBar sx={{height:isMobileOrTablet? 50: 80}}>
         <Toolbar>
           {isMobileOrTablet ? (
             <IconButton
