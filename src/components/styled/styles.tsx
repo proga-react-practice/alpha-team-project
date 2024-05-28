@@ -32,7 +32,7 @@ export const FormContainer = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
-  marginTop: 200, 
+  marginTop: '20%',  
   position: "absolute",
   right: "calc(40% - 300px)",
   transition: "all 0.3s ease",
