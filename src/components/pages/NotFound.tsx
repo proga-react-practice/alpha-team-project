@@ -11,7 +11,8 @@ const { translations } = useLanguage();
   const { darkMode } = useThemeCustom();
   const theme = useTheme();
   const imagePath = darkMode ? violet : green;
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobileTablet = useMediaQuery(theme.breakpoints.down("xl"));
+  
   return (
     <Box>
       <Box
@@ -21,36 +22,37 @@ const { translations } = useLanguage();
           alignItems: "center",
           height: "100vh",
           width: "100%",
-          flexDirection: isMobile ? "column" : "row",
+          flexDirection: isMobileTablet ? "column" : "row",
         }}
       >
         <Box
           sx={{
-            width: isMobile ? "100%" : 600,
-            height: isMobile ? "auto" : 600,
+            width: isMobileTablet ? "100%" : 600,
+            height: isMobileTablet? "auto" : 600,
             display: "flex",
             flexDirection: "column",
             marginRight: 0,
-            alignItems: isMobile ? "center" : "flex-start",
-            textAlign: isMobile ? "center" : "left",
+            alignItems: isMobileTablet? "center" : "flex-start",
+            textAlign: isMobileTablet ? "center" : "left",
           }}
         >
           <Typography
-            variant={isMobile ? "h4" : "h3"}
+            variant={isMobileTablet ? "h4" : "h3"}
             sx={{
               textTransform: "uppercase",
-              fontSize: isMobile ? 50 : 100,
-              marginBottom: isMobile ? 2 : "inherit",
+              fontSize: isMobileTablet ? 50 : 100,
+              marginBottom: isMobileTablet ? 2 : "inherit",
+              marginTop: isMobileTablet ? 20 : "inherit",
             }}
           >
             {translations.notFound.title}
           </Typography>
           <Typography
-            variant={isMobile ? "h4" : "h3"}
+            variant={isMobileTablet ? "h4" : "h3"}
             sx={{
               textTransform: "uppercase",
-              fontSize: isMobile ? 30 : 80,
-              marginBottom: isMobile ? 2 : "inherit",
+              fontSize: isMobileTablet ? 30 : 80,
+              marginBottom: isMobileTablet ? 2 : "inherit",
             }}
           >
             {translations.notFound.message}
@@ -60,9 +62,9 @@ const { translations } = useLanguage();
           src={imagePath}
           alt="theme image"
           style={{
-            width: isMobile ? 400 : 700,
-            height: isMobile ? 400 : 700,
-            marginRight: isMobile ? 50 : 0,
+            width: isMobileTablet ? 400 : 700,
+            height: isMobileTablet ? 400 : 700,
+            marginRight: isMobileTablet ? 50 : 0,
           }}
         />
       </Box>

@@ -32,24 +32,19 @@ export const FormContainer = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
-  marginTop: 200, 
+  marginTop: '10%',  
   position: "absolute",
   right: "calc(40% - 300px)",
   transition: "all 0.3s ease",
-  "@media (max-width: 600px)": {
-    maxWidth: "80%",
-    padding: 20,
-    marginTop: 100,
-    right: "calc(50% - 200px)",
-  },
+  overflow:'hidden'
 }));
 
 export const LeftGreenBackground = styled(Box)(({ theme }) => ({
   position: "absolute",
-  top: 0,
+  top: `calc(80px- 2px)`,
   left: 0,
   width: "30%",
-  height: "98%",
+  height: 'calc(97% + 2px)',
   backgroundColor: theme.palette.mode === "dark" ? "#646bf3" : "#6ee6ba",
   color: theme.palette.mode === "dark" ? "#ffffff" : "#000000",
   display: "flex",
@@ -58,7 +53,8 @@ export const LeftGreenBackground = styled(Box)(({ theme }) => ({
   padding: "10px",
   zIndex: 0,
   transition: "all 0.3s ease",
-  "@media (max-width: 600px)": {
+  overflowY: "hidden",
+  "@media (max-width: 920px)": {
     display: "none",
   },
 }));
@@ -69,8 +65,9 @@ export const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#646bf3" : "#6ee6ba",
   alignItems: "center",
   justifyContent: "center",
-  padding: 8,
   zIndex: 1,
+  height: 80,
+  padding: 2,
 }));
 
 export const StyledLink = styled(Link)(({ theme }) => ({

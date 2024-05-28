@@ -1,4 +1,11 @@
-import { Box, Typography, Modal, Button } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Modal,
+  Button,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import icon1 from "../../img/icon1female.png";
 import icon2 from "../../img/icon2female.png";
 import icon3 from "../../img/icon3female.png";
@@ -42,6 +49,8 @@ export default function ModalUser({
     icon8,
   ];
   const { darkMode } = useThemeCustom();
+  const theme = useTheme();
+  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const colorBorder = darkMode ? "#646bf3" : "#00FF00";
   const defaulticon = darkMode ? userWhite : userBlack;
   const [selectedIcon, setSelectedIcon] = useState(defaulticon);
@@ -89,6 +98,10 @@ export default function ModalUser({
         style: { backgroundColor: "rgba(0, 0, 0, 0)" },
       }}
       open={isOpen}
+      sx={{
+        width: isTablet ? "100%" : "30%",
+        height: isTablet ? "100%" : "50%",
+      }}
     >
       <Box>
         <Box sx={{ marginBottom: 2, textAlign: "center" }}>
@@ -96,8 +109,8 @@ export default function ModalUser({
             src={selectedIcon}
             alt="Avatar"
             style={{
-              width: 120,
-              height: 120,
+              width: isTablet ? 60 : 120,
+              height: isTablet ? 60 : 120,
               borderRadius: "50%",
               cursor: "pointer",
               border: `4px solid ${colorBorder}`,
@@ -105,17 +118,23 @@ export default function ModalUser({
             }}
             onClick={() => setIsIconModalOpen(true)}
           />
-          <Typography sx={{ fontSize: 35 }}>
+          <Typography
+            sx={{ fontSize: isTablet ? 20 : 35, overflowWrap: "anywhere" }}
+          >
             {translations.card.user} {userData.userName}
           </Typography>
-          <Typography sx={{ fontSize: 35 }}>
+          <Typography sx={{ fontSize: isTablet ? 20 : 35 }}>
             {translations.card.age} {userData.age}
           </Typography>
-          <Typography sx={{ fontSize: 35 }}>
+          <Typography sx={{ fontSize: isTablet ? 20 : 35 }}>
             {translations.card.mood} {translations.enums.Mood[userData.mood]}
           </Typography>
           <Typography
-            sx={{ fontSize: 35, overflowWrap: "break-word", margin: 1 }}
+            sx={{
+              fontSize: isTablet ? 20 : 35,
+              overflowWrap: "anywhere",
+              margin: 1,
+            }}
           >
             {translations.card.preferredGenres}{" "}
             {userData.genres && Array.isArray(userData.genres)
@@ -124,14 +143,30 @@ export default function ModalUser({
                   .join(", ")
               : "No genres available"}
           </Typography>
-          <Button sx={{ marginTop: 4 }} onClick={onClose}>
+          <Button
+            sx={{
+              marginTop: isTablet ? 0 : 4,
+            }}
+            onClick={onClose}
+          >
             Close
           </Button>
         </Box>
 
-        <Modal open={isIconModalOpen} onClose={() => setIsIconModalOpen(false)}>
+        <Modal
+          open={isIconModalOpen}
+          onClose={() => setIsIconModalOpen(false)}
+          sx={{
+            width: isTablet ? "auto" : "20%",
+            height: isTablet ? "auto" : "45%",
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
           <StyledIconBox>
-            <Typography variant="h4" component="h2">
+            <Typography variant={isTablet ? "h6" : "h4"} component="h2">
               {translations.playlist.iconPicker}
             </Typography>
             <Box
@@ -139,6 +174,7 @@ export default function ModalUser({
                 display: "flex",
                 justifyContent: "center",
                 flexWrap: "wrap",
+                width: isTablet ? "70%" : "100%",
               }}
             >
               {iconArray.map((icon, index) => (
@@ -147,8 +183,8 @@ export default function ModalUser({
                   src={icon}
                   alt={`icon-${index}`}
                   style={{
-                    width: 120,
-                    height: 120,
+                    width: isTablet ? 60 : 120,
+                    height: isTablet ? 60 : 120,
                     margin: 5,
                     cursor: "pointer",
                     border:

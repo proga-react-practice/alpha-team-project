@@ -1,4 +1,13 @@
-import { Accordion, Box, Divider, List, ListItem, Typography } from "@mui/material";
+import {
+  Accordion,
+  Box,
+  Divider,
+  List,
+  ListItem,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { useUserData } from "./DataContext";
 import { useEffect, useState } from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -32,6 +41,8 @@ export interface User {
 
 export default function UsersBox() {
   const { userData } = useUserData();
+  const theme = useTheme();
+  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const today = new Date().toISOString().split("T")[0];
   const [users, setUsers] = useState<User[]>(() => {
     const savedUsers = localStorage.getItem("users");
@@ -153,13 +164,22 @@ export default function UsersBox() {
       {users.map((user, index) => (
         <Accordion
           key={index}
-          sx={{ height: "auto", boxShadow: "none", textAlign: "center" }}
+          sx={{
+            height: "auto",
+            boxShadow: "none",
+            textAlign: "center",
+            width: "auto",
+          }}
           onDrop={(event) => handleDrop(event, index)}
           onDragOver={handleDragOver}
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            sx={{ backgroundColor: "transparent", backgroundImage: "none" }}
+            sx={{
+              backgroundColor: "transparent",
+              backgroundImage: "none",
+              width: "100%",
+            }}
             aria-controls="panel1-content"
             id="panel1-header"
           >
@@ -169,30 +189,61 @@ export default function UsersBox() {
                 alt="User Icon"
                 onClick={() => handleModalOpen(index)}
                 style={{
-                  width: 70,
-                  height: 70,
+                  width: isTablet ? 45 : 70,
+                  height: isTablet ? 45 : 70,
                   cursor: "pointer",
+                  ...(isTablet && {
+                    marginLeft: 25,
+                  }),
                 }}
               />
             ) : (
               <AccountCircleIcon
                 onClick={() => handleModalOpen(index)}
-                sx={{ width: 60, height: 60, cursor: "pointer" }}
+                sx={{
+                  width: isTablet ? 45 : 60,
+                  height: isTablet ? 45 : 60,
+                  cursor: "pointer",
+                  ...(isTablet && {
+                    marginLeft: 3,
+                  }),
+                }}
               />
             )}
             <DeleteOutlineIcon
               onClick={() => handleDeleteUser(user.id)}
-              sx={{ width: 60, height: 60, cursor: "pointer" }}
+              sx={{
+                width: isTablet ? 45 : 60,
+                height: isTablet ? 45 : 60,
+                cursor: "pointer",
+              }}
             />
-            <Typography sx={{ fontSize: 35, marginLeft: 3, marginTop: 1 }}>
-              {user.userName}
-            </Typography>
+            <Typography
+  sx={{
+    fontSize: isTablet ? 20 : 35,
+    marginLeft: 3,
+    marginTop: 1,
+  }}
+>
+  {user.userName.length > 10 ? (
+    <>
+      {user.userName.substring(0, user.userName.length / 2)} <br />
+      {user.userName.substring(user.userName.length / 2)}
+    </>
+  ) : (
+    user.userName
+  )}
+</Typography>
+
           </AccordionSummary>
           <Divider orientation="horizontal" variant="middle" flexItem />
           <AccordionDetails>
             <List>
               {user.songs.map((song, songIndex) => (
-                <Typography key={songIndex} sx={{ fontSize: 35 }}>
+                <Typography
+                  key={songIndex}
+                  sx={{ fontSize: isTablet ? 20 : 35 }}
+                >
                   <ListItem>
                     {song.songName} - {song.artist}
                     <DeleteOutlineIcon

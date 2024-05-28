@@ -30,7 +30,6 @@ export default function Favorites() {
             alignItems: "center",
             flexDirection: "column",
             minHeight: "100%",
-            padding: "0 20px",
             marginTop: { xs: 12, md: 20 },
           }}
         >
@@ -46,7 +45,7 @@ export default function Favorites() {
 
           <FavBox
             sx={{
-              maxWidth: { xs: 300, sm: 400 },
+              maxWidth: { xs: 100 , sm: 100 , md: 300, lg:400 },
               minWidth: 200,
               marginTop: 4,
             }}

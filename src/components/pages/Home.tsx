@@ -1,4 +1,12 @@
-import { Box, Typography, Modal, IconButton, Tooltip, useTheme, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Modal,
+  IconButton,
+  Tooltip,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Timeline from "./Timeline";
 import violet from "../../img/violet.svg";
@@ -17,7 +25,9 @@ export default function Home() {
   const theme = useTheme();
   const { darkMode } = useThemeCustom();
   const imagePath = darkMode ? violet : green;
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
+  const isLarge = useMediaQuery(theme.breakpoints.between("md", "xl"));
+  const isXl = useMediaQuery(theme.breakpoints.up("md"));
   const { translations } = useLanguage();
   const [open, setOpen] = useState(false);
 
@@ -65,14 +75,21 @@ export default function Home() {
         height: "100%",
       }}
     >
-      <Box sx={{ textAlign: "center", width: "80%", marginTop: 12 }}>
+      <Box
+        sx={{ textAlign: "center", width: "80%", marginTop: isXl? 15: isLarge ? 25 : 12 }}
+      >
         <animated.div style={titleProps}>
-          <Typography variant="h4" sx={{ textTransform: "uppercase" }}>
+          <Typography
+            variant={isXl? 'h3':isLarge ? "h2" : "h6"}
+            sx={{ textTransform: "uppercase" }}
+          >
             {translations.home.title}
           </Typography>
         </animated.div>
         <animated.div style={descriptionProps}>
-          <Typography variant="body1">{translations.home.description}</Typography>
+          <Typography variant={isXl? "h5":isLarge ? "h5" : "body2"}>
+            {translations.home.description}
+          </Typography>
         </animated.div>
       </Box>
 
@@ -85,7 +102,7 @@ export default function Home() {
           maxWidth: 1200,
         }}
       >
-        {!isMobile && (
+        {!isTablet && !isLarge && (
           <Box
             sx={{
               marginTop: "90px",
@@ -103,15 +120,15 @@ export default function Home() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            width: isMobile ? "80%" : "60%",
+            width:isXl? '80%': isLarge ? "90%" : isTablet ? "80%" : "40%",
           }}
         >
           <animated.img
             src={imagePath}
             alt="theme image"
             style={{
-              marginTop: isMobile ? "120px" : "100px",
-              marginLeft: isMobile ? "7%" : "40%",
+              marginTop: isLarge ? "90px" : isTablet ? "50px" : "100px",
+              marginLeft: isLarge ? "5%" : isTablet ? "7%" : "40%",
               width: "100%",
               height: "auto",
               maxHeight: "50%",
@@ -143,12 +160,8 @@ export default function Home() {
           >
             <CloseIcon />
           </IconButton>
-          <Typography variant="h6">
-            {translations.home.alert1}
-          </Typography>
-          <Typography variant="h6">
-            {translations.home.alert2}
-          </Typography>
+          <Typography variant="h6">{translations.home.alert1}</Typography>
+          <Typography variant="h6">{translations.home.alert2}</Typography>
         </Box>
       </Modal>
 
@@ -158,18 +171,18 @@ export default function Home() {
             <IconButton
               onClick={handleOpen}
               sx={{
-                animation: 'pulse 1.5s infinite',
-                '@keyframes pulse': {
-                  '0%': {
-                    transform: 'scale(1)',
+                animation: "pulse 1.5s infinite",
+                "@keyframes pulse": {
+                  "0%": {
+                    transform: "scale(1)",
                     color: theme.palette.text.primary,
                   },
-                  '50%': {
-                    transform: 'scale(1.2)',
+                  "50%": {
+                    transform: "scale(1.2)",
                     color: theme.palette.primary.main,
                   },
-                  '100%': {
-                    transform: 'scale(1)',
+                  "100%": {
+                    transform: "scale(1)",
                     color: theme.palette.text.primary,
                   },
                 },
@@ -184,18 +197,18 @@ export default function Home() {
             <IconButton
               onClick={redirectToContactForm}
               sx={{
-                animation: 'pulse 1.5s infinite',
-                '@keyframes pulse': {
-                  '0%': {
-                    transform: 'scale(1)',
+                animation: "pulse 1.5s infinite",
+                "@keyframes pulse": {
+                  "0%": {
+                    transform: "scale(1)",
                     color: theme.palette.text.primary,
                   },
-                  '50%': {
-                    transform: 'scale(1.2)',
+                  "50%": {
+                    transform: "scale(1.2)",
                     color: theme.palette.secondary.main,
                   },
-                  '100%': {
-                    transform: 'scale(1)',
+                  "100%": {
+                    transform: "scale(1)",
                     color: theme.palette.text.primary,
                   },
                 },

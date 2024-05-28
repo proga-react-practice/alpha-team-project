@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { useFormData } from "./DataContext";
-import { Accordion, Box, Typography } from "@mui/material";
+import {
+  Accordion,
+  Box,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { FavoriteCard } from "./Card";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -16,6 +22,8 @@ export interface Song {
 
 export default function Songs() {
   const { formData } = useFormData();
+  const theme = useTheme();
+  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const [deletedSongIds, setDeletedSongIds] = useState<string[]>([]);
   const [songs, setSongs] = useState<Song[]>(() => {
     const savedSongs = localStorage.getItem("songs");
@@ -116,11 +124,11 @@ export default function Songs() {
       {songs.map((song, index) => (
         <Accordion
           key={index}
-          sx={{ height: 80, width: "auto", boxShadow: "none" }}
+          sx={{ height: "auto", width: "auto", boxShadow: "none" ,  textAlign: "center",}}
           draggable
           onDragStart={(event) => handleDragStart(event, song)}
         >
-          <AccordionSummary>
+          <AccordionSummary sx={{ width: "100%",}}>
             <Box
               sx={{
                 marginTop: 0.5,
@@ -132,7 +140,7 @@ export default function Songs() {
             >
               <DeleteOutlineIcon
                 onClick={() => handleDeleteSong(song.id)}
-                sx={{ width: 50, height: 40 }}
+                sx={{ width: isTablet ? 40 : 50, height: isTablet ? 30 : 40 }}
               />
               <FavoriteIcon
                 onClick={() => {
@@ -141,15 +149,27 @@ export default function Songs() {
                     : addToFavorites(song);
                 }}
                 sx={{
-                  width: 50,
-                  height: 40,
+                  width: isTablet ? 40 : 50,
+                  height: isTablet ? 30 : 40,
                   color: isFavorite(song.id) ? "#FF0000" : "rgb(191, 81, 81)",
                 }}
               />
             </Box>
-            <Typography sx={{ fontSize: 35 }}>
-              {song.songName} - {song.artist}
-            </Typography>
+            <Typography
+  sx={{
+    fontSize: isTablet ? 16 : 35, 
+  }}
+>
+  {song.songName.length > 10 ? ( 
+    <>
+      {song.songName.substring(0, song.songName.length / 2)} <br />
+      {song.songName.substring(song.songName.length / 2)}
+    </>
+  ) : (
+    `${song.songName} - ${song.artist}`
+  )}
+</Typography>
+
           </AccordionSummary>
         </Accordion>
       ))}
